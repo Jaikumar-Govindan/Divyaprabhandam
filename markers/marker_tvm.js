@@ -1,0 +1,2 @@
+window.MARKER_DATABASE = window.MARKER_DATABASE || {};
+window.MARKER_DATABASE['TVM.1.1.1'] = [0.50, 4.20, 8.10, 12.30, 16.40, 19.50];

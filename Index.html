@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divya Prabandham Anusandhanam</title>
+    <style>
+        /* Keep your existing CSS here */
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 420px; }
+        h2 { text-align: center; color: #1c1e21; margin-top: 0; font-size: 1.3rem; }
+        .input-group { margin-bottom: 12px; }
+        label { display: block; font-size: 0.8rem; margin-bottom: 4px; color: #4b4f56; font-weight: 600; }
+        select, input { width: 100%; padding: 10px; border: 1px solid #ccd0d5; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        .learning-controls { background: #f9fafb; border: 1px solid #e4e6eb; padding: 15px; border-radius: 12px; margin: 15px 0; }
+        .flex-row { display: flex; gap: 10px; align-items: center; }
+        .nav-controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 15px; }
+        button { padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-play { background-color: #0070ba; color: white; grid-column: span 3; }
+        .btn-nav { background-color: #e4e6eb; color: #050505; }
+        audio { width: 100%; margin-top: 15px; }
+        .status { margin-top: 10px; font-size: 0.7rem; color: #0070ba; text-align: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Divya Prabandham Anusandhanam</h2>
+    <div class="input-group">
+        <label>Select Prabandham</label>
+        <select id="prefix" onchange="resetToStart()">
+            <option value="TVM">Thiruvaimozhi (TVM)</option>
+            <option value="PT">Periya Thirumozhi (PT)</option>
+            <option value="PMT">Perumal Thirumozhi (PMT)</option>
+            <option value="NAT">Naachiyar Thirumozhi (NAT)</option>
+
+        </select>
+    </div>
+    <div class="input-group">
+        <label id="numLabel">Current Pasuram (Ch.Sub.Pas)</label>
+        <input type="text" id="number" value="1.1.1" inputmode="decimal">
+    </div>
+    <div class="learning-controls">
+        <label>Learning Settings</label>
+        <div class="flex-row">
+            <div style="flex: 1;"><label>Repeat</label><input type="number" id="repeatLimit" value="1" min="1"></div>
+            <div style="flex: 2;"><label>Auto-Advance</label>
+                <select id="autoNext"><option value="true">Yes</option><option value="false">No</option></select>
+            </div>
+        </div>
+    </div>
+    <div class="nav-controls">
+        <button class="btn-play" onclick="startLearning()">START RECITATION</button>
+        <button class="btn-nav" onclick="navigate(-1)">Prev</button>
+        <button class="btn-nav" onclick="LearningEngine.stopAudio()">Stop</button> 
+        <button class="btn-nav" onclick="navigate(1)">Next</button>
+    </div>
+    <audio id="audioPlayer" controls></audio>
+    <div id="status" class="status">Ready</div>
+</div>
+
+<script src="marker.js"></script>
+<script src="markerProcessor.js"></script>
+<script src="config.js"></script>
+<script src="navigation.js"></script>
+<script src="learningEngine.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const audioPlayer = document.getElementById('audioPlayer');
+        if (audioPlayer) {
+            LearningEngine.init(audioPlayer);
+        }
+
+        window.addEventListener('learning-track-ended', () => {
+            const limit = parseInt(document.getElementById('repeatLimit').value);
+            LearningEngine.state.currentRepeatCount++;
+            if (LearningEngine.state.currentRepeatCount < limit) {
+                startLearning();
+            } else {
+                LearningEngine.state.currentRepeatCount = 0;
+                if (document.getElementById('autoNext').value === "true") navigate(1);
+            }
+        });
+    });
+
+    function startLearning() {
+        const pre = document.getElementById('prefix').value;
+        const numInput = document.getElementById('number').value;
+        const c = CONFIG[pre];
+        const coords = Navigation.parseCoords(numInput, c.hasSub);
+        const isSingle = typeof c.isSingleFile === 'function' ? c.isSingleFile(numInput) : c.isSingleFile;
+        let bounds = null;
+
+        if (isSingle) {
+            const markers = window.MARKER_DATABASE[`${pre}.${coords.ch}.all`];
+            bounds = MarkerProcessor.getSegmentBounds(markers, coords.pas - 1);
+        }
+
+        LearningEngine.playSegment(c.getAudioSrc(numInput), bounds, () => {
+            window.dispatchEvent(new CustomEvent('learning-track-ended'));
+        });
+    }
+
+    function navigate(dir) {
+        const input = document.getElementById('number');
+        const pre = document.getElementById('prefix').value;
+        const c = CONFIG[pre];
+        let coords = Navigation.parseCoords(input.value, c.hasSub);
+        
+        coords.pas += dir;
+        const limit = Navigation.getLimit(pre, coords.ch, coords.sub);
+
+        if (dir === 1 && coords.pas > limit) {
+            coords.pas = 1;
+            if (c.hasSub) { coords.sub++; if (coords.sub > c.maxSub) { coords.sub = 1; coords.ch++; } }
+            else { coords.ch++; }
+        } else if (dir === -1 && coords.pas < 1) {
+            // Basic backward logic
+            coords.pas = 1; 
+        }
+
+        input.value = c.hasSub ? `${coords.ch}.${coords.sub}.${coords.pas}` : `${coords.ch}.${coords.pas}`;
+        startLearning();
+    }
+
+    function resetToStart() {
+        const pre = document.getElementById('prefix').value;
+        document.getElementById('number').value = CONFIG[pre].hasSub ? "1.1.1" : "1.1";
+    }
+</script>
+</body>
+</html>
