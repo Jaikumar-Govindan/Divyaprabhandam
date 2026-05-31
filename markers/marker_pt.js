@@ -1,2 +1,0 @@
-window.MARKER_DATABASE = window.MARKER_DATABASE || {};
-window.MARKER_DATABASE['PT.1.1.6'] = [0.86, 4.21, 8.35, 12.54, 16.63, 20.80];

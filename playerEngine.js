@@ -263,7 +263,8 @@ function navigate(dir) {
     let coords = Navigation.parseCoords(input.value, c.hasSub);
 
     coords.pas += dir;
-
+    // Resolve structural bounds dynamically, defaulting to 1 if minCh isn't set
+    const minChapterIndex = (typeof c.minCh !== 'undefined') ? c.minCh : 1;
     switch (c.structure) {
         case 'flat_pasuram': // Variant 1: RN
             if (coords.pas > c.maxPas) coords.pas = 1;
@@ -274,7 +275,7 @@ function navigate(dir) {
         case 'chapter_pasuram': // Variant 2: PMT
             let chLimit = Navigation.getLimit(pre, coords.ch, 0);
             if (coords.pas > chLimit) {
-                coords.ch = (coords.ch >= c.maxCh) ? 1 : coords.ch + 1;
+                coords.ch = (coords.ch >= c.maxCh) ? minChapterIndex : coords.ch + 1;
                 coords.pas = 1;
             } else if (coords.pas < 1) {
                 coords.ch = (coords.ch <= 1) ? c.maxCh : coords.ch - 1;
@@ -290,7 +291,7 @@ function navigate(dir) {
                 coords.sub++;
                 if (coords.sub > c.maxSub) {
                     coords.sub = 1;
-                    coords.ch = (coords.ch >= c.maxCh) ? 1 : coords.ch + 1;
+                    coords.ch = (coords.ch >= c.maxCh) ? minChapterIndex : coords.ch + 1;
                 }
             } else if (coords.pas < 1) {
                 coords.sub--;

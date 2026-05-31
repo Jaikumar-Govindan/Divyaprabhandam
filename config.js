@@ -15,23 +15,24 @@ const CONFIG = {
         structure: 'chapter_sub_pasuram',
         hasSub: true, maxCh: 10, maxSub: 10, defPas: 11, ex: { '2.7': 13 },
         getMarkerPath: () => 'markers/marker_tvm_timeline.js',
-        getLanguagePath: () => null,
+        //getLanguagePath: () => null, - don't define as null. it causing a crash and prevents loading of the audiosrc
         getAudioSrc: (num) => `https://www.uveda.org/media/recitation/TVM.${num}.mp3`
     },
     'PT': {
         structure: 'chapter_sub_pasuram',
         hasSub: true, maxCh: 11, maxSub: 10, defPas: 10, ex: {},
         getMarkerPath: () => 'markers/marker_pt_timelines.js',
-        getLanguagePath: () => null,
+        //getLanguagePath: () => null,
         getAudioSrc: (num) => `https://www.uveda.org/media/recitation/PT.${num}.mp3`
     },
+
     'PMT': {
         structure: 'chapter_pasuram',
-        hasSub: false, maxCh: 10, defPas: 10, ex: {},
+        hasSub: false, minCh: 1, maxCh: 10, defPas: 10, ex: {},
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY Chapters 1 and 6 house timeline markers
-            if (chapter === 1 || chapter === 6) {
+            if (chapter >= 1 && chapter <= 8) {
                 return 'markers/marker_pmt_timelines.js';
             }
             return null; // No timeline markers available for other chapters
@@ -39,47 +40,45 @@ const CONFIG = {
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY map text assets if the chapter contains an underlying timeline track
-            if (chapter === 1 || chapter === 6) {
+            if (chapter >= 1 && chapter <= 8) {
                 return `markers/marker_pmt_${langCode}.js`;
             }
             return null;
         },
         getAudioSrc: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
-            if (chapter === 1) return `audiofiles/PMT/PMT.1.all.ogg`;
-            if (chapter === 2) return `audiofiles/PMT/PMT.2.all.ogg`;
-            if (chapter === 3) return `audiofiles/PMT/PMT.3.all.ogg`;
-            if (chapter === 4) return `audiofiles/PMT/PMT.4.all.ogg`;
-            if (chapter === 5) return `audiofiles/PMT/PMT.5.all.ogg`;
-            if (chapter === 6) return `audiofiles/PMT/PMT.6.all.ogg`;
-            if (chapter === 7) return `audiofiles/PMT/PMT.7.all.ogg`;
-            if (chapter === 8) return `audiofiles/PMT/PMT.8.all.ogg`;
-            if (chapter === 9) return `audiofiles/PMT/PMT.9.all.ogg`;
-            if (chapter === 10) return `audiofiles/PMT/PMT.10.all.ogg`;
 
+            if (chapter >= 1 && chapter <= 8) {
+                return `audiofiles/PMT/PMT.${chapter}.all.ogg`;
+            }
             return `https://www.uveda.org/media/recitation/PMT.${num}.mp3`;
         }
     },
     'NAT': {
         structure: 'chapter_pasuram',
         hasSub: false, maxCh: 14, defPas: 10, ex: {},
+        minCh: 0, // to support thanian in chapter 0
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
-            if (chapter === 4) {
+            if (chapter >= 0 && chapter <= 4) {
                 return 'markers/marker_nat_timelines.js';
             }
             return null;
         },
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
-            if (chapter === 4) {
+            if (chapter >= 0 && chapter <= 4) {
                 return `markers/marker_nat_${langCode}.js`;
             }
+
             return null;
         },
         getAudioSrc: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
-            if (chapter === 4) return `audiofiles/NAT/NAT_4.ogg`;
+            if (chapter >= 1 && chapter <= 4) {
+                return `audiofiles/NAT/NAT_${chapter}.ogg`;
+            }
+            if (chapter == 0) { return `audiofiles/NAT/NAT_${num}.ogg` }
             return `https://www.uveda.org/media/recitation/NAT.${num}.mp3`;
         }
     },
@@ -96,7 +95,14 @@ const CONFIG = {
             if (endGroup > 108) endGroup = 108;
             return `audiofiles/RN/rn_${startGroup}_${endGroup}.ogg`;
         }
-    }
+    },
+    'MUT': {
+        structure: 'flat_pasuram',
+        hasSub: false, maxPas: 100,
+        getMarkerPath: () => 'markers/marker_mut_timeline.js',
+        getLanguagePath: () => (num, langCode) => `markers/marker_mut_${langCode}.js`,
+        getAudioSrc: (num) => `https://www.uveda.org/media/recitation/MUT.${num}.mp3`
+    },
 };
 
 /**

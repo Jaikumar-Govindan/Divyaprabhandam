@@ -2,7 +2,7 @@ import http.server
 import os
 
 # Define the absolute path to your target folder to avoid directory traversal confusion
-TARGET_DIR = os.path.abspath("../")
+TARGET_DIR = os.path.abspath(".")
 
 class RangeRequestHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
