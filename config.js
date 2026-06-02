@@ -32,7 +32,7 @@ const CONFIG = {
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY Chapters 1 and 6 house timeline markers
-            if (chapter >= 1 && chapter <= 8) {
+            if (chapter >= 1 && chapter <= 10) {
                 return 'markers/marker_pmt_timelines.js';
             }
             return null; // No timeline markers available for other chapters
@@ -40,7 +40,7 @@ const CONFIG = {
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY map text assets if the chapter contains an underlying timeline track
-            if (chapter >= 1 && chapter <= 8) {
+            if (chapter >= 1 && chapter <= 10) {
                 return `markers/marker_pmt_${langCode}.js`;
             }
             return null;
@@ -48,7 +48,7 @@ const CONFIG = {
         getAudioSrc: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
-            if (chapter >= 1 && chapter <= 8) {
+            if (chapter >= 1 && chapter <= 10) {
                 return `audiofiles/PMT/PMT.${chapter}.all.ogg`;
             }
             return `https://www.uveda.org/media/recitation/PMT.${num}.mp3`;
@@ -102,6 +102,29 @@ const CONFIG = {
         getMarkerPath: () => 'markers/marker_mut_timeline.js',
         getLanguagePath: () => (num, langCode) => `markers/marker_mut_${langCode}.js`,
         getAudioSrc: (num) => `https://www.uveda.org/media/recitation/MUT.${num}.mp3`
+    },
+    'TPE': {
+        structure: 'chapter_pasuram',
+        hasSub: false, minCh: 0, maxCh: 1, defPas: 10, ex: {'0':2},
+        getMarkerPath: (num) => {
+            const chapter = parseInt(num.split('.')[0], 10);
+
+            return 'markers/marker_tpe_timelines.js';
+
+        },
+        getLanguagePath: (num, langCode) => {
+            const chapter = parseInt(num.split('.')[0], 10);
+            // ONLY map text assets if the chapter contains an underlying timeline track
+
+            return `markers/marker_tpe_${langCode}.js`;
+
+        },
+        getAudioSrc: (num) => {
+            const chapter = parseInt(num.split('.')[0], 10);
+
+            return `audiofiles/TPE/TPE.${chapter}.ogg`;
+
+        }
     },
 };
 

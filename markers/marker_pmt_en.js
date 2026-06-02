@@ -52,7 +52,7 @@ window.mergeLanguageTexts = function () {
       9: "sediyAya valvinaigaL * thIrkkum thirumAlE! * nediyAnE! vEngadavA! * nin kOyilin vAsal * adiyArum vAnavarum * arambaiyarum kidandhu iyangum * padiyAyk kidandhu * un pavaLavAy kANbEnE *",
       10: "umbar ulagANdu * oru kudaik kIzh uruppasi than * ampoRkalai algul * peRRAlum AdhariyEn * sembavaLa vAyAn * thiruvEngadam ennum * emperumAn ponmalai mEl * EdhEnum AvEnE *",
       11: "manniya thaNsAral * vadavEngadaththAn than * ponniyalum sEvadigaL * kANbAn purindhu iRainji * konnavilum kUrvEl * kulasEkaran sonna * panniya nUl thamizh vallAr * pAngAya paththargaLE *",
-      12: "adivaravu: Un AnAdha pin oN kambam min vAn piRai sedi umbar manniya tharu *"
+      12: "adivaravu: Un AnAdha * pin oN * kambam min * vAn piRai * sedi umbar * manniya tharu *"
     },
     'PMT.5.steps': {
       1: "tharuthuyaram thadAyEl * un saraN allAl saraN illai * virai kuzhuvum malarppozhil sUzh * viththuvakkOttammAnE! * arisinaththAl InRa thAy agaRRidinum * maRRavaL than aruL ninaindhE azhum kuzhavi * adhuvE pOnRirundhEnE *",
