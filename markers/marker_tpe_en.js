@@ -2,8 +2,8 @@ window.MARKER_DATABASE = window.MARKER_DATABASE || {};
 window.mergeLanguageTexts = function () {
     const text_bundle_en = {
         'TPE.0.steps': {
-            1: "thamEva mathvA paravAsudhEvam * rangESayam rAjavadharhaNIyam * prAbOdhikIm yOkrutha sUkthimAlAm * bhakthAngrirENum bhagavanthamIdE * ",
-            2: "maNdangudi enbar mAmaRaiyOr * manniyasIrth thoNdaradippodi thonnagaram * vaNdu thiNarththavayal thennarangaththammAnaip * paLLiyuNarththum pirAnudhiththa Ur * ",
+            1: "thirumalayaNdAn arLich cheytha : thamEva mathvA paravAsudhEvam * rangESayam rAjavadharhaNIyam *** prAbOdhikIm yOkrutha sUkthimAlAm * bhakthAngrirENum bhagavanthamIdE * ",
+            2: "thiruvarangapperumALarayar arLich cheytha : maNdangudi enbar mAmaRaiyOr * manniyasIrth thoNdaradippodi thonnagaram *** vaNdu thiNarththavayal thennarangaththammAnaip * paLLiyuNarththum pirAnudhiththa Ur * ",
         },
         'TPE.1.steps': {
             1: "kathiravan guNadhisaich chikaram vandhaNainthAn * kana iruL aganRathu kAlai am pozhuthAy * madhuvirinthu ozhugina mAmalar ellAm * vanavar arasargaL vandhu vandhu INdi *** ethirdhisai niRainthanar ivarodum pugundha * irungaLiRRu Ittamum pidiyodu murasum * adhirthalil alaikadal pOnruLudhu * engum arangaththammA paLLi ezhundhu aruLAyE *",
