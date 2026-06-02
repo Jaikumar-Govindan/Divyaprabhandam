@@ -21,7 +21,7 @@ window.mergeLanguageTexts = function () {
       8: "mAsudai udambodu thalai ulaRi * vAyppuram veLuththu orupOdhumuNdu * thEsudaith thiRaludaik kAma dhEvA! * nORkinRa nOnbinaik kuRikkoL kaNdAy * pEsuvadhonRu uNdu ingu emperumAn! * peNmaiyaith thalaiyudaiththu Akkum vaNNam * kEsava nambiyaik kAl pidippAL ennum * ippERu enakkaruL kaNdAy *",
       9: "thozhudhu muppOdhum unnadi vaNangith * thUmalar thUyth thozhudhu EththuginREn * pazhudhinRip pArkkadal vaNNanukkE * paNi seydhu vAzhap peRAvidil nAn * azhudhazhudhu alamandhu ammA vazhanga * ARRavum adhu unakku uRaikkum kaNdAy * uzhuvadhOr eruththinai nugangodu pAyndhu * UttaminRith thurandhAl okkumE *",
       10: "karuppu vil malark kaNaik kAma vELaik * kazhaliNai paNindhu angOr kari alaRa * maruppinai osiththup puL vAy piLandha * maNivaNNaRku ennai vaguththidenRu * poruppanna mAdam polindhu thOnRum * pudhuvaiyar kOn vittuchiththan kOdhai * viruppudai inthamizh mAlai vallAr * viNNavar kOn adi naNNuvarE *",
-      11: "adivaravu: thai veLLai maththam suvaril vAnidai uru kAyudai mAsudai thozhudhu karuppu nAmam *"
+      11: "adivaravu: thai veLLai * maththam suvaril * vAnidai uru * kAyudai mAsudai * thozhudhu karuppu nAmam *"
     },
     'NAT.2.steps':
     {
@@ -35,7 +35,7 @@ window.mergeLanguageTexts = function () {
       8: "vattavAych chiRu thUdhaiyOdu * siRu suLagum maNalum koNdu * ittamA viLaiyAduvOngaLaich * chiRRil Idazhiththu en payan? * thottudhaiththu naliyEl kaNdAy * sudarch chakkaram kaiyil EndhinAy! * kattiyum kaiththAl innAmai * aRidhiyE kadal vaNNanE! *",
       9: "muRRaththUdu pugundhu * nin mugam kAttip punmuRuval seydhu * siRRilOdu engaL sindhaiyum * sidhaikkak kadavaiyO? gOvindhA! * muRRa maNNidam thAvi * viNNuRa nINdaLandhu koNdAy! * emmaip paRRi meyppiNakkittakkAl * indhap pakkam ninRavar en sollAr? *",
       10: "sIdhai vAy amudham uNdAy! * engaL siRRil nI sidhaiyEl enRu * vIdhi vAy viLaiyAdum * Ayar siRumiyar mazhalaich chollai * vEdha vAyth thozhilArgaL vAzh * villipuththUr man vittuchiththan than * kOdhai vAyth thamizh vallavar * kuRaivinRi vaigundham sErvarE *",
-      11: "adivaravu: nAmam inRu guNdu peyyum veLLai muRRilAdha pEdham vattam muRRaththUdu sIdhai kOzhi *"
+      11: "adivaravu: nAmam inRu * guNdu peyyum * veLLai muRRilAdha * pEdham vattam * muRRaththUdu sIdhai kOzhi *"
     },
     'NAT.3.steps': {
       1: "kOzhi azhaippadhan munnam * kudaindhu nIrAduvAn pOndhOm * Azhiyanjelvan ezhundhAn * aravaNai mEl paLLi koNdAy! * Ezhaimai ARRavum pattOm * ini enRum poygaikku vArOm * thOzhiyum nAnum thozhudhOm * thugilaip paNiththaruLAyE *",
@@ -48,7 +48,7 @@ window.mergeLanguageTexts = function () {
       8: "mAmimAr makkaLE allOm * maRRum ingu ellArum pOndhAr * thUmalark kaNgaL vaLarath * thollaiyirAth thuyilvAnE! * sEmamEl anRidhu sAlach * chikkena nAm idhu sonnOm * kOmaLa Ayar kozhundhE! * kurundhidaik kURai paNiyAy *",
       9: "kanjan valai vaiththa anRu * kAriruL ellil pizhaiththu * nenju dhukkam seyyap pOndhAy * ninRa ikkanniyarOmai * anja urappAL asOdhai * ANAda vittittu irukkum * vanjagap pEychchi pAl uNda * masimaiyilee! kURai thArAy *",
       10: "kanniyarOdu engaL nambi * kariya pirAn viLaiyAttai * ponniyal mAdangaL sUzhndha * pudhuvaiyar kOn pattan kOdhai * innisaiyAl sonna mAlai * Iraindhum vallavar thAm pOy * manniya mAdhavanOdu * vaigundham pukku iruppArE *",
-      11: "adivaravu: kOzhi idhu ellE parakka kAlai thadaththu nIril mAmimAr kanjan kanniyarOdu theLLiyAr *"
+      11: "adivaravu: kOzhi idhu * ellE parakka * kAlai thadaththu * nIril mAmimAr * kanjan kanniyarOdu theLLiyAr *"
     },
     'NAT.4.steps': {
       1: "theLLiyAr * palar kai thozhum dhEvanAr * vaLLal * mAlirunjOlai maNALanAr *** paLLi koLLum idaththu * adi kottida * koLLumAgil * nI kUdidu kUdalE! *",
@@ -62,7 +62,7 @@ window.mergeLanguageTexts = function () {
       9: "koNda kOlak * kuRaL uruvAych chenRu * paNdu mAvali than * peru vELviyil *** aNdamum nilanum * adi onRinAl * koNdavan varil * kUdidu kUdalE! *",
       10: "pazhagu nAnmaRaiyin poruLAy * madham ozhugu vAraNam * uyya aLiththa *** em azhaganAr * aNi Aychchiyar sindhaiyuL * kuzhaganAr varil * kUdidu kUdalE! *",
       11: "* Udal kUdal * uNardhal puNardhalai * nIdu ninRa * niRai pugazh Aychchiyar *** kUdalaik * kuzhaR kOdhai mun kURiya * pAdal paththum vallArkku * illai pAvamE *",
-      12: "adivaravu: theLLiyAr kAttil pUmagan AychchimArgaL mAdam aRRavan anRu Aval koNda pazhagu Udal mannu *"
+      12: "adivaravu: theLLiyAr kAttil * pUmagan AychchimArgaL * mAdam aRRavan * anRu Aval * koNda pazhagu * Udal mannu *"
     }
   };
 
