@@ -1,6 +1,6 @@
 window.MARKER_DATABASE = window.MARKER_DATABASE || {};
 
-window.MARKER_DATABASE['RN.steps'] = [
+window.MARKER_DATABASE['RN.1.steps'] = [
   {
     "p": 1,
     "step1": [[0, 3.7], [3.7, 7.4], [7.4, 9.8], [9.8, 14.1], [14.1, 18.1], [18.1, 22.3]],

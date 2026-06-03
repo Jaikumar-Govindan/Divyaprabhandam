@@ -2,7 +2,13 @@ window.MARKER_DATABASE = window.MARKER_DATABASE || {};
 // Global function to trigger the merge on-demand
 window.mergeLanguageTexts = function () {
   const text_bundle_en = {
-    'RN.steps': {
+    'RN.0.steps': {
+
+      1: "munnai vinaiyagala mUngil kudi amudhan * ponnam kazhaRkamalap pOdhiraNdum * ennudaiya sennikku aNiyAgach chErththinEn * thenpulaththArkku ennuk kadavudaiyEn yAn?",
+      2: "nayam tharu pErinbam ellAm pazhudhu enRu naNNinar pAl * sayam tharu kIrththi irAmAnusa muni thALiNai mEl * uyarndha guNaththuth thiruvarangaththu amudhu Ongum anbAl iyambum * kaliththuRai andhAdhi Odha isai nenjamE!",
+      3: "sollin thogai koNdu unadhu adippOdhukkuth thoNdu seyyum * nallanbar Eththum un nAmam ellAm endhan nAvinuLLE * allum pagalum amarumbadi nalgu aRu samayam vellum parama! * irAmAnusa! idhu en viNNappamE"
+    },
+    'RN.1.steps': {
       1: "*pU mannu mAdhu porundhiya mArban * pugazh malindha pA mannu mARan * adi paNindhu uyndhavan *** pal kalaiyOr thAm manna vandha irAmAnusan * saraNAravindham nAm manni vAzha * nenjE solluvOm avan nAmangLE *",
       2: "*kaL Ar pozhil thennarangan * kamalap padhangaL nenjil koLLA * manisarai nIngi *** kuRaiyal pirAn adikkIzh viLLadha anban irAmAnusan * mikka seelam allAl uLLAdhu en nenju * onRu aRIyEn enakkuRRa pEriyalvE *",
       3: "pEr iyal nenjE! * adi paNindhEn unnai * pEyp piRavip pUriyarOdu uLLa * suRRam pularththi *** poruvu arum sIr Ariyan semmai irAmAnusa munikku anbu seyyum * sIRiya pERu udaiyAr * adikkIzh ennaich chErththadhaRkE *",

@@ -83,17 +83,45 @@ const CONFIG = {
         }
     },
     'RN': {
-        structure: 'flat_pasuram',
+
+        structure: 'chapter_pasuram',
         hasSub: false,
-        maxPas: 108,
-        getMarkerPath: () => 'markers/marker_rn_timelines.js',
-        getLanguagePath: (num, langCode) => `markers/marker_rn_${langCode}.js`,
-        getAudioSrc: function (numInput) {
-            const pasNum = parseInt(numInput, 10);
-            let startGroup = Math.floor((pasNum - 1) / 10) * 10 + 1;
-            let endGroup = startGroup + 9;
-            if (endGroup > 108) endGroup = 108;
-            return `audiofiles/RN/rn_${startGroup}_${endGroup}.ogg`;
+        minCh: 0,
+        maxCh: 1,
+        defPas: 108,
+        ex: { '0': 3 },
+
+        getMarkerPath: (num) => {
+            return 'markers/marker_rn_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `markers/marker_rn_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `audiofiles/RN/RN.${num}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 108
+                if (fileEnd > 108) {
+                    fileEnd = 108;
+                }
+
+                return `audiofiles/RN/rn_${fileStart}_${fileEnd}.ogg`;
+            }
         }
     },
     'MUT': {
@@ -105,7 +133,7 @@ const CONFIG = {
     },
     'TPE': {
         structure: 'chapter_pasuram',
-        hasSub: false, minCh: 0, maxCh: 1, defPas: 10, ex: {'0':2},
+        hasSub: false, minCh: 0, maxCh: 1, defPas: 10, ex: { '0': 2 },
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
@@ -123,6 +151,29 @@ const CONFIG = {
             const chapter = parseInt(num.split('.')[0], 10);
 
             return `audiofiles/TPE/TPE.${chapter}.ogg`;
+
+        }
+    },
+    'TPL': {
+        structure: 'chapter_pasuram',
+        hasSub: false, minCh: 0, maxCh: 1, defPas: 12, ex: { '0': 3 },
+        getMarkerPath: (num) => {
+            const chapter = parseInt(num.split('.')[0], 10);
+
+            return 'markers/marker_tpl_timelines.js';
+
+        },
+        getLanguagePath: (num, langCode) => {
+            const chapter = parseInt(num.split('.')[0], 10);
+            // ONLY map text assets if the chapter contains an underlying timeline track
+
+            return `markers/marker_tpl_${langCode}.js`;
+
+        },
+        getAudioSrc: (num) => {
+            const chapter = parseInt(num.split('.')[0], 10);
+
+            return `audiofiles/TPL/TPL.${chapter}.ogg`;
 
         }
     },
