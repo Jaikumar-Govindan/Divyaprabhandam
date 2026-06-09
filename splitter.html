@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,25 +8,28 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 10px;
             background-color: #f4f4f9;
         }
-        /* Flex layout splits the workspace into balanced side-by-side columns */
+
+        /* Flex layout splits the workspace into balanced side-by-side columns on desktop */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             background: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
             gap: 25px;
         }
+
         /* Left Panel stays focused on configurations and media tracking tools */
         .left-panel {
             flex: 1;
             min-width: 400px;
         }
+
         /* Right Panel handles the massive scrollable interactive sequence list */
         .right-panel {
             flex: 1.2;
@@ -35,736 +39,1047 @@
             display: flex;
             flex-direction: column;
         }
-        .input-group {
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .form-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: #555;
         }
-        input[type="text"], textarea {
+
+        input[type="text"],
+        select,
+        textarea {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         textarea {
-            height: 100px;
             resize: vertical;
         }
+
         .btn {
             background-color: #007bff;
             color: white;
-            padding: 10px 15px;
             border: none;
+            padding: 10px 15px;
             border-radius: 4px;
             cursor: pointer;
-            margin-right: 5px;
+            font-size: 14px;
         }
+
         .btn:hover {
             background-color: #0056b3;
         }
-        .btn-danger {
-            background-color: #dc3545;
+
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
-        .btn-danger:hover {
-            background-color: #bd2130;
-        }
+
         audio {
             width: 100%;
             margin-top: 10px;
         }
+
         #yt-container {
+            width: 100%;
+            height: 200px;
+            background: #000;
             margin-top: 10px;
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
             display: none;
         }
-        #yt-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        /* Restricts layout expansion on ultra-long pasuram file grids */
+
         .marker-list {
-            margin-top: 10px;
-            max-height: 650px;
+            max-height: 550px;
             overflow-y: auto;
-            padding-right: 5px;
-            position: relative;
+            border: 1px solid #eee;
+            padding: 10px;
+            background: #fafafa;
+            border-radius: 4px;
+            flex-grow: 1;
         }
+
         .marker-item {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
             background: #f9f9f9;
-            padding: 10px;
-            border: 1px solid #ddd;
+            padding: 8px;
+            margin-bottom: 6px;
+            border: 1px solid #e0e0e0;
             border-radius: 4px;
+            transition: background 0.2s ease;
+            flex-wrap: wrap;
+            /* Allows row contents to break lines on small screens */
+            gap: 4px;
         }
+
         .marker-item input[type="number"] {
-            width: 70px;
-            margin-right: 8px;
-            padding: 5px;
+            width: 60px;
+            padding: 6px 4px;
+            text-align: center;
         }
+
         .marker-item input[type="text"] {
             flex-grow: 1;
-            margin-right: 8px;
+            min-width: 120px;
+            padding: 6px 8px;
         }
-        .marker-item .checkbox-label {
-            margin-right: 8px;
-            font-size: 0.9em;
+
+        .checkbox-label {
             display: flex;
             align-items: center;
-            font-weight: normal;
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
             white-space: nowrap;
         }
-        .marker-item .checkbox-label input {
-            margin-right: 4px;
+
+        .checkbox-label input {
+            margin-right: 3px;
         }
-        .marker-item .btn {
-            white-space: nowrap;
-        }
-        .status {
-            margin-top: 5px;
-            margin-bottom: 10px;
-            font-style: italic;
-            color: #555;
-            font-weight: bold;
-        }
-        h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #f4f4f9;
-            padding-bottom: 10px;
-        }
-        /* Styling block for the live fluid pasuram display reader panel */
-        .live-pasuram-display {
-            background-color: #fffde7;
+
+        .live-display-box {
+            margin-top: 15px;
+            padding: 12px;
+            background: #fffde7;
             border: 1px solid #fff59d;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 1.15em;
+            border-radius: 4px;
+            font-size: 15px;
             line-height: 1.6;
-            color: #333;
-            max-height: 150px;
+            max-height: 160px;
             overflow-y: auto;
         }
-        .live-pasuram-display span.active-phrase {
-            background-color: #fff59d;
+
+        .active-phrase {
+            background-color: #ffeb3b;
             font-weight: bold;
-            color: #000;
             padding: 2px 4px;
             border-radius: 3px;
-            border: 1px dashed #fbc02d;
+            border: 1px solid #fbc02d;
         }
-        .live-pasuram-display span.normal-phrase {
-            font-weight: normal;
-            transition: all 0.2s ease;
+
+        .normal-phrase {
+            color: #212121;
+        }
+
+        /* Responsive Mobile Breakpoint Overrides */
+        @media (max-width: 768px) {
+            body {
+                margin: 5px;
+            }
+
+            .container {
+                flex-direction: column;
+                padding: 12px;
+                gap: 15px;
+            }
+
+            .left-panel,
+            .right-panel {
+                min-width: 100%;
+                width: 100%;
+                padding-left: 0;
+                border-left: none;
+            }
+
+            .right-panel {
+                margin-top: 10px;
+                border-top: 1px solid #ddd;
+                padding-top: 20px;
+            }
+
+            .marker-list {
+                max-height: 400px;
+                /* Shorter scroll height balances screen real estate on mobile */
+            }
+
+            .btn {
+                padding: 12px 10px;
+                /* Larger tap targets */
+                font-size: 13px;
+            }
+
+            .marker-item {
+                padding: 10px 6px;
+            }
+
+            .marker-item .btn {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
         }
     </style>
+    <script src="https://www.youtube.com/iframe_api" async></script>
 </head>
+
 <body>
 
-<div class="container">
-    
-    <div class="left-panel">
-        <h2>Audio Marker Studio</h2>
-        
-        <div class="input-group">
-            <label for="audioFileSelector">Local Audio File:</label>
-            <input type="file" id="audioFileSelector" accept="audio/*" onchange="loadLocalFile(this)">
+    <div class="container">
+        <div class="left-panel">
+            <h2>Audio Marker Studio</h2>
+
+            <div class="form-group"
+                style="display: flex; gap: 10px; background: #f1f3f4; padding: 10px; border-radius: 4px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 160px;">
+                    <label style="font-size:12px;">Audio File Track</label>
+                    <input type="file" accept="audio/*" onchange="loadLocalFile(this)" style="width: 100%;">
+                </div>
+                <div style="flex: 1; min-width: 160px;">
+                    <label style="font-size:12px;">Text Script File (.txt)</label>
+                    <input type="file" accept=".txt" onchange="loadTextFile(this)" style="width: 100%;">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                <label for="urlInput">GitHub Link, Direct File URL, or YouTube Stream Page</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="urlInput"
+                        placeholder="Paste GitHub Repository link or specific asset file path...">
+                    <button class="btn" onclick="handleURL()">Load</button>
+                </div>
+            </div>
+
+            <div class="form-group" id="chapterSelectorContainer"
+                style="display: none; background: #e3f2fd; padding: 12px; border: 1px solid #90caf9; border-radius: 4px;">
+                <label for="chapterDropdown" style="color: #0d47a1;">Select Chapter / Pasuram Section to
+                    Initialize:</label>
+                <select id="chapterDropdown" onchange="loadSelectedChapter()"></select>
+            </div>
+
+            <div class="form-group">
+                <audio id="player" controls></audio>
+                <div id="timeDisplay"
+                    style="font-family: monospace; font-size: 14px; font-weight: bold; color: #333; margin-top: 4px; padding-left: 2px;">
+                    0.0s</div>
+                <div id="yt-container">
+                    <div id="yt-player"></div>
+                </div>
+            </div>
+
+            <div class="form-group" style="display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;">
+                <button class="btn" id="recordBtn" style="background-color: #28a745; flex: 1; min-width: 130px;"
+                    disabled onclick="captureTimestampAtCurrent()">Capture Stamp (M)</button>
+                <button class="btn" style="background-color: #6c757d; flex: 1;" onclick="rewind()">Rewind 2s</button>
+                <button class="btn" style="background-color: #17a2b8; flex: 1;"
+                    onclick="distributeTimelineProrally()">Even Distribute</button>
+                <button class="btn" style="background-color: #dc3545; flex: 1;" onclick="clearAllState()">Reset</button>
+            </div>
+
+            <div class="form-group">
+                <label for="textGuidedContent">Raw Pasuram / Script Source Text Content</label>
+                <textarea id="textGuidedContent" rows="6"
+                    placeholder="Paste script texts block sequence lines here... Use asterisks * to mark sub-phrases inside blocks."></textarea>
+                <button class="btn" style="width: 100%; margin-top: 6px; background-color: #6f42c1;"
+                    onclick="parseTextToMutableState()">Parse Source to Canvas Steps</button>
+            </div>
+
+            <div class="form-group">
+                <label for="ioJson">Serialized Config JS Field Object Structure</label>
+                <textarea id="ioJson" rows="12"
+                    placeholder="Generated output layout state maps array formats populate directly here..."></textarea>
+                <button class="btn" style="width: 100%; margin-top: 6px; background-color: #fd7e14;"
+                    onclick="importExistingConfig()">Import Config Code Block Snippet</button>
+            </div>
         </div>
 
-        <div class="input-group">
-            <label for="textFileSelector">Script File (.txt):</label>
-            <input type="file" id="textFileSelector" accept=".txt" onchange="loadTextFile(this)">
-        </div>
-        
-        <div class="input-group">
-            <label for="urlInput">Audio URL or YouTube URL:</label>
-            <input type="text" id="urlInput" placeholder="Enter URL and click Load">
-            <button class="btn" onclick="handleURL()" style="margin-top: 5px;">Load URL</button>
-        </div>
+        <div class="right-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin: 0;">Interactive Segment Sequence Grid</h3>
+                <span id="status" style="font-size: 13px; font-weight: bold; color: #666;">Markers: 0</span>
+            </div>
 
-        <div class="input-group">
-            <label for="textGuidedContent">Script Content:</label>
-            <textarea id="textGuidedContent" placeholder="Paste or load scripture text script..."></textarea>
-            <button class="btn" onclick="parseTextToMutableState()" style="margin-top: 5px; background-color: #28a745;">Parse & Generate Markers</button>
-            <button class="btn" onclick="distributeTimelineProportionally()" style="margin-top: 5px; background-color: #17a2b8;">Reset Proportional Timing</button>
-        </div>
+            <div class="live-display-box" id="livePasuramView">
+                <em>Load or parse script text content to visualize running live display...</em>
+            </div>
+            <p style="font-size: 11px; color:#777; margin: 4px 0 10px 0;">💡 Tip: Press <strong>Shift + Enter</strong>
+                within any input cell row above to split and insert a fresh segment immediately below it.</p>
 
-        <audio id="player" controls></audio>
-        <div id="yt-container"><div id="yt-player"></div></div>
-
-        <div style="margin-top: 15px;">
-            <button id="recordBtn" class="btn btn-danger" onclick="captureTimestampAtCurrent()" disabled>Capture Marker (M)</button>
-            <button class="btn" onclick="rewind()" style="background-color: #6c757d;">Rewind 2s</button>
-            <button class="btn btn-danger" onclick="clearAllState()">Clear Data</button>
-        </div>
-
-        <div class="input-group" style="margin-top: 25px;">
-            <label for="ioJson">Generated JS Array Object:</label>
-            <textarea id="ioJson" style="height: 180px;" placeholder="Result configuration will output here..."></textarea>
-            <button class="btn" onclick="serializeStateToJS()" style="margin-top: 5px;">Re-Generate Output Text</button>
-            <button class="btn" onclick="importExistingConfig()" style="margin-top: 5px; background-color: #6f42c1;">Import Pasted Config</button>
+            <div class="marker-list" id="marker-list">
+                <div style="text-align: center; color: #999; padding-top: 40px;">No segment nodes compiled. Paste text
+                    code maps above or parse script sources to begin canvas adjustments.</div>
+            </div>
         </div>
     </div>
 
-    <div class="container right-panel">
-        <div style="font-size: 1.17em; font-weight: bold; margin-bottom: 10px;">Interactive Track Markers</div>
-        
-        <div class="live-pasuram-display" id="livePasuramView"><em>Load or parse script text content to visualize running live display...</em></div>
-        
-        <div class="status" id="status">Markers: 0</div>
-        <div class="marker-list" id="marker-list"></div>
-    </div>
+    <script>
+        window.rawMarkers = [];
+        let currentHighlightIndex = -1;
+        let currentFileName = "audio_data";
+        let ytPlayer = null;
+        let isYouTube = false;
+        let detectedDuration = 0;
 
-</div>
+        // Global Editing Locks and Storage Configuration
+        window.isUserEditingActiveCell = false;
+        window.isTestingSegmentAudio = false;
+        let repoChapterDatabase = {};
 
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-    window.rawMarkers = [];
-    let currentHighlightIndex = -1;
-    let currentFileName = "audio_data";
-    let ytPlayer = null;
-    let isYouTube = false;
-    let detectedDuration = 0;
-    
-    let player, markerList, ioJson, livePasuramView;
+        let player, markerList, ioJson, livePasuramView;
 
-    window.loadLocalFile = function(input) {
-        if (!input || !input.files || input.files.length === 0) return;
-        setupDirectAudio(URL.createObjectURL(input.files[0]));
-    };
-
-    window.loadTextFile = function(input) {
-        if (!input || !input.files || input.files.length === 0) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('textGuidedContent').value = e.target.result;
-            localStorage.setItem('asm_saved_text', e.target.result);
-            parseTextToMutableState();
+        window.loadLocalFile = function (input) {
+            if (!input || !input.files || input.files.length === 0) return;
+            setupDirectAudio(URL.createObjectURL(input.files[0]));
         };
-        reader.readAsText(input.files[0]);
-    };
 
-    window.addEventListener('DOMContentLoaded', () => {
-        player = document.getElementById('player');
-        markerList = document.getElementById('marker-list');
-        ioJson = document.getElementById('ioJson');
-        livePasuramView = document.getElementById('livePasuramView');
-        setupSyncLoop();
+        window.loadTextFile = function (input) {
+            if (!input || !input.files || input.files.length === 0) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('textGuidedContent').value = e.target.result;
+                localStorage.setItem('asm_saved_text', e.target.result);
+                parseTextToMutableState();
+            };
+            reader.readAsText(input.files[0]);
+        };
 
-        // Bind raw manual edits inside text area directly to state tracking cache
-        document.getElementById('textGuidedContent').addEventListener('input', (e) => {
-            localStorage.setItem('asm_saved_text', e.target.value);
-        });
+        window.addEventListener('DOMContentLoaded', () => {
+            player = document.getElementById('player');
+            markerList = document.getElementById('marker-list');
+            ioJson = document.getElementById('ioJson');
+            livePasuramView = document.getElementById('livePasuramView');
+            setupSyncLoop();
 
-        // COLD STORAGE DEHYDRATION HYDRATION ROUTINE
-        const savedText = localStorage.getItem('asm_saved_text');
-        const savedUrl = localStorage.getItem('asm_saved_url');
-        const savedMarkers = localStorage.getItem('asm_saved_markers');
-
-        if (savedText) {
-            document.getElementById('textGuidedContent').value = savedText;
-        }
-        if (savedUrl) {
-            document.getElementById('urlInput').value = savedUrl;
-            if (savedUrl.includes('youtube.com') || savedUrl.includes('youtu.be')) setupYouTube(savedUrl);
-            else setupDirectAudio(savedUrl);
-        }
-        if (savedMarkers) {
-            window.rawMarkers = JSON.parse(savedMarkers);
-            renderInteractiveGrid(true); // Force full draw on clean boot reload
-            serializeStateToJS();
-        }
-
-        // Key Listener mapping
-        window.addEventListener('keydown', (e) => {
-            if (e.key.toLowerCase() === 'm') {
-                const active = document.activeElement;
-                if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) return;
-                e.preventDefault();
-                captureTimestampAtCurrent();
-            }
-        });
-    });
-
-    function handleURL() {
-        const url = document.getElementById('urlInput').value.trim();
-        localStorage.setItem('asm_saved_url', url);
-        if (url.includes('youtube.com') || url.includes('youtu.be')) setupYouTube(url);
-        else setupDirectAudio(url);
-    }
-
-    function setupYouTube(url) {
-        const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
-        isYouTube = true; currentFileName = videoId;
-        player.style.display = 'none'; 
-        document.getElementById('yt-container').style.display = 'block';
-        
-        if (ytPlayer) {
-            ytPlayer.loadVideoById(videoId);
-            setTimeout(() => { extractDuration(); }, 1500);
-        } else {
-            ytPlayer = new YT.Player('yt-player', { 
-                height: '100%', width: '100%', videoId: videoId,
-                events: { 'onReady': () => { document.getElementById('recordBtn').disabled = false; setTimeout(() => { extractDuration(); }, 1500); } }
+            document.getElementById('textGuidedContent').addEventListener('input', (e) => {
+                localStorage.setItem('asm_saved_text', e.target.value);
             });
-        }
-    }
 
-    function setupDirectAudio(url) {
-        isYouTube = false; currentFileName = url.split('/').pop().split('.')[0] || "audio_track";
-        document.getElementById('yt-container').style.display = 'none'; player.style.display = 'block';
-        player.src = url; player.load();
-        document.getElementById('recordBtn').disabled = false;
-        player.onloadedmetadata = function() { extractDuration(); };
-    }
+            // Event listeners to release segment preview locks on manual tracking interaction
+            player.addEventListener('play', () => { window.isTestingSegmentAudio = false; });
+            player.addEventListener('seeking', () => { window.isTestingSegmentAudio = false; });
 
-    function extractDuration() {
-        detectedDuration = isYouTube ? ytPlayer.getDuration() : player.duration;
-        if (!detectedDuration || isNaN(detectedDuration)) detectedDuration = 300;
-    }
+            const savedText = localStorage.getItem('asm_saved_text');
+            const savedUrl = localStorage.getItem('asm_saved_url');
+            const savedMarkers = localStorage.getItem('asm_saved_markers');
 
-    // HEX ESCAPED COMPILER-PROOF LINE PARSER ENGINE
-    function parseTextToMutableState() {
-        const textRaw = document.getElementById('textGuidedContent').value;
-        if (!textRaw.trim()) return;
-        
-        let cleanText = textRaw.replace(/\\/gi, '');
-        cleanText = cleanText.replace(/[\r\n\t]+/g, ' ').replace(/\s+/g, ' ').trim();
-
-        let splitMarker = new RegExp('\\x2a\\s*\\d+\\s*', 'g');
-        let pasuramBlocks = cleanText.split(splitMarker);
-
-        let allSegmentPhrases = [];
-        
-        for (let blockIdx = 0; blockIdx < pasuramBlocks.length; blockIdx++) {
-            let blockText = pasuramBlocks[blockIdx].trim();
-            if (!blockText) continue;
-
-            let subPhrases = blockText.split('*');
-            let validSubphrasesInBlock = [];
-            
-            for (let chunk of subPhrases) {
-                let phraseString = chunk.trim();
-                if (phraseString.length > 0 && phraseString !== '*') {
-                    validSubphrasesInBlock.push({
-                        text: phraseString,
-                        forceEndBlock: false
-                    });
+            if (savedText) document.getElementById('textGuidedContent').value = savedText;
+            if (savedUrl) {
+                document.getElementById('urlInput').value = savedUrl;
+                if (savedUrl.includes('github.com') && !savedUrl.endsWith('.txt') && !savedUrl.endsWith('.ogg') && !savedUrl.endsWith('.mp3')) {
+                    scanGitHubRepositoryFolder(savedUrl, false);
+                } else if (savedUrl.includes('youtube.com') || savedUrl.includes('youtu.be')) {
+                    setupYouTube(savedUrl);
+                } else {
+                    setupDirectAudio(savedUrl);
                 }
             }
-            
-            if (validSubphrasesInBlock.length > 0) {
-                validSubphrasesInBlock[validSubphrasesInBlock.length - 1].forceEndBlock = true;
-                allSegmentPhrases.push(...validSubphrasesInBlock);
+            if (savedMarkers) {
+                window.rawMarkers = JSON.parse(savedMarkers);
+                renderInteractiveGrid(true);
+                serializeStateToJS();
             }
-        }
 
-        let totalDuration = detectedDuration || 300;
-        let uniformSegmentLength = totalDuration / allSegmentPhrases.length;
-        
-        window.rawMarkers = allSegmentPhrases.map((phrase, i) => ({
-            start: parseFloat((i * uniformSegmentLength).toFixed(1)),
-            end: (i === allSegmentPhrases.length - 1) ? parseFloat(totalDuration.toFixed(1)) : parseFloat(((i + 1) * uniformSegmentLength).toFixed(1)),
-            text: phrase.text,
-            forceEndBlock: phrase.forceEndBlock
-        }));
+            window.addEventListener('keydown', (e) => {
+                if (e.key.toLowerCase() === 'm') {
+                    const active = document.activeElement;
+                    if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) return;
+                    e.preventDefault();
+                    captureTimestampAtCurrent();
+                }
+            });
 
-        renderInteractiveGrid(true); // Re-render container entirely on a new parsing event
-        serializeStateToJS();
-    }
-
-    function distributeTimelineProportionally() {
-        if (window.rawMarkers.length === 0) return;
-        let totalDuration = detectedDuration || 300;
-        let step = totalDuration / window.rawMarkers.length;
-        window.rawMarkers.forEach((m, idx) => {
-            m.start = parseFloat((idx * step).toFixed(1));
-            m.end = (idx === window.rawMarkers.length - 1) ? parseFloat(totalDuration.toFixed(1)) : parseFloat(((idx + 1) * step).toFixed(1));
+            if (markerList) {
+                markerList.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && e.shiftKey) {
+                        const activeRow = e.target.closest('.marker-item');
+                        if (activeRow) {
+                            e.preventDefault();
+                            const index = parseInt(activeRow.id.replace('item-', ''), 10);
+                            if (!isNaN(index)) insertSegmentInBetween(index);
+                        }
+                    }
+                });
+            }
         });
-        renderInteractiveGrid(true);
-        serializeStateToJS();
-    }
 
-    function updateStateText(index, value) {
-        if (window.rawMarkers[index]) {
-            window.rawMarkers[index].text = value;
-            localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
-            renderPasuramReaderPanel(currentHighlightIndex);
-        }
-    }
+        // MASTER ENGINE: Dynamic Link Router & GitHub API Normalizer
+        function handleURL() {
+            let url = document.getElementById('urlInput').value.trim();
+            if (!url) return;
 
-    // STRICT CHAINING RIPPLE EVENT CONTROLLER
-    function updateStateTime(index, field, value) {
-        if (!window.rawMarkers[index]) return;
-        
-        const newVal = parseFloat(value) || 0;
-        const oldVal = window.rawMarkers[index][field];
-        const delta = newVal - oldVal;
-        
-        window.rawMarkers[index][field] = newVal;
-        
-        if (field === 'start' && window.rawMarkers[index - 1]) {
-            window.rawMarkers[index - 1].end = newVal;
-        }
-        
-        if (delta !== 0) {
-            if (field === 'end' && window.rawMarkers[index + 1]) {
-                window.rawMarkers[index + 1].start = newVal;
+            // Route A: Is user target an implicit repository folder structural layout overview?
+            if (url.includes('github.com') && !url.endsWith('.txt') && !url.endsWith('.ogg') && !url.endsWith('.mp3') && !url.includes('/blob/')) {
+                scanGitHubRepositoryFolder(url, true);
+                return;
             }
 
-            for (let i = index + 1; i < window.rawMarkers.length; i++) {
-                let targetEnd = parseFloat((window.rawMarkers[i].end + delta).toFixed(1));
-                window.rawMarkers[i].end = targetEnd;
-                window.rawMarkers[i].start = window.rawMarkers[i - 1].end;
+            // Route B: Handle standard single file layout rewrites
+            if (url.includes('github.com') && url.includes('/blob/')) {
+                url = url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+                document.getElementById('urlInput').value = url;
             }
-            
-            const lastIdx = window.rawMarkers.length - 1;
-            if (window.rawMarkers[lastIdx].end > detectedDuration && detectedDuration > 0) {
-                window.rawMarkers[lastIdx].end = parseFloat(detectedDuration.toFixed(1));
-            }
-        }
-        
-        localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
-        renderInteractiveGrid(false); // Update raw internal object values inline instead of wiping DOM!
-        serializeStateToJS();
-    }
 
-    function toggleStateBoundary(index, isChecked) {
-        if (window.rawMarkers[index]) {
-            window.rawMarkers[index].forceEndBlock = isChecked;
-            serializeStateToJS();
-        }
-    }
+            localStorage.setItem('asm_saved_url', url);
 
-    function snapToCurrentPlayback(index) {
-        const time = isYouTube ? ytPlayer.getCurrentTime() : player.currentTime;
-        updateStateTime(index, 'end', parseFloat(time.toFixed(1)));
-    }
-
-    function captureTimestampAtCurrent() {
-        const time = parseFloat((isYouTube ? ytPlayer.getCurrentTime() : player.currentTime).toFixed(1));
-        for (let i = 0; i < window.rawMarkers.length; i++) {
-            if (time > window.rawMarkers[i].start && time < window.rawMarkers[i].end) {
-                window.rawMarkers[i].end = time;
-                if (window.rawMarkers[i+1]) window.rawMarkers[i+1].start = time;
-                break;
-            }
-        }
-        renderInteractiveGrid(true); // Full redrawing requested intentionally via keystroke markers
-        serializeStateToJS();
-    }
-
-    // GENERATES FLUID DYNAMICALLY HIGHLIGHTED PASURAM BLOCK TEXT
-    function renderPasuramReaderPanel(activeIndex) {
-        if (!livePasuramView) return;
-        if (!window.rawMarkers || window.rawMarkers.length === 0) {
-            livePasuramView.innerHTML = `<em>Load or parse script text content to visualize running live display...</em>`;
-            return;
-        }
-
-        let htmlOutput = [];
-        for (let i = 0; i < window.rawMarkers.length; i++) {
-            const marker = window.rawMarkers[i];
-            const isCurrent = (i === activeIndex);
-            
-            if (isCurrent) {
-                htmlOutput.push(`<span class="active-phrase" id="text-phrase-${i}">${marker.text}</span>`);
+            if (url.toLowerCase().endsWith('.txt')) {
+                fetchTextScriptFromWeb(url);
+            } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                setupYouTube(url);
             } else {
-                htmlOutput.push(`<span class="normal-phrase" id="text-phrase-${i}">${marker.text}</span>`);
-            }
-
-            if (marker.forceEndBlock) {
-                htmlOutput.push(`<br><span style="color:#888; font-size:0.85em; display:block; margin-bottom:8px; border-bottom:1px dashed #eee;"></span>`);
-            } else if (i < window.rawMarkers.length - 1) {
-                htmlOutput.push(` <span style="color:#bbb;">*</span> `);
+                setupDirectAudio(url);
             }
         }
 
-        livePasuramView.innerHTML = htmlOutput.join('');
+        // AUTOMATED CHAPTER PAIR EXTRACTION VIA THE GITHUB API 
+        async function scanGitHubRepositoryFolder(repoUrl, alertUser = true) {
+            try {
+                let cleanPath = repoUrl.replace('https://github.com/', '');
+                let parts = cleanPath.split('/');
+                let user = parts[0];
+                let repo = parts[1];
 
-        const activePhraseEl = document.getElementById(`text-phrase-${activeIndex}`);
-        if (activePhraseEl) {
-            activePhraseEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-    }
+                let branch = "main";
+                let folderPath = "";
 
-    // SMOOTH INPUT RETENTION ARCHITECTURE
-    function renderInteractiveGrid(forceFullRedraw = false) {
-        if (!markerList || window.rawMarkers.length === 0) return;
-
-        const DOMItemsCount = markerList.querySelectorAll('.marker-item').length;
-
-        // If structure size hasn't shifted and full reset isn't requested, inject properties inline
-        if (!forceFullRedraw && DOMItemsCount === window.rawMarkers.length) {
-            window.rawMarkers.forEach((m, i) => {
-                const itemRow = document.getElementById(`item-${i}`);
-                if (itemRow) {
-                    const inputs = itemRow.querySelectorAll('input[type="number"]');
-                    const textInput = itemRow.querySelector('input[type="text"]');
-                    const checkInput = itemRow.querySelector('input[type="checkbox"]');
-                    
-                    if (inputs[0] && document.activeElement !== inputs[0]) inputs[0].value = m.start;
-                    if (inputs[1] && document.activeElement !== inputs[1]) inputs[1].value = m.end;
-                    if (textInput && document.activeElement !== textInput) textInput.value = m.text;
-                    if (checkInput) checkInput.checked = m.forceEndBlock;
+                if (parts[2] === "tree" || parts[2] === "blob") {
+                    branch = parts[3];
+                    folderPath = parts.slice(4).join('/');
+                } else {
+                    folderPath = parts.slice(2).join('/');
                 }
-            });
-            document.getElementById('status').innerText = `Markers: ${window.rawMarkers.length}`;
-            return;
+
+                let apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${folderPath}?ref=${branch}`;
+
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Could not parse repository folder layout via GitHub API.");
+
+                const items = await response.json();
+                repoChapterDatabase = {};
+
+                // Loop and associate asset components based on identical key prefixes (e.g. "NAT_2")
+                items.forEach(item => {
+                    let name = item.name;
+                    let lastDot = name.lastIndexOf('.');
+                    if (lastDot === -1) return;
+
+                    let key = name.substring(0, lastDot);
+                    let ext = name.substring(lastDot).toLowerCase();
+
+                    if (!key) return;
+
+                    if (!repoChapterDatabase[key]) {
+                        repoChapterDatabase[key] = { audio: null, text: null, label: key };
+                    }
+
+                    if (ext === '.ogg' || ext === '.mp3' || ext === '.wav') {
+                        repoChapterDatabase[key].audio = item.download_url;
+                    } else if (ext === '.txt' || ext === '.js') {
+                        repoChapterDatabase[key].text = item.download_url;
+                    }
+                });
+
+                const keys = Object.keys(repoChapterDatabase).filter(k => repoChapterDatabase[k].audio || repoChapterDatabase[k].text);
+
+                if (keys.length === 0) {
+                    if (alertUser) alert("No matching audio track/text bundle script file pairs mapped inside this folder view.");
+                    return;
+                }
+
+                const dropdown = document.getElementById('chapterDropdown');
+                dropdown.innerHTML = '<option value="">-- Choose Chapter/Pasuram Tracking Node --</option>';
+
+                keys.sort().forEach(k => {
+                    dropdown.innerHTML += `<option value="${k}">${k} (${repoChapterDatabase[k].audio ? 'Audio ✓' : 'No Audio'} | ${repoChapterDatabase[k].text ? 'Text ✓' : 'No Text'})</option>`;
+                });
+
+                document.getElementById('chapterSelectorContainer').style.display = 'block';
+                localStorage.setItem('asm_saved_url', repoUrl);
+
+                if (alertUser) alert(`Discovered ${keys.length} parseable track chapters! Please make a choice inside the dropdown menu.`);
+
+            } catch (err) {
+                console.error(err);
+                if (alertUser) alert("Directory Scan Failed.\nDetails: " + err.message);
+            }
         }
 
-        // Full layout constructor routine (used on boot, data load, clear events)
-        markerList.innerHTML = window.rawMarkers.map((m, i) => {
-            return `
+        // DISPATCH SELECTED CHAPTER ASSETS TO RUNTIME ENGINE
+        function loadSelectedChapter() {
+            const key = document.getElementById('chapterDropdown').value;
+            if (!key || !repoChapterDatabase[key]) return;
+
+            const chapter = repoChapterDatabase[key];
+            currentFileName = key;
+
+            if (chapter.audio) {
+                setupDirectAudio(chapter.audio);
+            } else {
+                alert("⚠️ No companion streaming audio track discovered for this chapter node element.");
+            }
+
+            if (chapter.text) {
+                fetchTextScriptFromWeb(chapter.text);
+            }
+        }
+
+        async function fetchTextScriptFromWeb(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP network error status: ${response.status}`);
+                const text = await response.text();
+
+                document.getElementById('textGuidedContent').value = text;
+                localStorage.setItem('asm_saved_text', text);
+                parseTextToMutableState();
+            } catch (err) {
+                alert("Failed to retrieve text content stream: " + err.message);
+            }
+        }
+
+        function setupYouTube(url) {
+            const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
+            isYouTube = true; currentFileName = videoId;
+            player.style.display = 'none';
+            document.getElementById('yt-container').style.display = 'block';
+
+            if (ytPlayer) {
+                ytPlayer.loadVideoById(videoId);
+                setTimeout(() => { extractDuration(); }, 1500);
+            } else {
+                ytPlayer = new YT.Player('yt-player', {
+                    height: '100%', width: '100%', videoId: videoId,
+                    events: { 'onReady': () => { document.getElementById('recordBtn').disabled = false; setTimeout(() => { extractDuration(); }, 1500); } }
+                });
+            }
+        }
+
+        function setupDirectAudio(url) {
+            isYouTube = false;
+            if (!currentFileName || currentFileName === "audio_data") {
+                currentFileName = url.split('/').pop().split('.')[0] || "audio_track";
+            }
+            document.getElementById('yt-container').style.display = 'none'; player.style.display = 'block';
+            player.src = url; player.load();
+            document.getElementById('recordBtn').disabled = false;
+            player.onloadedmetadata = function () { extractDuration(); };
+        }
+
+        function extractDuration() {
+            detectedDuration = isYouTube ? ytPlayer.getDuration() : player.duration;
+            if (!detectedDuration || isNaN(detectedDuration)) detectedDuration = 300;
+        }
+
+        function parseTextToMutableState() {
+            const textRaw = document.getElementById('textGuidedContent').value;
+            if (!textRaw.trim()) return;
+
+            let cleanText = textRaw.replace(/\\/gi, '');
+            cleanText = cleanText.replace(/[\r\n\t]+/g, ' ').replace(/\s+/g, ' ').trim();
+
+            let splitMarker = new RegExp('\\x2a\\s*\\d+\\s*', 'g');
+            let pasuramBlocks = cleanText.split(splitMarker);
+            let allSegmentPhrases = [];
+
+            for (let blockIdx = 0; blockIdx < pasuramBlocks.length; blockIdx++) {
+                let blockText = pasuramBlocks[blockIdx].trim();
+                if (!blockText) continue;
+
+                let subPhrases = blockText.split('*');
+                let validSubphrasesInBlock = [];
+
+                for (let chunk of subPhrases) {
+                    let phraseString = chunk.trim();
+                    if (phraseString.length > 0 && phraseString !== '*') {
+                        validSubphrasesInBlock.push({ text: phraseString, forceEndBlock: false });
+                    }
+                }
+
+                if (validSubphrasesInBlock.length > 0) {
+                    validSubphrasesInBlock[validSubphrasesInBlock.length - 1].forceEndBlock = true;
+                    allSegmentPhrases.push(...validSubphrasesInBlock);
+                }
+            }
+
+            let totalDuration = detectedDuration || 300;
+            let uniformSegmentLength = totalDuration / allSegmentPhrases.length;
+
+            window.rawMarkers = allSegmentPhrases.map((phrase, i) => ({
+                start: parseFloat((i * uniformSegmentLength).toFixed(1)),
+                end: (i === allSegmentPhrases.length - 1) ? parseFloat(totalDuration.toFixed(1)) : parseFloat(((i + 1) * uniformSegmentLength).toFixed(1)),
+                text: phrase.text,
+                forceEndBlock: phrase.forceEndBlock
+            }));
+
+            renderInteractiveGrid(true);
+            serializeStateToJS();
+        }
+
+        function insertSegmentInBetween(index) {
+            const currentSegment = window.rawMarkers[index];
+            if (!currentSegment) return;
+
+            const midTime = parseFloat(((currentSegment.start + currentSegment.end) / 2).toFixed(1));
+            const originalEnd = currentSegment.end;
+
+            currentSegment.end = midTime;
+
+            const newSegment = {
+                start: midTime,
+                end: originalEnd,
+                text: "",
+                forceEndBlock: currentSegment.forceEndBlock
+            };
+
+            currentSegment.forceEndBlock = false;
+            window.rawMarkers.splice(index + 1, 0, newSegment);
+
+            renderInteractiveGrid(true);
+            serializeStateToJS();
+
+            setTimeout(() => {
+                const nextRow = document.getElementById(`item-${index + 1}`);
+                if (nextRow) {
+                    const txtInput = nextRow.querySelector('input[type="text"]');
+                    if (txtInput) txtInput.focus({ preventScroll: true });
+                    highlightUIRow(index + 1);
+                }
+            }, 50);
+        }
+
+        function deleteSegment(index) {
+            if (window.rawMarkers.length <= 1) {
+                alert("Cannot delete the last remaining track marker segment.");
+                return;
+            }
+
+            const removedSegment = window.rawMarkers[index];
+
+            if (index > 0) {
+                window.rawMarkers[index - 1].end = removedSegment.end;
+                if (removedSegment.forceEndBlock) window.rawMarkers[index - 1].forceEndBlock = true;
+            } else if (window.rawMarkers[index + 1]) {
+                window.rawMarkers[index + 1].start = removedSegment.start;
+            }
+
+            window.rawMarkers.splice(index, 1);
+            renderInteractiveGrid(true);
+            serializeStateToJS();
+
+            setTimeout(() => {
+                const focusTargetIndex = index >= window.rawMarkers.length ? window.rawMarkers.length - 1 : index;
+                const targetRow = document.getElementById(`item-${focusTargetIndex}`);
+                if (targetRow) {
+                    const txtInput = targetRow.querySelector('input[type="text"]');
+                    if (txtInput) txtInput.focus({ preventScroll: true });
+                    highlightUIRow(focusTargetIndex);
+                }
+            }, 50);
+        }
+
+        function distributeTimelineProrally() {
+            if (window.rawMarkers.length === 0) return;
+            let totalDuration = detectedDuration || 300;
+            let step = totalDuration / window.rawMarkers.length;
+            window.rawMarkers.forEach((m, idx) => {
+                m.start = parseFloat((idx * step).toFixed(1));
+                m.end = (idx === window.rawMarkers.length - 1) ? parseFloat(totalDuration.toFixed(1)) : parseFloat(((idx + 1) * step).toFixed(1));
+            });
+            renderInteractiveGrid(true);
+            serializeStateToJS();
+        }
+
+        function updateStateText(index, value) {
+            if (window.rawMarkers[index]) {
+                window.rawMarkers[index].text = value;
+                localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
+                renderPasuramReaderPanel(currentHighlightIndex);
+            }
+        }
+
+        function updateStateTime(index, field, value) {
+            if (!window.rawMarkers[index]) return;
+
+            const newVal = parseFloat(value) || 0;
+            const oldVal = window.rawMarkers[index][field];
+            const delta = newVal - oldVal;
+
+            window.rawMarkers[index][field] = newVal;
+
+            if (field === 'start' && window.rawMarkers[index - 1]) {
+                window.rawMarkers[index - 1].end = newVal;
+            }
+
+            if (delta !== 0) {
+                if (field === 'end' && window.rawMarkers[index + 1]) {
+                    window.rawMarkers[index + 1].start = newVal;
+                }
+
+                for (let i = index + 1; i < window.rawMarkers.length; i++) {
+                    let targetEnd = parseFloat((window.rawMarkers[i].end + delta).toFixed(1));
+                    window.rawMarkers[i].end = targetEnd;
+                    window.rawMarkers[i].start = window.rawMarkers[i - 1].end;
+                }
+
+                const lastIdx = window.rawMarkers.length - 1;
+                if (window.rawMarkers[lastIdx].end > detectedDuration && detectedDuration > 0) {
+                    window.rawMarkers[lastIdx].end = parseFloat(detectedDuration.toFixed(1));
+                }
+            }
+
+            localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
+            renderInteractiveGrid(false);
+            serializeStateToJS();
+        }
+
+        function toggleStateBoundary(index, isChecked) {
+            if (window.rawMarkers[index]) {
+                window.rawMarkers[index].forceEndBlock = isChecked;
+                serializeStateToJS();
+            }
+        }
+
+        function snapToCurrentPlayback(index) {
+            const time = isYouTube ? ytPlayer.getCurrentTime() : player.currentTime;
+            updateStateTime(index, 'end', parseFloat(time.toFixed(1)));
+        }
+
+        function captureTimestampAtCurrent() {
+            const time = parseFloat((isYouTube ? ytPlayer.getCurrentTime() : player.currentTime).toFixed(1));
+            for (let i = 0; i < window.rawMarkers.length; i++) {
+                if (time > window.rawMarkers[i].start && time < window.rawMarkers[i].end) {
+                    window.rawMarkers[i].end = time;
+                    if (window.rawMarkers[i + 1]) window.rawMarkers[i + 1].start = time;
+                    break;
+                }
+            }
+            renderInteractiveGrid(true);
+            serializeStateToJS();
+        }
+
+        function renderPasuramReaderPanel(activeIndex) {
+            if (!livePasuramView) return;
+            if (!window.rawMarkers || window.rawMarkers.length === 0) {
+                livePasuramView.innerHTML = `<em>Load or parse script text content to visualize running live display...</em>`;
+                return;
+            }
+
+            let htmlOutput = [];
+            for (let i = 0; i < window.rawMarkers.length; i++) {
+                const marker = window.rawMarkers[i];
+                const isCurrent = (i === activeIndex);
+
+                if (isCurrent) htmlOutput.push(`<span class="active-phrase" id="text-phrase-${i}">${marker.text}</span>`);
+                else htmlOutput.push(`<span class="normal-phrase" id="text-phrase-${i}">${marker.text}</span>`);
+
+                if (marker.forceEndBlock) {
+                    htmlOutput.push(`<br><span style="color:#888; font-size:0.85em; display:block; margin-bottom:8px; border-bottom:1px dashed #eee;"></span>`);
+                } else if (i < window.rawMarkers.length - 1) {
+                    htmlOutput.push(` <span style="color:#bbb;">*</span> `);
+                }
+            }
+
+            livePasuramView.innerHTML = htmlOutput.join('');
+            const activePhraseEl = document.getElementById(`text-phrase-${activeIndex}`);
+            if (activePhraseEl) activePhraseEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function renderInteractiveGrid(forceFullRedraw = false) {
+            if (!markerList || window.rawMarkers.length === 0) return;
+            const DOMItemsCount = markerList.querySelectorAll('.marker-item').length;
+
+            if (!forceFullRedraw && DOMItemsCount === window.rawMarkers.length) {
+                window.rawMarkers.forEach((m, i) => {
+                    const itemRow = document.getElementById(`item-${i}`);
+                    if (itemRow) {
+                        const inputs = itemRow.querySelectorAll('input[type="number"]');
+                        const textInput = itemRow.querySelector('input[type="text"]');
+                        const checkInput = itemRow.querySelector('input[type="checkbox"]');
+
+                        if (inputs[0] && document.activeElement !== inputs[0]) inputs[0].value = m.start;
+                        if (inputs[1] && document.activeElement !== inputs[1]) inputs[1].value = m.end;
+                        if (textInput && document.activeElement !== textInput) textInput.value = m.text;
+                        if (checkInput) checkInput.checked = m.forceEndBlock;
+                    }
+                });
+                document.getElementById('status').innerText = `Markers: ${window.rawMarkers.length}`;
+                return;
+            }
+
+            markerList.innerHTML = window.rawMarkers.map((m, i) => {
+                return `
             <div class="marker-item" id="item-${i}">
-                <span style="font-weight:bold; margin-right:8px; min-width:25px;">#${i+1}</span>
-                <input type="number" step="0.1" value="${m.start}" oninput="updateStateTime(${i}, 'start', this.value)">
-                <input type="number" step="0.1" value="${m.end}" oninput="updateStateTime(${i}, 'end', this.value)">
-                <input type="text" value="${m.text.replace(/"/g, '&quot;')}" oninput="updateStateText(${i}, this.value)">
+                <span style="font-weight:bold; margin-right:4px; min-width:25px; font-size:12px;">#${i + 1}</span>
+                <input type="number" step="0.1" value="${m.start}" 
+                       onfocus="window.isUserEditingActiveCell = true; window.isTestingSegmentAudio = false;" 
+                       onblur="window.isUserEditingActiveCell = false;" 
+                       oninput="updateStateTime(${i}, 'start', this.value)">
+                <input type="number" step="0.1" value="${m.end}" 
+                       onfocus="window.isUserEditingActiveCell = true; window.isTestingSegmentAudio = false;" 
+                       onblur="window.isUserEditingActiveCell = false;" 
+                       oninput="updateStateTime(${i}, 'end', this.value)">
+                <input type="text" placeholder="Add new segment text" value="${m.text.replace(/"/g, '&quot;')}" 
+                       onfocus="window.isUserEditingActiveCell = true; window.isTestingSegmentAudio = false;" 
+                       onblur="window.isUserEditingActiveCell = false;" 
+                       oninput="updateStateText(${i}, this.value)">
                 <label class="checkbox-label">
                     <input type="checkbox" ${m.forceEndBlock ? 'checked' : ''} onchange="toggleStateBoundary(${i}, this.checked)"> Break
                 </label>
-                <button class="btn" style="padding: 4px 8px; font-size: 11px; margin-right:3px;" onclick="snapToCurrentPlayback(${i})">Snap</button>
-                <button class="btn" style="padding: 4px 8px; font-size: 11px; background-color: #28a745;" onclick="testSegmentAudio(${i})">▶</button>
+                <div style="display:flex; gap:3px; margin-left:auto;">
+                    <button class="btn" style="padding: 6px 8px; font-size: 11px;" onclick="snapToCurrentPlayback(${i})">Snap</button>
+                    <button class="btn" style="padding: 6px 8px; font-size: 11px; background-color: #28a745;" onclick="testSegmentAudio(${i})">▶</button>
+                    <button class="btn" style="padding: 6px 8px; font-size: 11px; background-color: #dc3545;" onclick="deleteSegment(${i})" title="Delete Segment">×</button>
+                </div>
             </div>`;
-        }).join('');
+            }).join('');
 
-        document.getElementById('status').innerText = `Markers: ${window.rawMarkers.length}`;
-        renderPasuramReaderPanel(currentHighlightIndex);
-    }
-
-    // READ FRESH TIMESTAMP VALUE DIRECTLY FROM ARRAY STATE ON INTERACTION
-    function testSegmentAudio(targetId) {
-        const marker = window.rawMarkers[targetId];
-        if (!marker) return;
-
-        const start = marker.start;
-        const end = marker.end;
-
-        highlightUIRow(targetId);
-        if (isYouTube) { ytPlayer.seekTo(start); ytPlayer.playVideo(); } 
-        else { player.currentTime = start; player.play(); }
-        
-        // Use a window level property to clear any previous track loops cleanly before restarting
-        if (window.activeAudioTrackLoop) clearInterval(window.activeAudioTrackLoop);
-
-        window.activeAudioTrackLoop = setInterval(() => {
-            let curr = isYouTube ? ytPlayer.getCurrentTime() : player.currentTime;
-            
-            // Re-fetch marker end position dynamically mid-flight in case it gets shifted while playing
-            const currentEnd = window.rawMarkers[targetId] ? window.rawMarkers[targetId].end : end;
-
-            if (curr >= currentEnd) {
-                if (isYouTube) ytPlayer.pauseVideo(); else player.pause();
-                clearInterval(window.activeAudioTrackLoop);
-            }
-        }, 30);
-    }
-
-    // HALFWAY PAGE BOUNDARY SCROLL SYSTEM
-    function highlightUIRow(index) {
-        document.querySelectorAll('.marker-item').forEach(el => el.style.background = '#f9f9f9');
-        let targetRow = document.getElementById(`item-${index}`);
-        if (targetRow) {
-            targetRow.style.background = '#e1f5fe';
-            
-            const containerHeight = markerList.clientHeight;
-            const elementTop = targetRow.offsetTop;
-            const currentScroll = markerList.scrollTop;
-            
-            if ((elementTop - currentScroll) > (containerHeight / 2)) {
-                markerList.scrollTo({
-                    top: elementTop - (containerHeight / 3),
-                    behavior: 'smooth'
-                });
-            }
+            document.getElementById('status').innerText = `Markers: ${window.rawMarkers.length}`;
+            renderPasuramReaderPanel(currentHighlightIndex);
         }
-        renderPasuramReaderPanel(index);
-    }
 
-    function serializeStateToJS() {
-        if (!ioJson || window.rawMarkers.length === 0) return;
-        
-        let blocks = [];
-        let currentPasuramIndex = 1;
-        let activeGroup = [];
+        function testSegmentAudio(targetId) {
+            const marker = window.rawMarkers[targetId];
+            if (!marker) return;
 
-        for (let i = 0; i < window.rawMarkers.length; i++) {
-            let s = window.rawMarkers[i];
-            activeGroup.push(s);
+            const start = marker.start;
+            const end = marker.end;
 
-            if (s.forceEndBlock || i === window.rawMarkers.length - 1) {
-                let step1 = activeGroup.map(seg => [parseFloat(seg.start.toFixed(1)), parseFloat(seg.end.toFixed(1))]);
-                let step2 = []; let step3 = [];
-                
-                // Scan the active section group to check if a phrase is flagged as the start of Pinnadi
-                let pinNadiIndex = activeGroup.findIndex(seg => seg.text.trim().startsWith('**'));
+            // Set segment preview lock so background scroll listeners ignore automatic advancement highlights
+            window.isTestingSegmentAudio = true;
+            currentHighlightIndex = targetId;
+            highlightUIRow(targetId);
 
-                for (let j = 0; j < step1.length; j += 2) {
-                    step2.push([step1[j][0], step1[j+1] ? step1[j+1][1] : step1[j][1]]);
+            if (isYouTube) { ytPlayer.seekTo(start); ytPlayer.playVideo(); }
+            else { player.currentTime = start; player.play(); }
+
+            if (window.activeAudioTrackLoop) clearInterval(window.activeAudioTrackLoop);
+
+            window.activeAudioTrackLoop = setInterval(() => {
+                let curr = isYouTube ? ytPlayer.getCurrentTime() : player.currentTime;
+                const currentEnd = window.rawMarkers[targetId] ? window.rawMarkers[targetId].end : end;
+
+                if (curr >= currentEnd) {
+                    if (isYouTube) ytPlayer.pauseVideo(); else player.pause();
+                    clearInterval(window.activeAudioTrackLoop);
                 }
+            }, 30);
+        }
 
-                // If explicit Pinnadi marker exists, divide into 2 macro parts before and after '**'
-                if (pinNadiIndex !== -1 && pinNadiIndex > 0) {
-                    step3.push([step1[0][0], step1[pinNadiIndex][0]]);
-                    step3.push([step1[pinNadiIndex][0], step1[step1.length - 1][1]]);
+        function highlightUIRow(index) {
+            // 1. Reset backgrounds across all tracking rows
+            document.querySelectorAll('.marker-item').forEach(el => el.style.background = '#f9f9f9');
+
+            let targetRow = document.getElementById(`item-${index}`);
+            if (targetRow) {
+                // 2. Highlight the active focus target segment row
+                targetRow.style.background = '#e1f5fe';
+
+                // 3. DYNAMIC SCROLL CENTER COGNITION
+                // Calculate the physical mid-point of the container viewport window
+                const containerHeight = markerList.clientHeight;
+                const rowTopWithinContainer = targetRow.offsetTop - markerList.offsetTop;
+                const rowHeight = targetRow.offsetHeight;
+
+                // Position target row exactly centered. This naturally forces the 
+                // previous segment element directly above it, safe from being hidden.
+                const perfectCenterScrollPosition = rowTopWithinContainer - (containerHeight / 2) + (rowHeight / 2);
+
+                if (index < 1) {
+                    // Edge case: Keep top anchors neat for segment #1
+                    markerList.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
-                    // Fallback to classic sequential macro pairings
-                    for (let k = 0; k < step2.length; k += 2) {
-                        step3.push([step2[k][0], step2[k+1] ? step2[k+1][1] : step2[k][1]]);
-                    }
+                    markerList.scrollTo({ top: perfectCenterScrollPosition, behavior: 'smooth' });
                 }
-
-                // Custom phrase compiler to handle structural export stars
-                let combinedPhrases = [];
-                for (let phraseIdx = 0; phraseIdx < activeGroup.length; phraseIdx++) {
-                    let currentPhraseText = activeGroup[phraseIdx].text.trim();
-                    
-                    if (phraseIdx > 0) {
-                        // If this segment is the start of Pinnadi, connect it with a triple star sequence
-                        if (currentPhraseText.startsWith('**')) {
-                            combinedPhrases.push('***');
-                        } else {
-                            combinedPhrases.push('*');
-                        }
-                    }
-                    combinedPhrases.push(currentPhraseText);
-                }
-
-                blocks.push({
-                    p: currentPasuramIndex,
-                    text: combinedPhrases.join(' '),
-                    step1: step1, step2: step2, step3: step3,
-                    step4: [parseFloat(activeGroup[0].start.toFixed(1)), parseFloat(activeGroup[activeGroup.length - 1].end.toFixed(1))]
-                });
-
-                currentPasuramIndex++;
-                activeGroup = [];
             }
+            renderPasuramReaderPanel(index);
         }
 
-        let outputLines = blocks.map(b => `  { "p": ${b.p}, "text": ${JSON.stringify(b.text + ' *')}, "step1": ${JSON.stringify(b.step1)}, "step2": ${JSON.stringify(b.step2)}, "step3": ${JSON.stringify(b.step3)}, "step4": ${JSON.stringify(b.step4)} }`);
-        ioJson.value = `'${currentFileName}' : [\n${outputLines.join(",\n")}\n],`;
-        
-        localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
-    }
+        function serializeStateToJS() {
+            if (!ioJson || window.rawMarkers.length === 0) return;
 
-    // RETROACTIVE INVERSION AND COMPONENT HYDRATION DECODER
-    function importExistingConfig() {
-        const rawInput = document.getElementById('ioJson').value.trim();
-        if (!rawInput) {
-            alert("Please paste your configuration snippet into the text area first.");
-            return;
-        }
+            let timelineBlocks = [];
+            let textBlocks = {};
+            let currentPasuramIndex = 1;
+            let activeGroup = [];
 
-        try {
-            const arrayStart = rawInput.indexOf('[');
-            const arrayEnd = rawInput.lastIndexOf(']');
-            if (arrayStart === -1 || arrayEnd === -1) throw new Error("Could not locate structured array blocks.");
+            for (let i = 0; i < window.rawMarkers.length; i++) {
+                let s = window.rawMarkers[i];
+                activeGroup.push(s);
 
-            let arrayString = rawInput.substring(arrayStart, arrayEnd + 1);
-            arrayString = arrayString.replace(/,\s*$/, "").replace(/,\s*\]/, "]");
-            const parsedBlocks = JSON.parse(arrayString);
+                if (s.forceEndBlock || i === window.rawMarkers.length - 1) {
+                    let step1 = activeGroup.map(seg => [parseFloat(seg.start.toFixed(1)), parseFloat(seg.end.toFixed(1))]);
+                    let step2 = []; let step3 = [];
 
-            if (!Array.isArray(parsedBlocks)) throw new Error("Parsed content is not recognized as a structured block.");
+                    let pinNadiIndex = activeGroup.findIndex(seg => seg.text.trim().startsWith('**'));
 
-            let reconstitutedMarkers = [];
-
-            parsedBlocks.forEach((block) => {
-                // Split the string into raw segment components by tracking spaces around markers
-                const rawTokens = block.text.split(' ');
-                let phrases = [];
-                let currentPhraseBuffer = [];
-
-                for (let token of rawTokens) {
-                    if (token === '***') {
-                        // Flush existing phrase buffer
-                        if (currentPhraseBuffer.length > 0) {
-                            phrases.push(currentPhraseBuffer.join(' ').trim());
-                        }
-                        // Start the Pinnadi phrase buffer with its visual identifier intact
-                        currentPhraseBuffer = ['**'];
-                    } else if (token === '*') {
-                        if (currentPhraseBuffer.length > 0) {
-                            phrases.push(currentPhraseBuffer.join(' ').trim());
-                            currentPhraseBuffer = [];
-                        }
-                    } else {
-                        currentPhraseBuffer.push(token);
+                    for (let j = 0; j < step1.length; j += 2) {
+                        step2.push([step1[j][0], step1[j + 1] ? step1[j + 1][1] : step1[j][1]]);
                     }
-                }
-                if (currentPhraseBuffer.length > 0) {
-                    phrases.push(currentPhraseBuffer.join(' ').trim());
-                }
 
-                // Remove trailing empty spacer blocks if present
-                if (phrases.length > 0 && phrases[phrases.length - 1] === '') phrases.pop();
-                
-                const timelines = block.step1;
+                    if (pinNadiIndex !== -1 && pinNadiIndex > 0) {
+                        step3.push([step1[0][0], step1[pinNadiIndex][0]]);
+                        step3.push([step1[pinNadiIndex][0], step1[step1.length - 1][1]]);
+                    } else {
+                        for (let k = 0; k < step2.length; k += 2) {
+                            step3.push([step2[k][0], step2[k + 1] ? step2[k + 1][1] : step2[k][1]]);
+                        }
+                    }
 
-                if (timelines) {
-                    for (let i = 0; i < timelines.length; i++) {
+                    timelineBlocks.push({
+                        p: currentPasuramIndex,
+                        step1: step1, step2: step2, step3: step3,
+                        step4: [parseFloat(activeGroup[0].start.toFixed(1)), parseFloat(activeGroup[activeGroup.length - 1].end.toFixed(1))]
+                    });
+
+                    let combinedPhrases = [];
+                    for (let phraseIdx = 0; phraseIdx < activeGroup.length; phraseIdx++) {
+                        let currentPhraseText = activeGroup[phraseIdx].text.trim();
+                        if (phraseIdx > 0) {
+                            if (currentPhraseText.startsWith('**')) combinedPhrases.push('***');
+                            else combinedPhrases.push('*');
+                        }
+                        combinedPhrases.push(currentPhraseText);
+                    }
+
+                    textBlocks[currentPasuramIndex] = combinedPhrases.join(' ') + ' *';
+
+                    currentPasuramIndex++;
+                    activeGroup = [];
+                }
+            }
+
+            let timelineLines = timelineBlocks.map(b => `  { "p": ${b.p}, "step1": ${JSON.stringify(b.step1)}, "step2": ${JSON.stringify(b.step2)}, "step3": ${JSON.stringify(b.step3)}, "step4": ${JSON.stringify(b.step4)} }`);
+            let timelineOutput = `'${currentFileName}.steps' : [\n${timelineLines.join(",\n")}\n],`;
+
+            let textLines = Object.keys(textBlocks).map(pKey => `    ${pKey}: ${JSON.stringify(textBlocks[pKey])}`);
+            let textOutput = `'${currentFileName}.texts' : {\n${textLines.join(",\n")}\n},`;
+
+            ioJson.value = `// ==========================================\n` +
+                `// FILE 1: TIMELINE CONFIGURATIONS (.js / .json)\n` +
+                `// ==========================================\n` +
+                `${timelineOutput}\n\n` +
+                `// ==========================================\n` +
+                `// FILE 2: TEXT DICTIONARY BUNDLE\n` +
+                `// ==========================================\n` +
+                `${textOutput}`;
+
+            localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
+        }
+
+        function importExistingConfig() {
+            const rawInput = document.getElementById('ioJson').value.trim();
+            if (!rawInput) {
+                alert("Please paste your configuration snippet into the text area first.");
+                return;
+            }
+
+            try {
+                const arrayStart = rawInput.indexOf('[');
+                const arrayEnd = rawInput.lastIndexOf(']');
+                if (arrayStart === -1 || arrayEnd === -1) throw new Error("Could not locate structured array blocks.");
+
+                let arrayString = rawInput.substring(arrayStart, arrayEnd + 1);
+                arrayString = arrayString.replace(/,\s*$/, "").replace(/,\s*\]/, "]");
+                const parsedBlocks = JSON.parse(arrayString);
+
+                if (!Array.isArray(parsedBlocks)) throw new Error("Parsed content is not recognized as a structured block.");
+
+                let reconstitutedMarkers = [];
+
+                parsedBlocks.forEach((block) => {
+                    const rawTokens = block.text.split(' ');
+                    let phrases = [];
+                    let currentPhraseBuffer = [];
+
+                    for (let token of rawTokens) {
+                        if (token === '***') {
+                            if (currentPhraseBuffer.length > 0) phrases.push(currentPhraseBuffer.join(' ').trim());
+                            currentPhraseBuffer = ['**'];
+                        } else if (token === '*') {
+                            if (currentPhraseBuffer.length > 0) {
+                                phrases.push(currentPhraseBuffer.join(' ').trim());
+                                currentPhraseBuffer = [];
+                            }
+                        } else {
+                            currentPhraseBuffer.push(token);
+                        }
+                    }
+                    if (currentPhraseBuffer.length > 0) phrases.push(currentPhraseBuffer.join(' ').trim());
+                    if (phrases.length > 0 && phrases[phrases.length - 1] === '') phrases.pop();
+
+                    const timelines = block.step1 || [];
+
+                    for (let i = 0; i < phrases.length; i++) {
+                        let startTime = 0, endTime = 0;
+
+                        if (timelines[i]) {
+                            startTime = parseFloat(parseFloat(timelines[i][0]).toFixed(1));
+                            endTime = parseFloat(parseFloat(timelines[i][1]).toFixed(1));
+                        } else {
+                            startTime = reconstitutedMarkers.length > 0 ? reconstitutedMarkers[reconstitutedMarkers.length - 1].end : 0;
+                            endTime = startTime + 3.0;
+                        }
+
                         reconstitutedMarkers.push({
-                            start: parseFloat(parseFloat(timelines[i][0]).toFixed(1)),
-                            end: parseFloat(parseFloat(timelines[i][1]).toFixed(1)),
-                            text: phrases[i] ? phrases[i].trim() : "Segment Text",
-                            forceEndBlock: (i === timelines.length - 1)
+                            start: startTime,
+                            end: endTime,
+                            text: phrases[i].trim(),
+                            forceEndBlock: (i === phrases.length - 1)
                         });
                     }
-                }
-            });
+                });
 
-            window.rawMarkers = reconstitutedMarkers;
-            const nameMatch = rawInput.match(/^'([^']+)'\s*:/);
-            if (nameMatch && nameMatch[1]) currentFileName = nameMatch[1];
+                window.rawMarkers = reconstitutedMarkers;
+                const nameMatch = rawInput.match(/^'([^']+)'\s*:/);
+                if (nameMatch && nameMatch[1]) currentFileName = nameMatch[1];
 
-            renderInteractiveGrid(true); 
-            serializeStateToJS();
-            alert(`Loaded ${window.rawMarkers.length} track markers accurately!`);
-        } catch (err) {
-            alert("Parsing Exception: Verify your text boundaries remain intact.\nDetails: " + err.message);
-        }
-    }
-
-    function setupSyncLoop() {
-        const monitor = () => {
-            let curr = isYouTube ? (ytPlayer ? ytPlayer.getCurrentTime() : 0) : (player ? player.currentTime : 0);
-            let idx = window.rawMarkers.findIndex(m => curr >= m.start && curr < m.end);
-            if (idx !== -1 && idx !== currentHighlightIndex) {
-                currentHighlightIndex = idx;
-                highlightUIRow(idx);
+                renderInteractiveGrid(true);
+                serializeStateToJS();
+                alert(`Loaded ${window.rawMarkers.length} track markers accurately!`);
+            } catch (err) {
+                alert("Parsing Exception: Verify your text boundaries remain intact.\nDetails: " + err.message);
             }
-            requestAnimationFrame(monitor);
-        };
-        requestAnimationFrame(monitor);
-    }
+        }
 
-    function rewind() { if (isYouTube) ytPlayer.seekTo(ytPlayer.getCurrentTime() - 2); else player.currentTime -= 2; }
-    
-    function clearAllState() { 
-        if(confirm("Purge canvas?")) { 
-            window.rawMarkers = []; 
-            localStorage.removeItem('asm_saved_markers');
-            localStorage.removeItem('asm_saved_text');
-            localStorage.removeItem('asm_saved_url');
-            document.getElementById('textGuidedContent').value = '';
-            document.getElementById('urlInput').value = '';
-            renderInteractiveGrid(true); 
-            serializeStateToJS();
-        } 
-    }
-</script>
+        function setupSyncLoop() {
+            const monitor = () => {
+                let curr = isYouTube ? (ytPlayer ? ytPlayer.getCurrentTime() : 0) : (player ? player.currentTime : 0);
+                let idx = window.rawMarkers.findIndex(m => curr >= m.start && curr < m.end);
+
+                // Only fire layout highlight/auto-scroll adjustments if cell input editing and test-preview cycles are quiet
+                if (idx !== -1 && idx !== currentHighlightIndex && !window.isUserEditingActiveCell && !window.isTestingSegmentAudio) {
+                    currentHighlightIndex = idx;
+                    highlightUIRow(idx);
+                }
+
+
+                // DYNAMIC TIMER FIELD HOOK
+                const timeDisplayEl = document.getElementById('timeDisplay');
+                if (timeDisplayEl && typeof curr === 'number') {
+                    timeDisplayEl.innerText = curr.toFixed(1) + 's';
+                }
+                requestAnimationFrame(monitor);
+            };
+            requestAnimationFrame(monitor);
+        }
+
+        function rewind() { if (isYouTube) ytPlayer.seekTo(ytPlayer.getCurrentTime() - 2); else player.currentTime -= 2; }
+
+        function clearAllState() {
+            if (confirm("Purge canvas?")) {
+                window.rawMarkers = [];
+                localStorage.removeItem('asm_saved_markers');
+                localStorage.removeItem('asm_saved_text');
+                localStorage.removeItem('asm_saved_url');
+                document.getElementById('textGuidedContent').value = '';
+                document.getElementById('urlInput').value = '';
+                document.getElementById('chapterSelectorContainer').style.display = 'none';
+                renderInteractiveGrid(true);
+                serializeStateToJS();
+            }
+        }
+    </script>
 </body>
+
 </html>

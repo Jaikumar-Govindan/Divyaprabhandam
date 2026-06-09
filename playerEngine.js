@@ -1,4 +1,4 @@
-//added dynamic language loaded
+// added dynamic language loaded
 let activeLineIndex = 0;
 let pauseTimeoutHandle = null;
 
@@ -10,7 +10,6 @@ function updateEngineSpeed() {
 }
 
 function startLearningAndFocus() {
-    console.log("line 173");
     if (window.LearningEngine && typeof window.LearningEngine.unlockAudio === 'function') {
         window.LearningEngine.unlockAudio();
     }
@@ -19,12 +18,10 @@ function startLearningAndFocus() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("line 182");
     const audioPlayer = document.getElementById('audioPlayer');
     if (audioPlayer) {
         LearningEngine.init(audioPlayer);
     }
-    console.log("line 187");
 
     window.addEventListener('learning-track-ended', () => {
         const limit = parseInt(document.getElementById('repeatLimit').value, 10);
@@ -36,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // CASE A: We are still repeating the exact same segment phrase slice
         if (LearningEngine.state.currentRepeatCount < limit) {
             console.log(`Repeat loop active: ${LearningEngine.state.currentRepeatCount} of ${limit}`);
-            startLearning(); // Simple replay execution
+            startLearning(); 
         }
         // CASE B: Repeat limit reached! Shift to next line phrase or move to the next verse
         else {
@@ -44,46 +41,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const pre = document.getElementById('prefix').value;
             const numInput = document.getElementById('number').value;
-            const selectedLang = document.getElementById('textLanguage')?.value || 'ta';
             const c = CONFIG[pre];
 
-            // Wrap inside startLearning execution callback to guarantee file parsing synchronization
-            startLearning(() => {
-                const coords = Navigation.parseCoords(numInput, c.hasSub);
+            // Resolve coordinates and array bounds synchronously BEFORE triggering execution
+            const coords = Navigation.parseCoords(numInput, c.hasSub);
+            const stepsKey = `${pre}.${coords.ch}.steps`;
+            const alternativeKey = `${pre}.steps`;
 
-                const stepsKey = `${pre}.${coords.ch}.steps`;
-                const alternativeKey = `${pre}.steps`;
+            const stepsDatabaseBlock = window.MARKER_DATABASE[stepsKey] ||
+                window.MARKER_DATABASE[stepsKey.toLowerCase()] ||
+                window.MARKER_DATABASE[alternativeKey] ||
+                window.MARKER_DATABASE[alternativeKey.toLowerCase()] ||
+                window.MARKER_DATABASE['PTM_2_DATA'];
 
-                const stepsDatabaseBlock = window.MARKER_DATABASE[stepsKey] ||
-                    window.MARKER_DATABASE[stepsKey.toLowerCase()] ||
-                    window.MARKER_DATABASE[alternativeKey] ||
-                    window.MARKER_DATABASE[alternativeKey.toLowerCase()] ||
-                    window.MARKER_DATABASE['PTM_2_DATA'];
+            if (stepsDatabaseBlock && stepsDatabaseBlock[coords.pas - 1]) {
+                const targetPasuram = stepsDatabaseBlock[coords.pas - 1];
+                const activeSegments = targetPasuram[chosenStep] || targetPasuram["step2"];
 
-                if (stepsDatabaseBlock && stepsDatabaseBlock[coords.pas - 1]) {
-                    const targetPasuram = stepsDatabaseBlock[coords.pas - 1];
-                    const activeSegments = targetPasuram[chosenStep] || targetPasuram["step2"];
-
-                    // If there are more phrases inside this specific verse, step to the next index
-                    if (chosenStep !== "step4" && activeLineIndex < activeSegments.length - 1) {
-                        activeLineIndex++;
-                        LearningEngine.state.currentRepeatCount = 0; // Reset repeat counter for new phrase
-                        startLearning();
-                        return;
-                    }
+                // If there are more phrases inside this specific verse, step to the next index smoothly
+                if (chosenStep !== "step4" && activeLineIndex < activeSegments.length - 1) {
+                    activeLineIndex++;
+                    LearningEngine.state.currentRepeatCount = 0; // Reset repeat counter for new phrase
+                    startLearning();
+                    return;
                 }
+            }
 
-                // End of verse reached. Clear phase indexes and handle text navigation blocks
-                activeLineIndex = 0;
-                LearningEngine.state.currentRepeatCount = 0;
+            // End of verse unit reached. Clear phase indexes and handle text navigation blocks
+            activeLineIndex = 0;
+            LearningEngine.state.currentRepeatCount = 0;
 
-                if (document.getElementById('autoNext').value === "true") {
-                    console.log("Advancing to next verse context layout.");
-                    navigate(1);
-                } else {
-                    safeStopAudio();
-                }
-            });
+            if (document.getElementById('autoNext').value === "true") {
+                console.log("Advancing to next verse context layout.");
+                navigate(1);
+            } else {
+                safeStopAudio();
+            }
         }
     });
 });
@@ -96,7 +89,6 @@ function syncTextToAudioTimeline() {
 
     const pre = document.getElementById('prefix').value;
     const numInput = document.getElementById('number').value;
-    //console.log(pre);
     if (!CONFIG[pre]) return;
 
     const coords = Navigation.parseCoords(numInput, CONFIG[pre].hasSub);
@@ -113,54 +105,66 @@ function syncTextToAudioTimeline() {
     }
 
     const targetPasuram = stepsDatabaseBlock[coords.pas - 1];
-    // --- LANGUAGE RESOLUTION ADDITION ---
     let rawTextString = "";
     if (targetPasuram.text) {
         if (typeof targetPasuram.text === 'string') {
-            rawTextString = targetPasuram.text; // Backwards compatible with legacy files
+            rawTextString = targetPasuram.text; 
         } else {
-            // Read from the newly added language dropdown element
             const selectedLang = document.getElementById('textLanguage')?.value || 'ta';
             rawTextString = targetPasuram.text[selectedLang] || targetPasuram.text['ta'] || targetPasuram.text['en'] || "";
         }
     }
-    // rawTextString = targetPasuram.text || "";
     if (!rawTextString) return;
 
     const step1Timeline = targetPasuram["step1"] || [];
-    //console.log(step1Timeline);
-    const currentTime = playerEl.currentTime || 0;
+    
+    // Smooth Normalization: Round playhead down to 1 decimal point to avoid floating-point race flickers
+    const currentTime = Math.round((playerEl.currentTime || 0) * 10) / 10;
 
     let matchIndex = -1;
     for (let i = 0; i < step1Timeline.length; i++) {
-        if (currentTime >= step1Timeline[i][0] && currentTime <= step1Timeline[i][1]) {
-            matchIndex = i;
-            break;
+        const isLastSegment = (i === step1Timeline.length - 1);
+        const segmentStart = Math.round(step1Timeline[i][0] * 10) / 10;
+        const segmentEnd = Math.round(step1Timeline[i][1] * 10) / 10;
+
+        if (isLastSegment) {
+            if (currentTime >= segmentStart) {
+                matchIndex = i;
+                break;
+            }
+        } else {
+            if (currentTime >= segmentStart && currentTime <= segmentEnd) {
+                matchIndex = i;
+                break;
+            }
         }
     }
 
-    const currentSignature = `${matchIndex}_${coords.pas}_${pre}`;
-    if (displayPanel.dataset.lastSignature !== currentSignature) {
-        let textPhrases = rawTextString.split(' *');
-        if (textPhrases[textPhrases.length - 1].trim() === "") textPhrases.pop();
-
-        let innerHTMLString = [];
-        for (let j = 0; j < textPhrases.length; j++) {
-            const cleanPhrase = textPhrases[j].trim();
-            if (j === matchIndex) {
-                innerHTMLString.push(`<span class="active-segment">${cleanPhrase}</span>`);
-            } else {
-                innerHTMLString.push(`<span class="normal-segment">${cleanPhrase}</span>`);
-            }
-            if (j < textPhrases.length - 1) {
-                //innerHTMLString.push(` <span style="color:#ccbf99;">*</span> `);
-                innerHTMLString.push(` <span style="color:#000000;">*</span><br> `);
-
-            }
-        }
-        displayPanel.innerHTML = innerHTMLString.join('');
-        displayPanel.dataset.lastSignature = currentSignature;
+    const selectedLangToken = document.getElementById('textLanguage')?.value || 'ta';
+    const currentSignature = `${pre}_${coords.ch}_${coords.pas}_${selectedLangToken}_${matchIndex}`;
+    
+    if (displayPanel.dataset.lastSignature === currentSignature) {
+        return;
     }
+
+    let textPhrases = rawTextString.split(' *');
+    if (textPhrases[textPhrases.length - 1].trim() === "") textPhrases.pop();
+
+    let innerHTMLString = [];
+    for (let j = 0; j < textPhrases.length; j++) {
+        const cleanPhrase = textPhrases[j].trim();
+        if (j === matchIndex) {
+            innerHTMLString.push(`<span class="active-segment">${cleanPhrase}</span>`);
+        } else {
+            innerHTMLString.push(`<span class="normal-segment">${cleanPhrase}</span>`);
+        }
+        if (j < textPhrases.length - 1) {
+            innerHTMLString.push(` <span style="color:#000000;">*</span><br> `);
+        }
+    }
+    
+    displayPanel.innerHTML = innerHTMLString.join('');
+    displayPanel.dataset.lastSignature = currentSignature;
 }
 
 function startLearning(onPlayCallback) {
@@ -230,13 +234,12 @@ function startLearning(onPlayCallback) {
         }
 
         syncTextToAudioTimeline();
+        updateToggleButtonUI(true);
 
-        // Execute the playback sequence
         LearningEngine.playSegment(audioSrc, bounds, () => {
             window.dispatchEvent(new CustomEvent('learning-track-ended'));
         }, lineWindows, chosenStep, focusMode);
 
-        // CRITICAL FIX: If a callback sequence was requested by the loop tracker, fire it now
         if (typeof onPlayCallback === 'function') {
             onPlayCallback();
         }
@@ -249,6 +252,29 @@ function safeStopAudio() {
         LearningEngine.stopMonitor();
     }
     document.getElementById('status').innerText = "Ready";
+    updateToggleButtonUI(false);
+}
+
+function handlePlaybackToggle() {
+    const isPlaying = window.LearningEngine && window.LearningEngine.state && window.LearningEngine.state.isPlaying;
+    if (isPlaying) {
+        safeStopAudio();
+    } else {
+        startLearningAndFocus();
+    }
+}
+
+function updateToggleButtonUI(isPlaying) {
+    const toggleBtn = document.getElementById('toggleBtn');
+    if (!toggleBtn) return;
+
+    if (isPlaying) {
+        toggleBtn.innerText = "STOP RECITATION";
+        toggleBtn.style.backgroundColor = "#d93838"; 
+    } else {
+        toggleBtn.innerText = "START RECITATION";
+        toggleBtn.style.backgroundColor = "#0070ba"; 
+    }
 }
 
 function navigate(dir) {
@@ -259,20 +285,18 @@ function navigate(dir) {
     const pre = document.getElementById('prefix').value;
     const c = CONFIG[pre];
 
-
     let coords = Navigation.parseCoords(input.value, c.hasSub);
-
     coords.pas += dir;
-    // Resolve structural bounds dynamically, defaulting to 1 if minCh isn't set
+    
     const minChapterIndex = (typeof c.minCh !== 'undefined') ? c.minCh : 1;
     switch (c.structure) {
-        case 'flat_pasuram': // Variant 1: RN
+        case 'flat_pasuram':
             if (coords.pas > c.maxPas) coords.pas = 1;
             else if (coords.pas < 1) coords.pas = c.maxPas;
             input.value = `${coords.pas}`;
             break;
 
-        case 'chapter_pasuram': // Variant 2: PMT
+        case 'chapter_pasuram':
             let chLimit = Navigation.getLimit(pre, coords.ch, 0);
             if (coords.pas > chLimit) {
                 coords.ch = (coords.ch >= c.maxCh) ? minChapterIndex : coords.ch + 1;
@@ -284,7 +308,7 @@ function navigate(dir) {
             input.value = `${coords.ch}.${coords.pas}`;
             break;
 
-        case 'chapter_sub_pasuram': // Variant 3: TVM
+        case 'chapter_sub_pasuram':
             let subLimit = Navigation.getLimit(pre, coords.ch, coords.sub);
             if (coords.pas > subLimit) {
                 coords.pas = 1;
@@ -316,15 +340,33 @@ function resetToStart() {
     safeStopAudio();
     resetLineTracking();
     const pre = document.getElementById('prefix').value;
+    const c = CONFIG[pre];
 
-    if (pre === "PMT") {
-        document.getElementById('number').value = "5.1";
-    } else if (pre === "RN") {
-        document.getElementById('number').value = "1"; // Flat value placeholder
+    let initialValue = "1.1";
+
+    if (c) {
+        const startingChapter = (typeof c.minCh !== 'undefined') ? c.minCh : 1;
+
+        switch (c.structure) {
+            case 'flat_pasuram':
+                initialValue = "1";
+                break;
+
+            case 'chapter_pasuram':
+                initialValue = `${startingChapter}.1`;
+                break;
+
+            case 'chapter_sub_pasuram':
+                initialValue = `${startingChapter}.1.1`;
+                break;
+
+            default:
+                initialValue = c.hasSub ? "1.1.1" : "1.1";
+                break;
+        }
     }
-    else {
-        document.getElementById('number').value = CONFIG[pre].hasSub ? "1.1.1" : "1.1";
-    }
+
+    document.getElementById('number').value = initialValue;
 
     const displayPanel = document.getElementById('pasuramDisplay');
     if (displayPanel) {

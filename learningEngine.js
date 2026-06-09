@@ -1,9 +1,6 @@
 /**
  * Adaptive Hardware-Memory Dual Architecture
- * Rule-Based Pipeline Router:
- * 1. Mapped Local Tracks -> Decoded directly into hardware RAM arrays for stutter-free precision loops.
- * 2. Unmapped Remote Tracks -> Streamed via native HTML5 containers for total CORS immunity.
- * Routes active states cleanly through a single-ended output channel to bypass the physical silent switch without distortion.
+ * Sync Engine Safe Patch Edition
  */
 const LearningEngine = {
     state: {
@@ -23,12 +20,9 @@ const LearningEngine = {
         animationFrameId: null,
         playerElement: null,
         playbackRate: 1.0,
-        pipelineMode: "native" // "ram" for precision loops, "native" for full streams
+        pipelineMode: "native"
     },
 
-    /**
-     * Binds the engine to the template audio element container
-     */
     init: function(audioPlayerEl) {
         this.state.playerElement = audioPlayerEl;
         this.state.playerElement.preload = "auto";
@@ -36,23 +30,18 @@ const LearningEngine = {
         this.state.playerElement.setAttribute('webkit-playsinline', 'true');
         
         this._loopCheck = this._loopCheck.bind(this);
-        console.log("Adaptive Hardware-Memory Engine Active.");
+        console.log("Adaptive Hardware-Memory Engine Synchronized and Active.");
     },
 
-    /**
-     * Updates playback speed rates dynamically across both operating contexts
-     */
     setPlaybackRate: function(rate) {
         const parsedRate = parseFloat(rate);
         if (isNaN(parsedRate)) return;
         
         this.state.playbackRate = parsedRate;
-        
         if (this.state.playerElement) {
             this.state.playerElement.playbackRate = parsedRate;
         }
 
-        // Dynamically alter volatile hardware node clock timers if RAM execution loop is active
         if (this.state.pipelineMode === "ram" && this.state.isPlaying && this.state.activeSourceNode) {
             this.state.activeSourceNode.playbackRate.setValueAtTime(parsedRate, this.state.audioContext.currentTime);
             
@@ -72,32 +61,22 @@ const LearningEngine = {
         }
     },
 
-    /**
-     * Wakes up the global AudioContext and links the background silent-switch bypass channel
-     */
     unlockAudio: function() {
         if (!this.state.audioContext) {
             this.state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         }
-        
         if (!this.state.streamDestination) {
             this.state.streamDestination = this.state.audioContext.createMediaStreamDestination();
-            
-            // SILENT SWITCH OVERRIDE: Link the stream destination down to a hardware companion priority player
             const secondaryPlayer = new Audio();
             secondaryPlayer.playsInline = true;
             secondaryPlayer.srcObject = this.state.streamDestination.stream;
             this.state.secondaryPlayer = secondaryPlayer;
         }
-
         if (this.state.audioContext.state === 'suspended') {
             this.state.audioContext.resume();
         }
     },
 
-    /**
-     * Downloads and decodes audio track binaries directly into uncompressed volatile RAM buffers
-     */
     _loadAudioBuffer: async function(url) {
         const response = await fetch(url, { method: 'GET', mode: 'cors', credentials: 'omit' });
         if (!response.ok) throw new Error(`Asset network fetch failure: ${response.status}`);
@@ -105,36 +84,34 @@ const LearningEngine = {
         return await this.state.audioContext.decodeAudioData(arrayBuffer);
     },
 
-    /**
-     * Main traffic coordinator evaluating marker existence to select the correct processing pipeline
-     */
     playSegment: async function(src, bounds, onEndCallback, lineWindows = null, chosenStep = "step2", focusMode = "both") {
         this.stopMonitor();
 
         this.state.bounds = bounds;
         this.state.onSegmentEndCallback = onEndCallback;
-        
         this.unlockAudio();
 
-        // THE CORE RULE: If it has explicit finite phrase markers (< 9999), route to RAM for stutter-free looping
         const hasValidMarkers = (bounds && bounds.end && bounds.end < 9999);
         this.state.pipelineMode = hasValidMarkers ? "ram" : "native";
 
         const absoluteSrc = (src.startsWith('http://') || src.startsWith('https://')) ? src : new URL(src, window.location.href).href;
 
+        // ⚡ FIX: Strip the query cache parameters (?h=...) for internal RAM state comparison checks
+        const cleanCacheKey = absoluteSrc.split('?')[0];
+        const existingCacheKey = this.state.currentSrc.split('?')[0];
+
         if (this.state.pipelineMode === "ram") {
             try {
-                document.getElementById('status').innerText = "Buffering Stutter-Free Loop...";
-                
-                // Completely detach source references from the native element to isolate the audio graph lanes cleanly
                 if (this.state.playerElement.src) {
                     this.state.playerElement.removeAttribute('src');
                     this.state.playerElement.load();
                 }
 
-                if (this.state.currentSrc !== absoluteSrc) {
+                // If the root source asset is identical, reuse the uncompressed RAM buffer safely
+                if (existingCacheKey !== cleanCacheKey) {
+                    document.getElementById('status').innerText = "Buffering Fresh Audio Track...";
                     this.state.currentSrc = absoluteSrc;
-                    this.state.audioBuffer = await this._loadAudioBuffer(absoluteSrc);
+                    this.state.audioBuffer = await this._loadAudioBuffer(absoluteSrc); // Fetch uses full asset string
                 }
 
                 this._executeRAMPlayback();
@@ -148,9 +125,6 @@ const LearningEngine = {
         }
     },
 
-    /**
-     * PIPELINE A: High-Resolution RAM Buffer Wave Looper (Zero Boundary Lag)
-     */
     _executeRAMPlayback: function() {
         const ctx = this.state.audioContext;
         const bounds = this.state.bounds;
@@ -160,13 +134,9 @@ const LearningEngine = {
             this.state.activeSourceNode.disconnect();
         }
 
-        // Spin up a fresh audio hardware source node out of the memory cache array bank
         const source = ctx.createBufferSource();
         source.buffer = this.state.audioBuffer;
-        
-        // Connect the source exclusively to the stream destination pipeline to avoid audio doubling distortion
         source.connect(this.state.streamDestination);
-        
         source.playbackRate.setValueAtTime(this.state.playbackRate, ctx.currentTime);
         this.state.activeSourceNode = source;
 
@@ -177,13 +147,11 @@ const LearningEngine = {
         this.state.startTimeInContext = ctx.currentTime;
         this.state.startOffsetInTrack = startOffset;
 
-        document.getElementById('status').innerText = "Playing Precision Segment...";
+        document.getElementById('status').innerText = "Playing Phrase Loop...";
         
-        // Wake up browser audio element priority contexts together
         if (this.state.secondaryPlayer) this.state.secondaryPlayer.play().catch(() => {});
         this.state.playerElement.play().catch(() => {}); 
 
-        // Fire audio wave array natively on the hardware matrix master clock timeline
         source.start(0, startOffset, duration);
 
         const realTimeDuration = duration / this.state.playbackRate;
@@ -195,14 +163,10 @@ const LearningEngine = {
         this.startMonitor();
     },
 
-    /**
-     * PIPELINE B: Pure Native HTML5 Continuous Streaming Node (CORS Immune)
-     */
     _executeNativePlayback: function(src) {
-        document.getElementById('status').innerText = "Streaming Full Pasuram...";
+        document.getElementById('status').innerText = "Streaming Full Track...";
         const player = this.state.playerElement;
-        
-        player.removeAttribute('crossOrigin'); // Prevents domain fallback CORS preflight check errors
+        player.removeAttribute('crossOrigin');
         
         if (this.state.currentSrc !== src) {
             this.state.currentSrc = src;
@@ -233,7 +197,6 @@ const LearningEngine = {
     stopMonitor: function() {
         this.state.isMonitoring = false;
         this.state.isPlaying = false;
-        
         if (this.state.animationFrameId) {
             cancelAnimationFrame(this.state.animationFrameId);
             this.state.animationFrameId = null;
@@ -247,35 +210,22 @@ const LearningEngine = {
             this.state.activeSourceNode.disconnect();
             this.state.activeSourceNode = null;
         }
-        if (this.state.playerElement) {
-            this.state.playerElement.pause();
-        }
-        if (this.state.secondaryPlayer) {
-            this.state.secondaryPlayer.pause();
-        }
+        if (this.state.playerElement) this.state.playerElement.pause();
+        if (this.state.secondaryPlayer) this.state.secondaryPlayer.pause();
     },
 
-    /**
-     * High-speed real-time telemetry synchronizer tracking active pipelines to text highlight nodes
-     */
     _loopCheck: function() {
         if (!this.state.isMonitoring) return;
-
         const player = this.state.playerElement;
-        
         const ctx = this.state.audioContext;
-        // --- ADD LOG: Check if player exists and if it thinks it's ended ---
-        if (!player) {
-            console.error("Engine Error: Player element is null.");
-            return;
-        }
+
+        if (!player) return;
 
         if (this.state.pipelineMode === "ram") {
             if (this.state.isPlaying && ctx && this.state.audioBuffer) {
                 const elapsedRealTime = ctx.currentTime - this.state.startTimeInContext;
                 const elapsedTrackTime = elapsedRealTime * this.state.playbackRate;
                 
-                // Expose artificial playhead metrics for syncTextToAudioTimeline selectors
                 Object.defineProperty(player, 'currentTime', {
                     value: this.state.startOffsetInTrack + elapsedTrackTime,
                     writable: true,

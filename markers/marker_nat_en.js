@@ -63,7 +63,39 @@ window.mergeLanguageTexts = function () {
       10: "pazhagu nAnmaRaiyin poruLAy * madham ozhugu vAraNam * uyya aLiththa *** em azhaganAr * aNi Aychchiyar sindhaiyuL * kuzhaganAr varil * kUdidu kUdalE! *",
       11: "* Udal kUdal * uNardhal puNardhalai * nIdu ninRa * niRai pugazh Aychchiyar *** kUdalaik * kuzhaR kOdhai mun kURiya * pAdal paththum vallArkku * illai pAvamE *",
       12: "adivaravu: theLLiyAr kAttil * pUmagan AychchimArgaL * mAdam aRRavan * anRu Aval * koNda pazhagu * Udal mannu *"
-    }
+    },
+    'NAT.5.steps': {},
+    'NAT.6.steps':
+    {
+      1: "vAraNam Ayiram * sUzha valam seydhu * nAraNa nambi * nadakkinRAn enRedhir *** pUraNa poRkudam * vaiththup puram engum * thOraNam nAttak * kanAk kaNdEn thOzhI! nAn *",
+      2: "nALai vadhuvai * maNam enRu nAL ittu * pALai kamugu * parisudaip pandhaR kIzh *** kOL ari mAdhavan * gOvindhan enbAn Or * kALai pugudhak * kanAk kaNdEn thOzhI! nAn *",
+      3: "indhiran uLLitta * dhEvar kuzhAm ellAm * vandhirundhu ennai * magaL pEsi mandhiriththu *** mandhirak kOdi uduththi * maNa mAlai * andhari sUttak * kanAk kaNdEn thOzhI! nAn *",
+      4: "nAl thisaith thIrththam koNarndhu * nani nalgi * pArppanach chittargaL * pallAr eduththEththi *** pUppunai kaNNip * punidhanOdu endhannai * kAppu nAN kattak * kanAk kaNdEn thOzhI! nAn *",
+      5: "kadhiroLi dhIpam * kalasam udan Endhi * sadhir iLamangaiyar thAm * vandhedhir koLLa *** madhuraiyAr mannan * adi nilai thottu engum * adhirap pugudhak * kanAk kaNdEn thOzhI! nAn *",
+      6: "maththaLam kotta * vari sangam ninRUdha * muththudaith thAmam * niRai thAzhndha pandhaR kIzh *** maiththunan nambi * madhusUdhan vandhu ennaik * kaiththalam paRRak * kanAk kaNdEn thOzhI! nAn *",
+      7: "vAy nallAr * nalla maRai Odhi mandhiraththAl * pAsilai nANal paduththup * paridhi vaiththu *** kAysinamA kaLiRu annAn * en kaip paRRi * thI valam seyyak * kanAk kaNdEn thOzhI! nAn *",
+      8: "immaikkum * Ezh Ezh piRavikkum paRRAvAn * nammai udaiyavan * nArAyaNan nambi *** semmai udaiya * thirukkaiyAl thAL paRRi * ammi midhikkak * kanAk kaNdEn thOzhI! nAn *",
+      9: "varisilai vAL mugaththu * ennaimAr thAm vandhittu * eri mugam pAriththu * ennai munnE niRuththi *** ari mugan achchuthan * kaimmEl en kai vaiththu * pori mugam thattak * kanAk kaNdEn thOzhI! nAn *",
+      10: "kungumam appik * kuLir sAndhamattiththu * mangala vIdhi * valam seydhu maNa nIr *** angu avanOdum * udan senRu angAnai mEl * manjanam Attak * kanAk kaNdEn thOzhI! nAn *",
+      11: "AyanukkAgath * thAn kaNda kanAvinai * vEyar pugazh * villipuththUrk kOn kOdhai sol *** thUya thamizh mAlai * Iraindhum vallavar * vAyu nanmakkaLaip peRRu * magizhvarE *",
+      12: "adivaravu: vAraNam nALai * indhiran nARRthisai * kadhir maththaLam * vAy immaikkum * varisilai kungumam * AyanukkAga karuppUram *"
+    },
+    'NAT.7.steps': {
+    },
+    'NAT.8.steps': {
+    },
+    'NAT.9.steps': {
+    },
+    'NAT.10.steps': {
+    },
+    'NAT.11.steps': {
+    },
+    'NAT.12.steps': {
+    },
+    'NAT.13.steps': {
+    },
+    'NAT.14.steps': {
+    },
   };
 
 

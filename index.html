@@ -114,12 +114,27 @@
         }
 
         .btn-play {
+            width: 100%;
+
+            padding: 14px 10px;
             background-color: #0070ba;
             color: white;
+            border: none;
+
+            border-radius: 8px;
             font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(0, 112, 186, 0.2);
+
+            margin-bottom: 0;
+            letter-spacing: 0.5px;
             height: 48px;
-            width: 100%;
-            margin-top: 4px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-play:hover {
@@ -127,8 +142,21 @@
         }
 
         .btn-nav {
+
+            padding: 14px 10px;
             background-color: #e4e6eb;
             color: #050505;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            height: 48px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .status {
@@ -203,14 +231,15 @@
                 <label>Prabandham</label>
 
                 <select id="prefix" onchange="resetToStart()">
-                    <option value="TPL">ThiruppaLLANdu (TPL)</option>
-                    <option value="TPE">ThiruppaLLiyezhuchchi (TPE)</option>
-                    <option value="NAT">Naachiyar Thirumozhi (NAT)</option>
-                    <option value="PMT" selected>Perumal Thirumozhi (PMT)</option>
-                    <option value="PT">Periya Thirumozhi (PT)</option>
-                    <option value="MUT">Moondram Thiruvandhadhi (MUT)</option>
-                    <option value="TVM">Thiruvaimozhi (TVM)</option>
-                    <option value="RN">Ramanusa Nootrandhadhi (RN)</option>
+                    <option value="TPL">ThiruppaLLANdu</option>
+                    <option value="TPE">ThiruppaLLiyezhuchchi</option>
+                    <option value="TPV">Thiruppaavai</option>
+                    <option value="NAT">Naachiyar Thirumozhi</option>
+                    <option value="PMT" selected>Perumal Thirumozhi</option>
+                    <option value="PT">Periya Thirumozhi</option>
+                    <option value="MUT">Moondram Thiruvandhadhi</option>
+                    <option value="TVM">Thiruvaimozhi</option>
+                    <option value="RN">Ramanusa Nootrandhadhi</option>
                 </select>
             </div>
 
@@ -267,24 +296,22 @@
             </select>
         </div>
 
-        <div>
-            <button class="btn-play" onclick="startLearningAndFocus()">START RECITATION</button>
-        </div>
 
-        <div id="pasuramDisplay" class="pasuram-text-panel">
-            <em>Select a file or press start to view pasuram lines...</em>
-        </div>
 
-        <div class="nav-controls">
+
+        <div class="nav-controls" style="grid-template-columns: 1fr 2fr 1fr;">
             <button class="btn-nav" onclick="navigate(-1)">Prev</button>
-            <button class="btn-nav" onclick="safeStopAudio()">Stop</button>
+            <button id="toggleBtn" class="btn-play" onclick="handlePlaybackToggle()">START RECITATION</button>
             <button class="btn-nav" onclick="navigate(1)">Next</button>
+        </div>
+                <div id="pasuramDisplay" class="pasuram-text-panel">
+            <em>Select a file or press start to view pasuram lines...</em>
         </div>
 
         <audio id="audioPlayer" playsinline></audio>
         <div id="status" class="status">Ready</div>
     </div>
-
+    <script src="sync_engine.js"></script>
     <script src="config.js"></script>
     <script src="navigation.js"></script>
     <script src="markerProcessor.js"></script>
@@ -294,5 +321,6 @@
 
 
 </body>
+
 
 </html>

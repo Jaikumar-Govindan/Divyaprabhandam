@@ -4,7 +4,7 @@ window.mergeLanguageTexts = function () {
         'TPL.0.steps': {
             1: "nAthamunigaL arLich cheytha : gurumukamanadhIthya * prAha vEdhAN asEshAn * narapathiparikluptham * sulkam AdhAthu kAma: *** svasuram amaravandhyam * ranganAthasya sAkshAth * dhvijakulathilakam tham * vishNuchiththam namAmi * ",
             2: "pANDiya baTTar arLich cheytha : minnAr thadamathiLchUzh * villipuththUr enRorukAl * chonnAr kazhaRkamalam chUdinOm *** munnAL kizhiyaRuththAn enRuraiththOm * kIzhmayiniR chErum * vazhiyaRuththOm nenjamE vaNth * ",
-            3: "pANDiya baTTar arLich cheytha : pANdiyan koNdAdap * pattarpirAn vanthAnenRu * INdiya changameduththUtha *** vENdiya vEdhangaLOdhi * virainthu kizhiyaRuththAn * pAthangaL * yAmudaiya paRRu * ",
+            3: "pANDiya baTTar arLich cheytha : pANdiyan koNdAdap * pattarpirAn vanthAnenRu * INdiya changam * eduththUtha *** vENdiya vEdhangaLOdhi * virainthu kizhiyaRuththAn * pAthangaL * yAmudaiya paRRu * ",
         },
         'TPL.1.steps': {
             1: "pallANdu pallANdu pallAyiraththANdu * palakOti nURayiram *** mallANda thiNthOL maNivaNNA * un chEvadi chevvith thirukkAppu * ",

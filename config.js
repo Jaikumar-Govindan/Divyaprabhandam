@@ -28,25 +28,25 @@ const CONFIG = {
 
     'PMT': {
         structure: 'chapter_pasuram',
-        hasSub: false, minCh: 1, maxCh: 10, defPas: 10, ex: {},
+        hasSub: false, minCh: 0, maxCh: 10, defPas: 10, ex: { '0': 2 },
         getMarkerPath: (num) => {
-            const chapter = parseInt(num.split('.')[0], 10);
-            // ONLY Chapters 1 and 6 house timeline markers
-            if (chapter >= 1 && chapter <= 10) {
-                return 'markers/marker_pmt_timelines.js';
-            }
-            return null; // No timeline markers available for other chapters
+
+            return 'markers/marker_pmt_timelines.js';
+
         },
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY map text assets if the chapter contains an underlying timeline track
-            if (chapter >= 1 && chapter <= 10) {
-                return `markers/marker_pmt_${langCode}.js`;
-            }
+            return `markers/marker_pmt_${langCode}.js`;
             return null;
         },
         getAudioSrc: (num) => {
-            const chapter = parseInt(num.split('.')[0], 10);
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            if (chapter == 0)
+                return `audiofiles/PMT/PMT.${num}.ogg`
 
             if (chapter >= 1 && chapter <= 10) {
                 return `audiofiles/PMT/PMT.${chapter}.all.ogg`;
@@ -60,14 +60,14 @@ const CONFIG = {
         minCh: 0, // to support thanian in chapter 0
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
-            if (chapter >= 0 && chapter <= 4) {
+            if (chapter >= 0 && chapter <= 14) {
                 return 'markers/marker_nat_timelines.js';
             }
             return null;
         },
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
-            if (chapter >= 0 && chapter <= 4) {
+            if (chapter >= 0 && chapter <= 14) {
                 return `markers/marker_nat_${langCode}.js`;
             }
 
@@ -75,13 +75,14 @@ const CONFIG = {
         },
         getAudioSrc: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
-            if (chapter >= 1 && chapter <= 4) {
+            if (chapter >= 1 && chapter <= 14) {
                 return `audiofiles/NAT/NAT_${chapter}.ogg`;
             }
             if (chapter == 0) { return `audiofiles/NAT/NAT_${num}.ogg` }
             return `https://www.uveda.org/media/recitation/NAT.${num}.mp3`;
         }
     },
+
     'RN': {
 
         structure: 'chapter_pasuram',
@@ -175,6 +176,48 @@ const CONFIG = {
 
             return `audiofiles/TPL/TPL.${chapter}.ogg`;
 
+        }
+    },
+    'TPV': {
+
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 30,
+        ex: { '0': 3 },
+
+        getMarkerPath: (num) => {
+            return 'markers/marker_tpv_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `markers/marker_tpv_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `audiofiles/TPV/TPV_${chapter}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 30
+                if (fileEnd > 30) {
+                    fileEnd = 30;
+                }
+
+                return `audiofiles/TPV/TPV_${fileStart}_${fileEnd}.ogg`;
+            }
         }
     },
 };

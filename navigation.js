@@ -17,6 +17,7 @@ const Navigation = {
 
 
 
+        
         if (hasSub) {
             // Format: Chapter.Subchapter.Pasuram (e.g. 1.2.3)
             return {
@@ -48,27 +49,32 @@ const Navigation = {
      * Returns the total maximum pasuram limit for the current active section boundary.
      */
     getLimit: function (pre, ch, sub) {
+        // 1. Prioritize structural config exceptions (like Thaniyan counts) first
+        const c = CONFIG[pre];
+        if (c && c.ex && typeof c.ex[ch] !== 'undefined') {
+            return c.ex[ch];
+        }
+
         if (!window.MARKER_DATABASE) return 0;
 
-        // 1. Construct the precise database lookup keys
+        // 2. Construct the precise database lookup keys
         const subKey = `${pre}.${ch}.${sub}.steps`; // e.g., "TVM.1.1.steps"
         const chKey = `${pre}.${ch}.steps`;        // e.g., "PMT.1.steps"
         const flatKey = `${pre}.steps`;             // Fallback for flat books like "RN.steps"
         const directKey = pre;                      // Alternative fallback "RN"
 
-        // 2. Resolve the active array from the database
+        // 3. Resolve the active array from the database
         const dbArray = window.MARKER_DATABASE[subKey] ||
             window.MARKER_DATABASE[chKey] ||
             window.MARKER_DATABASE[flatKey] ||
             window.MARKER_DATABASE[directKey];
 
-        // 3. Return the array length (total pasurams available for this segment)
+        // 4. Return the array length if it represents a dedicated sub-section/chapter array
         if (Array.isArray(dbArray)) {
             return dbArray.length;
         }
 
         // Fallback to config rules if marker data isn't loaded or structured as an array
-        const c = CONFIG[pre];
         return c ? (c.defPas || 10) : 0;
     }
 };
