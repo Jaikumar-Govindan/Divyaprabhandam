@@ -4,7 +4,7 @@ window.mergeLanguageTexts = function () {
     'PMT.0.steps':
     {
       1: "udayavar aruLich cheydha: innamudham UttugEn ingE vA paingiLiyE! * thennarangam pAda valla sIrp perumAL * ponnan jilai sEr nudhaliyar vEL sEralar kOn * engaL kulasEkaran enRE kURu *",
-      2: "maakkAl nambi aruLich cheydha: Aram kedap paran anbar koLLAr enRu * avargaLukkE vArangodu kudap pAmbiR kai ittavan * mARRalarai vIrangeduththa sengOl kolli kAvalan villavar kOn * sEran kulasEkaran mudi vEndhar sigAmaNiyE *"
+      2: "manakkAl nambi aruLich cheydha: Aram kedap paran anbar koLLAr enRu * avargaLukkE vArangodu kudap pAmbiR kai ittavan * mARRalarai vIrangeduththa sengOl kolli kAvalan villavar kOn * sEran kulasEkaran mudi vEndhar sigAmaNiyE *"
     },
     'PMT.1.steps': {
       1: "* iruL iriyach chudarmaNigaL imaikkum neRRi * inaththuththi aNipaNam AyirangaL Arndha * aravarasap perunjOdhi ananthan ennum * aNi viLangum uyar veLLai aNaiyai mEvi *** thiruvarangap perunagaruL theNNIrp ponni * thiraik kaiyAl adivarudap paLLi koLLum * karumaNiyaik kOmaLaththaik kaNdu koNdu * en kaNNiNaigaL enRu kolO kaLikkum nALE? *",
