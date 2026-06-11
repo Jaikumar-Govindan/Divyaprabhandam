@@ -19,8 +19,7 @@ const CONFIG = {
         // Listing a key here automatically activates BOTH the local high-fi audio track 
         // AND the corresponding custom chapter timeline file.
         availableContent: [
-            "3_1" ,
-            "3_2"
+            "3_1", "3_2", "3_3"
         ],
 
 
@@ -61,7 +60,7 @@ const CONFIG = {
         getLanguagePath: function (num, langCode) {
             // Guarantee a valid language token string defaults if empty
             const lang = langCode || 'en';
-         
+
 
             const parts = num.split('.');
             const chapter = parts[0];
