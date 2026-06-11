@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // CASE A: We are still repeating the exact same segment phrase slice
         if (LearningEngine.state.currentRepeatCount < limit) {
             console.log(`Repeat loop active: ${LearningEngine.state.currentRepeatCount} of ${limit}`);
-            startLearning(); 
+            startLearning();
         }
         // CASE B: Repeat limit reached! Shift to next line phrase or move to the next verse
         else {
@@ -47,11 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const coords = Navigation.parseCoords(numInput, c.hasSub);
             const stepsKey = `${pre}.${coords.ch}.steps`;
             const alternativeKey = `${pre}.steps`;
-
+            const lookupKey = `${pre}.${coords.ch}.${coords.sub}.steps`;
             const stepsDatabaseBlock = window.MARKER_DATABASE[stepsKey] ||
                 window.MARKER_DATABASE[stepsKey.toLowerCase()] ||
                 window.MARKER_DATABASE[alternativeKey] ||
                 window.MARKER_DATABASE[alternativeKey.toLowerCase()] ||
+                window.MARKER_DATABASE[lookupKey] ||
+                window.MARKER_DATABASE[lookupKey.toLowerCase()] ||
                 window.MARKER_DATABASE['PTM_2_DATA'];
 
             if (stepsDatabaseBlock && stepsDatabaseBlock[coords.pas - 1]) {
@@ -94,8 +96,11 @@ function syncTextToAudioTimeline() {
     const coords = Navigation.parseCoords(numInput, CONFIG[pre].hasSub);
 
     const stepsKey = `${pre}.${coords.ch}.steps`;
+    const lookupKey = `${pre}.${coords.ch}.${coords.sub}.steps`;
     const alternativeKey = `${pre}.steps`;
     const stepsDatabaseBlock = window.MARKER_DATABASE[stepsKey] ||
+        window.MARKER_DATABASE[lookupKey] ||
+        window.MARKER_DATABASE[lookupKey.toLowerCase()] ||
         window.MARKER_DATABASE[alternativeKey] ||
         window.MARKER_DATABASE['PTM_2_DATA'];
 
@@ -108,7 +113,7 @@ function syncTextToAudioTimeline() {
     let rawTextString = "";
     if (targetPasuram.text) {
         if (typeof targetPasuram.text === 'string') {
-            rawTextString = targetPasuram.text; 
+            rawTextString = targetPasuram.text;
         } else {
             const selectedLang = document.getElementById('textLanguage')?.value || 'ta';
             rawTextString = targetPasuram.text[selectedLang] || targetPasuram.text['ta'] || targetPasuram.text['en'] || "";
@@ -117,7 +122,7 @@ function syncTextToAudioTimeline() {
     if (!rawTextString) return;
 
     const step1Timeline = targetPasuram["step1"] || [];
-    
+
     // Smooth Normalization: Round playhead down to 1 decimal point to avoid floating-point race flickers
     const currentTime = Math.round((playerEl.currentTime || 0) * 10) / 10;
 
@@ -142,7 +147,7 @@ function syncTextToAudioTimeline() {
 
     const selectedLangToken = document.getElementById('textLanguage')?.value || 'ta';
     const currentSignature = `${pre}_${coords.ch}_${coords.pas}_${selectedLangToken}_${matchIndex}`;
-    
+
     if (displayPanel.dataset.lastSignature === currentSignature) {
         return;
     }
@@ -162,7 +167,7 @@ function syncTextToAudioTimeline() {
             innerHTMLString.push(` <span style="color:#000000;">*</span><br> `);
         }
     }
-    
+
     displayPanel.innerHTML = innerHTMLString.join('');
     displayPanel.dataset.lastSignature = currentSignature;
 }
@@ -188,9 +193,12 @@ function startLearning(onPlayCallback) {
 
         const stepsKey = `${pre}.${coords.ch}.steps`;
         const alternativeKey = `${pre}.steps`;
+        const lookupKey = `${pre}.${coords.ch}.${coords.sub}.steps`;
 
         const stepsDatabaseBlock = window.MARKER_DATABASE[stepsKey] ||
             window.MARKER_DATABASE[stepsKey.toLowerCase()] ||
+            window.MARKER_DATABASE[lookupKey] ||
+            window.MARKER_DATABASE[lookupKey.toLowerCase()] ||
             window.MARKER_DATABASE[alternativeKey] ||
             window.MARKER_DATABASE[alternativeKey.toLowerCase()] ||
             window.MARKER_DATABASE['PTM_2_DATA'];
@@ -270,10 +278,10 @@ function updateToggleButtonUI(isPlaying) {
 
     if (isPlaying) {
         toggleBtn.innerText = "STOP RECITATION";
-        toggleBtn.style.backgroundColor = "#d93838"; 
+        toggleBtn.style.backgroundColor = "#d93838";
     } else {
         toggleBtn.innerText = "START RECITATION";
-        toggleBtn.style.backgroundColor = "#0070ba"; 
+        toggleBtn.style.backgroundColor = "#0070ba";
     }
 }
 
@@ -287,7 +295,7 @@ function navigate(dir) {
 
     let coords = Navigation.parseCoords(input.value, c.hasSub);
     coords.pas += dir;
-    
+
     const minChapterIndex = (typeof c.minCh !== 'undefined') ? c.minCh : 1;
     switch (c.structure) {
         case 'flat_pasuram':
