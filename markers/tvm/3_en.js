@@ -6,7 +6,7 @@ window.mergeLanguageTexts = function () {
         'TVM.3.1.steps':
         {
             1: "* mudichchOdhiyAy * unadhu mugachchOdhi malarndhadhuvO? * adichchOdhi nI ninRa * thAmaraiyAy alarndhadhuvO? *** padichchOdhi Adaiyodum * palakalanAy * nin paim pon kadicchOdhi kalandhadhuvO? * thirumAlE! katturaiyE *",
-            2: "katturaikkil thAmarai * nin kaN pAdham kai ovvA * katturaiththa nan pon * un thirumEni oLi ovvAdhu *** otturaiththu ivvulagu unnaip * pugazhvellAm perumbAlum * patturaiyAyp puRkenRE * kAttumAl paranjOdhI! *",
+            2: "katturaikkil thAmarai * nin kaN pAdham kai ovvA * sutturaiththa nan pon * un thirumEni oLi ovvAdhu *** otturaiththu ivvulagu unnaip * pugazhvellAm perumbAlum * patturaiyAyp puRkenRE * kAttumAl paranjOdhI! *",
             3: "paranjOdhi! nI paramAy * nin igazhndhu pin maRROr * paranjOdhi inmaiyin * padiyOvi nigazhginRa *** paranjOdhi nin uLLE * padar ulagam padaiththa * em paranjOdhi! gOvindhA! * paNburaikka mAttEnE *",
             4: "mAttAdhE Agilum * im malar thalai mA gyAlam * nin mAttAya malar puraiyum * thiru uruvam manam vaikka *** mAttAdha pala samaya * madhi koduththAy malarththuzhAy * mAttE nI manam vaiththAy * mA gyAlam varundhAdhE? *",
             5: "varundhAdha arundhavaththa * malar kadhirin sudar udambAy * varundhAdha gyAnamAy * varambinRi muzhudhiyanRAy! *** varungAlam nigazhkAlam * kazhikAlamAy ulagai * orungAga aLippAy! sIr * engulakka OdhuvanE? *",
