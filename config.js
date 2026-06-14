@@ -365,6 +365,90 @@ const CONFIG = {
             }
         }
     },
+    'TKT': {
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 1,
+        maxCh: 1,
+        defPas: 20,
+        ex: { '0': 3 },
+
+        getMarkerPath: (num) => {
+            return 'markers/marker_tkt_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `markers/marker_tkt_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                // Take from Periya Thirumozhi since they share thanian tracks
+                return `audiofiles/PTM/PTM_${chapter}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 20
+                if (fileEnd > 20) {
+                    fileEnd = 20;
+                }
+
+                return `audiofiles/TKT/TKT_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
+    'TNT': {
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 1,
+        maxCh: 1,
+        defPas: 30,
+        ex: { '0': 3 },
+
+        getMarkerPath: (num) => {
+            return 'markers/marker_tnt_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `markers/marker_tnt_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                // Take from Periya Thirumozhi since they share thanian tracks
+                return `audiofiles/PTM/PTM_${chapter}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 30
+                if (fileEnd > 30) {
+                    fileEnd = 30;
+                }
+
+                return `audiofiles/TNT/TNT_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
 };
 
 /**
