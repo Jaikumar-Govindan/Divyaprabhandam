@@ -2,7 +2,7 @@ window.MARKER_DATABASE = window.MARKER_DATABASE || {};
 
 // Global function to trigger the merge on-demand
 window.mergeLanguageTexts = function () {
-    const text_bundle_en = {
+    const text_bundle_ta = {
         'PTM.5.1.steps':
         {
             1: "அறிவதரியான் அனைத்துலகும் உடையான் * என்னையாளுடையான் * குறியமாணு உருவாய * கூத்தன் மன்னிஅமருமிடம் *** நறியமலர்மேல் சுரும்பார்க்க * எழிலார் மஞ்ஞை நடமாட * பொறிகொள் சிறை வண்டிசைபாடும் * புள்ளம்பூதங்குடிதானே *",
