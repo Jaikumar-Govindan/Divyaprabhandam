@@ -32,12 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // CASE A: We are still repeating the exact same segment phrase slice
         if (LearningEngine.state.currentRepeatCount < limit) {
-            console.log(`Repeat loop active: ${LearningEngine.state.currentRepeatCount} of ${limit}`);
+            // console.log(`Repeat loop active: ${LearningEngine.state.currentRepeatCount} of ${limit}`);
             startLearning();
         }
         // CASE B: Repeat limit reached! Shift to next line phrase or move to the next verse
         else {
-            console.log("Repeat limit reached. Calculating step alignment transitions...");
+            // console.log("Repeat limit reached. Calculating step alignment transitions...");
 
             const pre = document.getElementById('prefix').value;
             const numInput = document.getElementById('number').value;
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             LearningEngine.state.currentRepeatCount = 0;
 
             if (document.getElementById('autoNext').value === "true") {
-                console.log("Advancing to next verse context layout.");
+                // console.log("Advancing to next verse context layout.");
                 navigate(1);
             } else {
                 safeStopAudio();

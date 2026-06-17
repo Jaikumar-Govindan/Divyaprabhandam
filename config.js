@@ -74,15 +74,69 @@ const CONFIG = {
 
 
     },
-    'PT': {
-        structure: 'chapter_sub_pasuram',
-        hasSub: true, maxCh: 11, maxSub: 10, defPas: 10, ex: {},
-        getMarkerPath: () => 'markers/marker_pt_timelines.js',
-        //getLanguagePath: () => null,
-        getAudioSrc: (num) => `https://www.uveda.org/media/recitation/PT.${num}.mp3`
+    'PTM': {
+       structure: 'chapter_sub_pasuram',
+        hasSub: true, maxCh: 10, maxSub: 10, defPas: 10, ex: { '2.7': 13 },
+
+        // --- THE ALL-OR-NOTHING MANIFEST ---
+        // Listing a key here automatically activates BOTH the local high-fi audio track 
+        // AND the corresponding custom chapter timeline file.
+        availableContent: [
+            "5_1", "5_2", "5_3", "5_4", "5_5", "5_6"
+        ],
+
+
+
+        // --- SOLVERS ---
+        getMarkerPath: function (num) {
+            if (!num) return this.defaultTimelinePath;
+
+            const parts = num.split('.');
+            const chapter = parts[0];
+            const subChapter = parts[1];
+
+            // Generate the unique key for this segment
+            const lookupKey = `${chapter}_${subChapter}`;
+
+            return `markers/PTM/timeline_${chapter}.js`;
+
+        },
+
+        getAudioSrc: function (num) {
+            if (!num) return '';
+
+            const parts = num.split('.');
+            const chapter = parts[0];
+            const subChapter = parts[1];
+
+            // Generate the exact same key for the segment
+            const lookupKey = `${chapter}_${subChapter}`;
+
+            // If it's in our override list, swap out the remote URL for the local .ogg asset
+            if (this.availableContent.includes(lookupKey)) {
+                return `audiofiles/PTM/PTM_${chapter}.${subChapter}.ogg`;
+            }
+
+            // Remote fallback
+            return `https://www.uveda.org/media/recitation/PT.${num}.mp3`;
+        },
+        getLanguagePath: function (num, langCode) {
+            // Guarantee a valid language token string defaults if empty
+            const lang = langCode || 'en';
+
+
+            const parts = num.split('.');
+            const chapter = parts[0];
+            const subChapter = parts[1];
+            const lookupKey = `${chapter}_${subChapter}`;
+
+
+            return `markers/PTM/${chapter}_${lang}.js`;
+
+        }
     },
 
-    'PMT': {
+    'PMT': {//Perumal Thirumozhi
         structure: 'chapter_pasuram',
         hasSub: false, minCh: 0, maxCh: 10, defPas: 10, ex: { '0': 2 },
         getMarkerPath: (num) => {
