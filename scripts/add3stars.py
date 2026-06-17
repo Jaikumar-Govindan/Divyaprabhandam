@@ -10,12 +10,14 @@ def process_file_asterisks(input_file_path, output_file_path):
         for line in infile:
             modified_line = []
             
+            counter = 0  # Reset the counter
+            starCount=line.count("*")
             for char in line:
                 if char == '*':
                     counter += 1
-                    if counter == 4:
+                    if counter == int(starCount/2): # for URM or RN
                         modified_line.append('***')
-                    elif counter == 8:
+                    elif counter == starCount:
                         modified_line.append('*')
                         counter = 0  # Reset the counter
                     else:
