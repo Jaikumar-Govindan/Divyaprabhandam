@@ -11,7 +11,7 @@ def process_file_asterisks(input_file_path, output_file_path):
             modified_line = []
             
             counter = 0  # Reset the counter
-            starCount=line.count("*")
+            starCount=line.count("*")+1 # +1 to account for the last segment after the last asterisk
             for char in line:
                 if char == '*':
                     counter += 1

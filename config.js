@@ -74,67 +74,7 @@ const CONFIG = {
 
 
     },
-    'PAT': {
-        structure: 'chapter_sub_pasuram',
-        hasSub: true, maxCh: 10, maxSub: 10, defPas: 10, ex: { '2.7': 13 },
 
-        // --- THE ALL-OR-NOTHING MANIFEST ---
-        // Listing a key here automatically activates BOTH the local high-fi audio track 
-        // AND the corresponding custom chapter timeline file.
-        availableContent: [
-            "1_1", "1_2", "1_3", "1_4", "1_5", "1_6", "1_7", "1_8", "1_9", "2_1",
-        ],
-
-
-
-        // --- SOLVERS ---
-        getMarkerPath: function (num) {
-            if (!num) return this.defaultTimelinePath;
-
-            const parts = num.split('.');
-            const chapter = parts[0];
-            const subChapter = parts[1];
-
-            // Generate the unique key for this segment
-            const lookupKey = `${chapter}_${subChapter}`;
-
-            return `markers/PAT/timeline_${chapter}.js`;
-
-        },
-
-        getAudioSrc: function (num) {
-            if (!num) return '';
-
-            const parts = num.split('.');
-            const chapter = parts[0];
-            const subChapter = parts[1];
-
-            // Generate the exact same key for the segment
-            const lookupKey = `${chapter}_${subChapter}`;
-
-            // If it's in our override list, swap out the remote URL for the local .ogg asset
-            if (this.availableContent.includes(lookupKey)) {
-                return `audiofiles/PAT/PAT_${chapter}.${subChapter}.ogg`;
-            }
-
-            // Remote fallback
-            return `https://www.uveda.org/media/recitation/PT.${num}.mp3`;
-        },
-        getLanguagePath: function (num, langCode) {
-            // Guarantee a valid language token string defaults if empty
-            const lang = langCode || 'en';
-
-
-            const parts = num.split('.');
-            const chapter = parts[0];
-            const subChapter = parts[1];
-            const lookupKey = `${chapter}_${subChapter}`;
-
-
-            return `markers/PAT/${chapter}_${lang}.js`;
-
-        }
-    },
     'PTM': {
         structure: 'chapter_sub_pasuram',
         hasSub: true, maxCh: 10, maxSub: 10, defPas: 10, ex: { '2.7': 13 },
@@ -196,7 +136,68 @@ const CONFIG = {
 
         }
     },
+    'PAT': {
+        structure: 'chapter_sub_pasuram',
+        hasSub: true, maxCh: 10, maxSub: 10, defPas: 10, ex: { '2.7': 13 },
 
+        // --- THE ALL-OR-NOTHING MANIFEST ---
+        // Listing a key here automatically activates BOTH the local high-fi audio track 
+        // AND the corresponding custom chapter timeline file.
+        availableContent: [
+            "1_1", "1_2", "1_3", "1_4", "1_5", "1_6", "1_7", "1_8", "1_9",
+            "2_1", "2_2", "2_3", "2_4", "2_5", "2_6", "2_7", "2_8", "2_9", "2_10"
+        ],
+
+
+
+        // --- SOLVERS ---
+        getMarkerPath: function (num) {
+            if (!num) return this.defaultTimelinePath;
+
+            const parts = num.split('.');
+            const chapter = parts[0];
+            const subChapter = parts[1];
+
+            // Generate the unique key for this segment
+            const lookupKey = `${chapter}_${subChapter}`;
+
+            return `markers/PAT/timeline_${chapter}.js`;
+
+        },
+
+        getAudioSrc: function (num) {
+            if (!num) return '';
+
+            const parts = num.split('.');
+            const chapter = parts[0];
+            const subChapter = parts[1];
+
+            // Generate the exact same key for the segment
+            const lookupKey = `${chapter}_${subChapter}`;
+
+            // If it's in our override list, swap out the remote URL for the local .ogg asset
+            if (this.availableContent.includes(lookupKey)) {
+                return `audiofiles/PAT/PAT_${chapter}.${subChapter}.ogg`;
+            }
+
+            // Remote fallback
+            return `https://www.uveda.org/media/recitation/PT.${num}.mp3`;
+        },
+        getLanguagePath: function (num, langCode) {
+            // Guarantee a valid language token string defaults if empty
+            const lang = langCode || 'en';
+
+
+            const parts = num.split('.');
+            const chapter = parts[0];
+            const subChapter = parts[1];
+            const lookupKey = `${chapter}_${subChapter}`;
+
+
+            return `markers/PAT/${chapter}_${lang}.js`;
+
+        }
+    },
     'PMT': {//Perumal Thirumozhi
         structure: 'chapter_pasuram',
         hasSub: false, minCh: 0, maxCh: 10, defPas: 10, ex: { '0': 2 },
@@ -296,11 +297,11 @@ const CONFIG = {
             }
         }
     },
-    'MUT': {
+    '3TA': {
         structure: 'flat_pasuram',
         hasSub: false, maxPas: 100,
-        getMarkerPath: () => 'markers/marker_mut_timeline.js',
-        getLanguagePath: () => (num, langCode) => `markers/marker_mut_${langCode}.js`,
+        getMarkerPath: () => 'markers/marker_3ta_timeline.js',
+        getLanguagePath: () => (num, langCode) => `markers/marker_3ta_${langCode}.js`,
         getAudioSrc: (num) => `https://www.uveda.org/media/recitation/MUT.${num}.mp3`
     },
     'TPE': {
@@ -437,7 +438,90 @@ const CONFIG = {
             }
         }
     },
+    'TCV': {
 
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 120,
+        ex: { '0': 3 },
+
+        getMarkerPath: (num) => {
+            return 'markers/marker_tcv_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `markers/marker_tcv_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `audiofiles/TCV/TCV_${chapter}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 120
+                if (fileEnd > 120) {
+                    fileEnd = 120;
+                }
+
+                return `audiofiles/TCV/TCV_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
+    'TML': {
+
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 45,
+        ex: { '0': 3 },
+
+        getMarkerPath: (num) => {
+            return 'markers/marker_tml_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `markers/marker_tml_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `audiofiles/TML/TML_${chapter}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 45
+                if (fileEnd > 45) {
+                    fileEnd = 45;
+                }
+
+                return `audiofiles/TML/TML_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
     'TPV': {
 
         structure: 'chapter_pasuram',

@@ -2,8 +2,8 @@ window.MARKER_DATABASE = window.MARKER_DATABASE || {};
 window.mergeLanguageTexts = function () {
     const text_bundle_en = {
         'AAP.0.steps': {
-            1: "nAthamunigaL aruLich cheydha: aviditaviShayAntara: * shaThArE: * upaniShadAm * upagAnamAtrabhOga: * api cha guNavashAt * tadEkashEShI * madhurakavirhrudayE * mamAvirastu *",
-            2: "nAthamunigaL aruLich cheydha: vERonRum nAn aRiyEn * vEdham thamizh seydha * mARan saDagOpan * vaNkurugUr ERu * enggaL vAzhvAm enRu Eththum madhurakaviyAr * emmai ALvAr * avarE araN *",
+            1: "periya nambigaL aruLiya: ApAda chUDamanubhUya harim shayAnam * madhyE kavEra duhitur muditAntarAtmA * adraShTrutAm nayanayOr viShayAntarANAm * yO nishchikAya manavai munivAhanam tam *",
+            2: "thirumalai nambigaL aruLiya: kATTavE kaNDa pAdha kamalam nallADai undhi * thETTarum udhara bandham thirumArbu kaNDam sevvAy * vATTamil kaNgaL mEni muni ERith thani pugundhu * pATTinAl kaNDu vAzhum pANar thAL paravinOmE *"
         },
         'AAP.1.steps': {
             1: "# amalan ādi pirān * aḍiyārkkennai āṭpaḍutta vimalan * viṇṇavar kōn * viraiyār pozil vēṅgaḍavan * nimalan ninmalan nīdi vānavan * nīḻ madiḻ araṅgattammān * tirukkamala pādam vandu * en kaṇṇin uḻḻana okkinṟadē *",

@@ -1,5 +1,7 @@
 window.MARKER_DATABASE = window.MARKER_DATABASE || {};
 window.MARKER_DATABASE['AAP.0.steps'] = [
+    { "p": 1, "step1": [[0, 6.9], [6.9, 13.2], [13.2, 21], [21, 27]], "step2": [[0, 13.2], [13.2, 27]], "step3": [[0, 27]], "step4": [0, 27] },
+    { "p": 2, "step1": [[27, 33.4], [33.4, 40.3], [40.3, 47.6], [47.6, 55.2]], "step2": [[27, 40.3], [40.3, 55.2]], "step3": [[27, 55.2]], "step4": [27, 55.2] }
 ];
 
 window.MARKER_DATABASE['AAP.1.steps'] = [

@@ -223,6 +223,7 @@
         }
     </style>
     <script src="https://www.youtube.com/iframe_api" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 </head>
 
 <body>
@@ -276,6 +277,23 @@
                 <button class="btn" style="background-color: #17a2b8; flex: 1;"
                     onclick="distributeTimelineProrally()">Even Distribute</button>
                 <button class="btn" style="background-color: #dc3545; flex: 1;" onclick="clearAllState()">Reset</button>
+            </div>
+
+            <div class="form-group" style="display:flex; gap:8px; align-items:center; background:#f1f3f4; padding:10px; border-radius:4px; flex-wrap:wrap;">
+                <button class="btn" style="background-color:#5c35a0; flex:1; min-width:140px;" onclick="copyHandoffURL()">📋 Copy Handoff URL</button>
+                <button class="btn" style="background-color:#c0392b; flex:1; min-width:120px;" onclick="showHandoffQR()">📷 Show QR Code</button>
+                <span id="handoffStatus" style="font-size:12px; color:#555; flex:1; min-width:120px;"></span>
+            </div>
+
+            <!-- QR Code Modal -->
+            <div id="qrModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center;">
+                <div style="background:#fff; border-radius:12px; padding:24px; max-width:340px; width:90%; text-align:center; position:relative;">
+                    <button onclick="closeQRModal()" style="position:absolute; top:10px; right:14px; background:none; border:none; font-size:22px; cursor:pointer; color:#555;">&times;</button>
+                    <p style="margin:0 0 6px 0; font-weight:bold; font-size:15px; color:#333;">Scan to open on another device</p>
+                    <p style="margin:0 0 14px 0; font-size:11px; color:#888;">Opens splitter with full session restored</p>
+                    <div id="qrCodeCanvas" style="display:flex; justify-content:center; margin-bottom:14px;"></div>
+                    <p id="qrMarkerCount" style="font-size:12px; color:#555; margin:0;"></p>
+                </div>
             </div>
 
             <div class="form-group">
@@ -360,25 +378,32 @@
             player.addEventListener('play', () => { window.isTestingSegmentAudio = false; });
             player.addEventListener('seeking', () => { window.isTestingSegmentAudio = false; });
 
-            const savedText = localStorage.getItem('asm_saved_text');
-            const savedUrl = localStorage.getItem('asm_saved_url');
-            const savedMarkers = localStorage.getItem('asm_saved_markers');
+            // Hash-based handoff takes priority over localStorage restore
+            const restoredFromHash = restoreFromHash();
 
-            if (savedText) document.getElementById('textGuidedContent').value = savedText;
-            if (savedUrl) {
-                document.getElementById('urlInput').value = savedUrl;
-                if (savedUrl.includes('github.com') && !savedUrl.endsWith('.txt') && !savedUrl.endsWith('.ogg') && !savedUrl.endsWith('.mp3')) {
-                    scanGitHubRepositoryFolder(savedUrl, false);
-                } else if (savedUrl.includes('youtube.com') || savedUrl.includes('youtu.be')) {
-                    setupYouTube(savedUrl);
-                } else {
-                    setupDirectAudio(savedUrl);
+            if (!restoredFromHash) {
+                const savedText = localStorage.getItem('asm_saved_text');
+                const savedUrl = localStorage.getItem('asm_saved_url');
+                const savedMarkers = localStorage.getItem('asm_saved_markers');
+
+                if (savedText) document.getElementById('textGuidedContent').value = savedText;
+                if (savedUrl) {
+                    document.getElementById('urlInput').value = savedUrl;
+                    if (savedUrl.includes('github.com') && !savedUrl.endsWith('.txt') && !savedUrl.endsWith('.js') && !savedUrl.endsWith('.ogg') && !savedUrl.endsWith('.mp3')) {
+                        scanGitHubRepositoryFolder(savedUrl, false);
+                    } else if (savedUrl.toLowerCase().endsWith('.js')) {
+                        fetchAndParseJsFile(savedUrl);
+                    } else if (savedUrl.includes('youtube.com') || savedUrl.includes('youtu.be')) {
+                        setupYouTube(savedUrl);
+                    } else {
+                        setupDirectAudio(savedUrl);
+                    }
                 }
-            }
-            if (savedMarkers) {
-                window.rawMarkers = JSON.parse(savedMarkers);
-                renderInteractiveGrid(true);
-                serializeStateToJS();
+                if (savedMarkers) {
+                    window.rawMarkers = JSON.parse(savedMarkers);
+                    renderInteractiveGrid(true);
+                    serializeStateToJS();
+                }
             }
 
             window.addEventListener('keydown', (e) => {
@@ -410,7 +435,7 @@
             if (!url) return;
 
             // Route A: Is user target an implicit repository folder structural layout overview?
-            if (url.includes('github.com') && !url.endsWith('.txt') && !url.endsWith('.ogg') && !url.endsWith('.mp3') && !url.includes('/blob/')) {
+            if (url.includes('github.com') && !url.endsWith('.txt') && !url.endsWith('.js') && !url.endsWith('.ogg') && !url.endsWith('.mp3') && !url.includes('/blob/')) {
                 scanGitHubRepositoryFolder(url, true);
                 return;
             }
@@ -425,6 +450,8 @@
 
             if (url.toLowerCase().endsWith('.txt')) {
                 fetchTextScriptFromWeb(url);
+            } else if (url.toLowerCase().endsWith('.js')) {
+                fetchAndParseJsFile(url);
             } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 setupYouTube(url);
             } else {
@@ -520,7 +547,12 @@
             }
 
             if (chapter.text) {
-                fetchTextScriptFromWeb(chapter.text);
+                const isJs = chapter.text.toLowerCase().endsWith('.js');
+                if (isJs) {
+                    fetchAndParseJsFile(chapter.text);
+                } else {
+                    fetchTextScriptFromWeb(chapter.text);
+                }
             }
         }
 
@@ -537,6 +569,267 @@
                 alert("Failed to retrieve text content stream: " + err.message);
             }
         }
+
+        // ─── JS FILE PARSER ───────────────────────────────────────────────────────
+        // Fetches a 1_ta.js-style marker database file from any URL (GitHub raw,
+        // CDN, or local server), extracts all named pasuram key blocks from the
+        // mergeLanguageTexts / text_bundle structure, then presents an inline
+        // dropdown so the user can pick which pasuram set to load into the canvas.
+
+        let jsKeyDatabase = {};
+        let jsSourceUrl   = '';
+
+        async function fetchAndParseJsFile(url) {
+            let rawUrl = url;
+            if (rawUrl.includes('github.com') && rawUrl.includes('/blob/')) {
+                rawUrl = rawUrl.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+            }
+            try {
+                const response = await fetch(rawUrl);
+                if (!response.ok) throw new Error('HTTP ' + response.status + ' fetching JS file.');
+                const src = await response.text();
+                jsKeyDatabase = parseJsTextBundle(src);
+                jsSourceUrl   = rawUrl;
+                const keys = Object.keys(jsKeyDatabase);
+                if (keys.length === 0) {
+                    alert("No named pasuram key blocks found in this JS file.\nMake sure it uses the text_bundle / mergeLanguageTexts structure.");
+                    return;
+                }
+                showJsKeySelectorPanel(keys, rawUrl);
+                localStorage.setItem('asm_saved_url', url);
+            } catch (err) {
+                alert("Failed to load JS file: " + err.message);
+            }
+        }
+
+        function parseJsTextBundle(src) {
+            let clean = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+            const result = {};
+            const keyPattern = /['"]([A-Za-z0-9_.]+)['"]\s*:\s*\{/g;
+            let match;
+            while ((match = keyPattern.exec(clean)) !== null) {
+                const blockKey  = match[1];
+                const bodyStart = match.index + match[0].length;
+                let depth = 1, i = bodyStart;
+                while (i < clean.length && depth > 0) {
+                    if (clean[i] === '{') depth++;
+                    else if (clean[i] === '}') depth--;
+                    i++;
+                }
+                const bodyText = clean.substring(bodyStart, i - 1);
+                const entryPat = /(\d+|['"][^'"]+['"])\s*:\s*['"]([^'"]+)['"]/g;
+                let entryMatch;
+                const entries = {};
+                while ((entryMatch = entryPat.exec(bodyText)) !== null) {
+                    let eKey = entryMatch[1].replace(/['"]/g, '').trim();
+                    entries[eKey] = entryMatch[2].trim();
+                }
+                if (Object.keys(entries).length > 0) {
+                    result[blockKey] = entries;
+                }
+            }
+            return result;
+        }
+
+        function showJsKeySelectorPanel(keys, sourceUrl) {
+            let panel = document.getElementById('jsKeySelectorContainer');
+            if (!panel) {
+                panel = document.createElement('div');
+                panel.id = 'jsKeySelectorContainer';
+                panel.className = 'form-group';
+                panel.style.cssText = 'background:#e8f5e9;padding:12px;border:1px solid #a5d6a7;border-radius:4px;';
+                const anchor = document.getElementById('chapterSelectorContainer');
+                anchor.parentNode.insertBefore(panel, anchor.nextSibling);
+            }
+            const filename = sourceUrl.split('/').pop();
+            panel.innerHTML =
+                '<label style="color:#1b5e20;margin-bottom:6px;display:block;">' +
+                    '\uD83D\uDCC4 JS File loaded \u2014 <span style="font-weight:normal;font-size:12px;">' + filename + '</span><br>' +
+                    '<span style="font-weight:normal;font-size:11px;color:#388e3c;">' + keys.length + ' pasuram block' + (keys.length !== 1 ? 's' : '') + ' found</span>' +
+                '</label>' +
+                '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+                    '<select id="jsKeyDropdown" style="flex:1;min-width:200px;padding:7px 8px;border:1px solid #a5d6a7;border-radius:4px;">' +
+                        '<option value="">-- Select a Pasuram Block --</option>' +
+                        keys.sort().map(function(k) {
+                            return '<option value="' + k + '">' + k + ' (' + Object.keys(jsKeyDatabase[k]).length + ' verses)</option>';
+                        }).join('') +
+                    '</select>' +
+                    '<button class="btn" style="background:#2e7d32;white-space:nowrap;" onclick="loadJsKeyBlock()">Load Block \u2192</button>' +
+                '</div>';
+            panel.style.display = 'block';
+        }
+
+        function loadJsKeyBlock() {
+            const dropdown = document.getElementById('jsKeyDropdown');
+            if (!dropdown) return;
+            const selectedKey = dropdown.value;
+            if (!selectedKey || !jsKeyDatabase[selectedKey]) {
+                alert("Please select a pasuram block first.");
+                return;
+            }
+            const entries = jsKeyDatabase[selectedKey];
+            const lines   = [];
+            Object.keys(entries).forEach(function(idx) {
+                let verse = entries[idx].trim().replace(/\.\s*$/, '');
+                lines.push(verse + ' * ' + idx + '.');
+            });
+            const formatted = lines.join('\n\n');
+            document.getElementById('textGuidedContent').value = formatted;
+            localStorage.setItem('asm_saved_text', formatted);
+            currentFileName = selectedKey;
+            parseTextToMutableState();
+        }
+        // ─── END JS FILE PARSER ───────────────────────────────────────────────────
+
+        // ─── HANDOFF URL (hash-based session sharing) ────────────────────────────
+        // Encodes the current session (source URL, selected JS key, all markers)
+        // into the page's #hash so the URL can be opened on any device to restore
+        // the full session without any copy-paste or file transfer.
+
+        function encodeHandoffState() {
+            const state = {
+                v: 1,                                               // schema version
+                url: localStorage.getItem('asm_saved_url') || '',
+                key: currentFileName || '',
+                markers: window.rawMarkers || []
+            };
+            try {
+                const json = JSON.stringify(state);
+                // btoa needs a byte string; use encodeURIComponent to handle Unicode (Tamil)
+                return btoa(unescape(encodeURIComponent(json)));
+            } catch(e) {
+                return null;
+            }
+        }
+
+        function decodeHandoffState(hash) {
+            try {
+                const b64 = hash.startsWith('#') ? hash.slice(1) : hash;
+                const json = decodeURIComponent(escape(atob(b64)));
+                return JSON.parse(json);
+            } catch(e) {
+                return null;
+            }
+        }
+
+        function copyHandoffURL() {
+            const encoded = encodeHandoffState();
+            if (!encoded) {
+                document.getElementById('handoffStatus').textContent = 'Nothing to share yet.';
+                return;
+            }
+            const url = window.location.href.split('#')[0] + '#' + encoded;
+            navigator.clipboard.writeText(url).then(function() {
+                const s = document.getElementById('handoffStatus');
+                s.textContent = '✓ Copied! Open on any device.';
+                s.style.color = '#28a745';
+                setTimeout(function() { s.textContent = ''; }, 4000);
+            }).catch(function() {
+                // Fallback: prompt the user to copy manually
+                window.prompt('Copy this handoff URL:', url);
+            });
+        }
+
+        function showHandoffQR() {
+            const encoded = encodeHandoffState();
+            if (!encoded) {
+                document.getElementById('handoffStatus').textContent = 'Nothing to share yet.';
+                return;
+            }
+            const url = window.location.href.split('#')[0] + '#' + encoded;
+
+            // Clear previous QR
+            const container = document.getElementById('qrCodeCanvas');
+            container.innerHTML = '';
+
+            // Generate QR using QRious
+            const canvas = document.createElement('canvas');
+            container.appendChild(canvas);
+            new QRious({
+                element: canvas,
+                value: url,
+                size: 260,
+                level: 'M',        // Medium error correction — good balance of density vs robustness
+                background: '#ffffff',
+                foreground: '#1a1a2e'
+            });
+
+            // Show marker count info
+            const count = window.rawMarkers ? window.rawMarkers.length : 0;
+            document.getElementById('qrMarkerCount').textContent =
+                count + ' marker' + (count !== 1 ? 's' : '') + ' encoded • ' + (currentFileName || 'no file');
+
+            // Show modal
+            const modal = document.getElementById('qrModal');
+            modal.style.display = 'flex';
+
+            // Close on backdrop click
+            modal.onclick = function(e) { if (e.target === modal) closeQRModal(); };
+        }
+
+        function closeQRModal() {
+            document.getElementById('qrModal').style.display = 'none';
+        }
+
+        function restoreFromHash() {
+            const hash = window.location.hash;
+            if (!hash || hash.length < 10) return false;
+
+            const state = decodeHandoffState(hash);
+            if (!state || state.v !== 1) return false;
+
+            // Restore markers
+            if (Array.isArray(state.markers) && state.markers.length > 0) {
+                window.rawMarkers = state.markers;
+                // Save to localStorage so subsequent reloads (without hash) also work
+                localStorage.setItem('asm_saved_markers', JSON.stringify(state.markers));
+            }
+
+            // Restore source URL + media
+            if (state.url) {
+                document.getElementById('urlInput').value = state.url;
+                localStorage.setItem('asm_saved_url', state.url);
+
+                if (state.url.toLowerCase().endsWith('.js')) {
+                    // After JS file loads & panel renders, auto-select the saved key
+                    fetchAndParseJsFile(state.url).then(function() {
+                        if (state.key) autoSelectJsKey(state.key);
+                    });
+                } else if (state.url.includes('github.com') && !state.url.endsWith('.txt') &&
+                           !state.url.endsWith('.ogg') && !state.url.endsWith('.mp3')) {
+                    scanGitHubRepositoryFolder(state.url, false);
+                } else if (state.url.includes('youtube.com') || state.url.includes('youtu.be')) {
+                    setupYouTube(state.url);
+                } else {
+                    setupDirectAudio(state.url);
+                }
+            }
+
+            // Restore filename/key
+            if (state.key) currentFileName = state.key;
+
+            renderInteractiveGrid(true);
+            serializeStateToJS();
+
+            const s = document.getElementById('handoffStatus');
+            s.textContent = '✓ Session restored from URL (' + window.rawMarkers.length + ' markers).';
+            s.style.color = '#007bff';
+
+            return true;
+        }
+
+        function autoSelectJsKey(key) {
+            const dropdown = document.getElementById('jsKeyDropdown');
+            if (!dropdown) return;
+            for (let i = 0; i < dropdown.options.length; i++) {
+                if (dropdown.options[i].value === key) {
+                    dropdown.selectedIndex = i;
+                    loadJsKeyBlock();
+                    break;
+                }
+            }
+        }
+        // ─── END HANDOFF URL ──────────────────────────────────────────────────────
 
         function setupYouTube(url) {
             const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
