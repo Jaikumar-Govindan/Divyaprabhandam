@@ -138,7 +138,7 @@ const CONFIG = {
     },
     'PAT': {
         structure: 'chapter_sub_pasuram',
-        hasSub: true, maxCh: 10, maxSub: 10, defPas: 10, ex: { '2.7': 13 },
+        hasSub: true, maxCh: 10, maxSub: 10, defPas: 10, ex: { '1.2': 21, '1.5':11, '1.6':11,'1.7':11,'1.8':11},
 
         // --- THE ALL-OR-NOTHING MANIFEST ---
         // Listing a key here automatically activates BOTH the local high-fi audio track 
