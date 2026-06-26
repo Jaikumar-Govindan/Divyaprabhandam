@@ -215,21 +215,21 @@ function startLearning(onPlayCallback) {
                 } else if (lineWindows && lineWindows.length > 0) {
                     bounds = { start: lineWindows[0][0], end: lineWindows[lineWindows.length - 1][1] };
                 }
-                document.getElementById('status').innerText = `Full Pasuram Recitation`;
+                // document.getElementById('status').innerText = `Full Pasuram Recitation`;
             } else {
                 const activeSegments = targetPasuram[chosenStep] || targetPasuram["step2"];
                 if (activeSegments && activeSegments.length > 0) {
                     if (activeLineIndex >= activeSegments.length) activeLineIndex = 0;
                     const targetPair = activeSegments[activeLineIndex];
                     bounds = { start: targetPair[0], end: targetPair[1] };
-                    document.getElementById('status').innerText = `Playing Phrase ${activeLineIndex + 1} of ${activeSegments.length}`;
+                    // document.getElementById('status').innerText = `Playing Phrase ${activeLineIndex + 1} of ${activeSegments.length}`;
                 }
             }
         }
 
         if (!markersFound) {
             bounds = { start: 0, end: 9999 };
-            document.getElementById('status').innerText = `Playing Full Pasuram...`;
+            // document.getElementById('status').innerText = `Playing Full Pasuram...`;
         }
 
         let audioSrc = "";
@@ -237,7 +237,7 @@ function startLearning(onPlayCallback) {
             audioSrc = c.getAudioSrc(numInput);
         } catch (err) {
             console.error("Audio source path mapping error:", err);
-            document.getElementById('status').innerText = "Audio track path missing";
+            // document.getElementById('status').innerText = "Audio track path missing";
             return;
         }
 
@@ -259,7 +259,7 @@ function safeStopAudio() {
     if (window.LearningEngine) {
         LearningEngine.stopMonitor();
     }
-    document.getElementById('status').innerText = "Ready";
+    // document.getElementById('status').innerText = "Ready";
     updateToggleButtonUI(false);
 }
 
@@ -317,19 +317,27 @@ function navigate(dir) {
             break;
 
         case 'chapter_sub_pasuram':
-            let subLimit = Navigation.getLimit(pre, coords.ch, coords.sub);
-            if (coords.pas > subLimit) {
+            // 1. Get the current active pasuram limit for the specific subchapter
+            let subPasuramLimit = Navigation.getLimit(pre, coords.ch, coords.sub);
+
+            if (coords.pas > subPasuramLimit) {
                 coords.pas = 1;
                 coords.sub++;
-                if (coords.sub > c.maxSub) {
+                
+                // FIX: Get the dynamic subchapter limit for this specific chapter instead of static c.maxSub
+                let activeSubLimit = Navigation.getSubLimit(pre, coords.ch);
+                if (coords.sub > activeSubLimit) {
                     coords.sub = 1;
                     coords.ch = (coords.ch >= c.maxCh) ? minChapterIndex : coords.ch + 1;
                 }
             } else if (coords.pas < 1) {
                 coords.sub--;
                 if (coords.sub < 1) {
+                    // Navigate to the previous chapter
                     coords.ch = (coords.ch <= 1) ? c.maxCh : coords.ch - 1;
-                    coords.sub = c.maxSub;
+                    
+                    // FIX: Set the subchapter index to the previous chapter's dynamic maximum
+                    coords.sub = Navigation.getSubLimit(pre, coords.ch);
                 }
                 coords.pas = Navigation.getLimit(pre, coords.ch, coords.sub);
             }

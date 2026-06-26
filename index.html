@@ -252,8 +252,8 @@
             </div>
 
             <div class="input-group">
-                <label id="numLabel">Pasuram (Ch.Sub.Pas)</label>
-                <input type="text" id="number" value="1.1" inputmode="decimal">
+                <label id="numLabel">Paasuram</label>
+                <input title="(Ch.Sub.Pas) - eg: For TVM - 1.1.1" type="text" id="number" value="1.1" inputmode="decimal" placeholder="e.g. 1.1">
             </div>
 
             <div class="input-group">
@@ -285,7 +285,7 @@
                 <label>Language</label>
                 <select id="textLanguage" onchange="renderCurrentPasuramText()">
                     <option value="ta" selected>தமிழ் (Tamil)</option>
-                    <option value="en">Romanized English</option>
+                    <option value="en">English</option>
                 </select>
             </div>
 
@@ -317,7 +317,7 @@
         </div>
 
         <audio id="audioPlayer" playsinline></audio>
-        <div id="status" class="status">Ready</div>
+        <!-- <div id="status" class="status">Ready</div> -->
     </div>
     <script src="sync_engine.js"></script>
     <script src="config.js"></script>

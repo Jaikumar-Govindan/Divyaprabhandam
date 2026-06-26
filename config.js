@@ -19,7 +19,7 @@ const CONFIG = {
         // Listing a key here automatically activates BOTH the local high-fi audio track 
         // AND the corresponding custom chapter timeline file.
         availableContent: [
-            "3_1", "3_2", "3_3"
+            "3_1", "3_2", "3_3","3_4","3_5"
         ],
 
 
@@ -138,14 +138,16 @@ const CONFIG = {
     },
     'PAT': {
         structure: 'chapter_sub_pasuram',
-        hasSub: true, maxCh: 10, maxSub: 10, defPas: 10, ex: { '1.2': 21, '1.5':11, '1.6':11,'1.7':11,'1.8':11},
+        hasSub: true, maxCh: 10, maxSub: 10, defPas: 10, ex: { '1.2': 21, '1.5': 11, '1.6': 11, '1.7': 11, '1.8': 11 },
 
         // --- THE ALL-OR-NOTHING MANIFEST ---
         // Listing a key here automatically activates BOTH the local high-fi audio track 
         // AND the corresponding custom chapter timeline file.
         availableContent: [
             "1_1", "1_2", "1_3", "1_4", "1_5", "1_6", "1_7", "1_8", "1_9",
-            "2_1", "2_2", "2_3", "2_4", "2_5", "2_6", "2_7", "2_8", "2_9", "2_10"
+            "2_1", "2_2", "2_3", "2_4", "2_5", "2_6", "2_7", "2_8", "2_9", "2_10",
+            "3_1", "3_2", "3_3", "3_4", "3_5", "3_6", "3_7", "3_8", "3_9", "3_10",
+            "4_1", "4_2", "4_3", "4_4", "4_5", "4_6", "4_7"
         ],
 
 
@@ -487,7 +489,7 @@ const CONFIG = {
         minCh: 0,
         maxCh: 1,
         defPas: 45,
-        ex: { '0': 3 },
+        ex: { '0': 1 },
 
         getMarkerPath: (num) => {
             return 'markers/marker_tml_timelines.js';

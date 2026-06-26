@@ -23,20 +23,20 @@ const LearningEngine = {
         pipelineMode: "native"
     },
 
-    init: function(audioPlayerEl) {
+    init: function (audioPlayerEl) {
         this.state.playerElement = audioPlayerEl;
         this.state.playerElement.preload = "auto";
         this.state.playerElement.setAttribute('playsinline', 'true');
         this.state.playerElement.setAttribute('webkit-playsinline', 'true');
-        
+
         this._loopCheck = this._loopCheck.bind(this);
         console.log("Adaptive Hardware-Memory Engine Synchronized and Active.");
     },
 
-    setPlaybackRate: function(rate) {
+    setPlaybackRate: function (rate) {
         const parsedRate = parseFloat(rate);
         if (isNaN(parsedRate)) return;
-        
+
         this.state.playbackRate = parsedRate;
         if (this.state.playerElement) {
             this.state.playerElement.playbackRate = parsedRate;
@@ -44,13 +44,13 @@ const LearningEngine = {
 
         if (this.state.pipelineMode === "ram" && this.state.isPlaying && this.state.activeSourceNode) {
             this.state.activeSourceNode.playbackRate.setValueAtTime(parsedRate, this.state.audioContext.currentTime);
-            
+
             const ctx = this.state.audioContext;
             const elapsedRealTime = ctx.currentTime - this.state.startTimeInContext;
             const elapsedTrackTime = elapsedRealTime * this.state.activeSourceNode.playbackRate.value;
-            const totalTrackDuration = (this.state.bounds && this.state.bounds.end < 9999) ? 
+            const totalTrackDuration = (this.state.bounds && this.state.bounds.end < 9999) ?
                 (this.state.bounds.end - this.state.bounds.start) : (this.state.audioBuffer.duration - this.state.bounds.start);
-            
+
             const remainingTrackTime = totalTrackDuration - elapsedTrackTime;
             const remainingRealTime = remainingTrackTime / parsedRate;
 
@@ -61,7 +61,7 @@ const LearningEngine = {
         }
     },
 
-    unlockAudio: function() {
+    unlockAudio: function () {
         if (!this.state.audioContext) {
             this.state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         }
@@ -77,14 +77,14 @@ const LearningEngine = {
         }
     },
 
-    _loadAudioBuffer: async function(url) {
+    _loadAudioBuffer: async function (url) {
         const response = await fetch(url, { method: 'GET', mode: 'cors', credentials: 'omit' });
         if (!response.ok) throw new Error(`Asset network fetch failure: ${response.status}`);
         const arrayBuffer = await response.arrayBuffer();
         return await this.state.audioContext.decodeAudioData(arrayBuffer);
     },
 
-    playSegment: async function(src, bounds, onEndCallback, lineWindows = null, chosenStep = "step2", focusMode = "both") {
+    playSegment: async function (src, bounds, onEndCallback, lineWindows = null, chosenStep = "step2", focusMode = "both") {
         this.stopMonitor();
 
         this.state.bounds = bounds;
@@ -109,7 +109,7 @@ const LearningEngine = {
 
                 // If the root source asset is identical, reuse the uncompressed RAM buffer safely
                 if (existingCacheKey !== cleanCacheKey) {
-                    document.getElementById('status').innerText = "Buffering Fresh Audio Track...";
+                    // document.getElementById('status').innerText = "Buffering Fresh Audio Track...";
                     this.state.currentSrc = absoluteSrc;
                     this.state.audioBuffer = await this._loadAudioBuffer(absoluteSrc); // Fetch uses full asset string
                 }
@@ -125,12 +125,12 @@ const LearningEngine = {
         }
     },
 
-    _executeRAMPlayback: function() {
+    _executeRAMPlayback: function () {
         const ctx = this.state.audioContext;
         const bounds = this.state.bounds;
 
         if (this.state.activeSourceNode) {
-            try { this.state.activeSourceNode.stop(); } catch(e){}
+            try { this.state.activeSourceNode.stop(); } catch (e) { }
             this.state.activeSourceNode.disconnect();
         }
 
@@ -147,10 +147,10 @@ const LearningEngine = {
         this.state.startTimeInContext = ctx.currentTime;
         this.state.startOffsetInTrack = startOffset;
 
-        document.getElementById('status').innerText = "Playing Phrase Loop...";
-        
-        if (this.state.secondaryPlayer) this.state.secondaryPlayer.play().catch(() => {});
-        this.state.playerElement.play().catch(() => {}); 
+        // document.getElementById('status').innerText = "Playing Phrase Loop...";
+
+        if (this.state.secondaryPlayer) this.state.secondaryPlayer.play().catch(() => { });
+        this.state.playerElement.play().catch(() => { });
 
         source.start(0, startOffset, duration);
 
@@ -163,11 +163,11 @@ const LearningEngine = {
         this.startMonitor();
     },
 
-    _executeNativePlayback: function(src) {
-        document.getElementById('status').innerText = "Streaming Full Track...";
+    _executeNativePlayback: function (src) {
+        // document.getElementById('status').innerText = "Streaming Full Track...";
         const player = this.state.playerElement;
         player.removeAttribute('crossOrigin');
-        
+
         if (this.state.currentSrc !== src) {
             this.state.currentSrc = src;
             player.src = src;
@@ -180,21 +180,21 @@ const LearningEngine = {
         this.startMonitor();
 
         const playPromise = player.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(() => {
-                document.getElementById('status').innerText = "Tap screen to wake audio";
-            });
-        }
+        // if (playPromise !== undefined) {
+        //     playPromise.catch(() => {
+        //         document.getElementById('status').innerText = "Tap screen to wake audio";
+        //     });
+        // }
     },
 
-    startMonitor: function() {
+    startMonitor: function () {
         if (!this.state.isMonitoring) {
             this.state.isMonitoring = true;
             this.state.animationFrameId = requestAnimationFrame(this._loopCheck);
         }
     },
 
-    stopMonitor: function() {
+    stopMonitor: function () {
         this.state.isMonitoring = false;
         this.state.isPlaying = false;
         if (this.state.animationFrameId) {
@@ -206,7 +206,7 @@ const LearningEngine = {
             this.state.pauseTimeout = null;
         }
         if (this.state.activeSourceNode) {
-            try { this.state.activeSourceNode.stop(); } catch(e){}
+            try { this.state.activeSourceNode.stop(); } catch (e) { }
             this.state.activeSourceNode.disconnect();
             this.state.activeSourceNode = null;
         }
@@ -214,7 +214,7 @@ const LearningEngine = {
         if (this.state.secondaryPlayer) this.state.secondaryPlayer.pause();
     },
 
-    _loopCheck: function() {
+    _loopCheck: function () {
         if (!this.state.isMonitoring) return;
         const player = this.state.playerElement;
         const ctx = this.state.audioContext;
@@ -225,7 +225,7 @@ const LearningEngine = {
             if (this.state.isPlaying && ctx && this.state.audioBuffer) {
                 const elapsedRealTime = ctx.currentTime - this.state.startTimeInContext;
                 const elapsedTrackTime = elapsedRealTime * this.state.playbackRate;
-                
+
                 Object.defineProperty(player, 'currentTime', {
                     value: this.state.startOffsetInTrack + elapsedTrackTime,
                     writable: true,
@@ -248,7 +248,7 @@ const LearningEngine = {
         }
     },
 
-    _handleSegmentComplete: function() {
+    _handleSegmentComplete: function () {
         this.stopMonitor();
         if (typeof this.state.onSegmentEndCallback === 'function') {
             this.state.onSegmentEndCallback();
