@@ -231,23 +231,35 @@
                 <label>Prabandham</label>
 
                 <select id="prefix" onchange="resetToStart()">
-                    <option value="TPL">ThiruppaLLaaNdu</option>
-                    <option value="PAT">Periyaazhwaar Thirumozhi</option>
-                    <option value="TPV">Thiruppaavai</option>
-                    <option value="NAT">Naachiyaar Thirumozhi</option>
-                    <option value="PMT" selected>PerumaaL Thirumozhi</option>
-                    <option value="TCV">Thiruchchandha Viruththam</option>
-                    <option value="TML">Thirumaalai</option>
-                    <option value="TPE">ThiruppaLLiyezhuchchi</option>
-                    <option value="AAP">Amalanaadhipiraan</option>
-                    <option value="KCT">Kanninunchiruththaambu</option>
-                    <option value="PTM">Periya Thirumozhi</option>
-                    <option value="TKT">Thirukkurunthaandakam</option>
-                    <option value="TNT">Thirunedunthaandakam</option>
-                    <option value="3TA">Moondraam Thiruvandhaadhi</option>
-                    <option value="TVM">Thiruvaaimozhi</option>
-                    <option value="RN">Raamaanusa Nootrandhaadhi</option>
-                    <option value="URM">UpadEsa Rathinamaalai</option>
+                    <optgroup label="1000 - Mudhalaayiram">
+                        <option value="TPL">ThiruppaLLaaNdu</option>
+                        <option value="PAT">Periyaazhwaar Thirumozhi</option>
+                        <option value="TPV">Thiruppaavai</option>
+                        <option value="NAT">Naachiyaar Thirumozhi</option>
+                        <option value="PMT" selected>PerumaaL Thirumozhi</option>
+                        <option value="TCV">Thiruchchandha Viruththam</option>
+                        <option value="TML">Thirumaalai</option>
+                        <option value="TPE">ThiruppaLLiyezhuchchi</option>
+                        <option value="AAP">Amalanaadhipiraan</option>
+                        <option value="KCT">Kanninunchiruththaambu</option>
+                    </optgroup>
+                    <optgroup label="2000 - Periya Thirumozhi">
+                        <option value="PTM">Periya Thirumozhi</option>
+                        <option value="TKT">Thirukkurunthaandakam</option>
+                        <option value="TNT">Thirunedunthaandakam</option>
+                    </optgroup>
+                    <optgroup label="3000 - Iyarpaa">
+                        <option value="1TA">Mudhal Thiruvandhaadhi</option>
+                        <option value="2TA">Irandaam Thiruvandhaadhi</option>
+                        <option value="3TA">Moondraam Thiruvandhaadhi</option>
+                    </optgroup>
+                    <optgroup label="4000 - Thiruvaaimozhi">
+                        <option value="TVM">Thiruvaaimozhi</option>
+                        <option value="RN">Raamaanusa Nootrandhaadhi</option>
+                    </optgroup>
+                    <optgroup label="Others">
+                        <option value="URM">UpadEsa Rathinamaalai</option>
+                    </optgroup>
                 </select>
             </div>
 
@@ -259,8 +271,8 @@
             <div class="input-group">
                 <label>Learning Mode</label>
                 <select id="learningStep" onchange="resetLineTracking()">
-                    <option value="step1">Step 1: Half-Line</option>
-                    <option value="step2" selected>Step 2: One-Line</option>
+                    <option value="step1" selected>Step 1: Half-Line</option>
+                    <option value="step2">Step 2: One-Line</option>
                     <option value="step3">Step 3: Two-Line</option>
                     <option value="step4">Step 4: Full Practice</option>
                 </select>
@@ -279,7 +291,7 @@
 
             <div class="input-group">
                 <label>Repeat</label>
-                <input type="number" id="repeatLimit" value="2" min="1">
+                <input type="number" id="repeatLimit" value="3" min="1">
             </div>
             <div class="input-group">
                 <label>Language</label>
