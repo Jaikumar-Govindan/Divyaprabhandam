@@ -25,11 +25,11 @@ const markerStats = fs.statSync(MARKER_FILE);
 
 // 4. Loop through the database keys
 Object.keys(MARKER_DATABASE).forEach(key => {
-    if (!key.includes('.all')) return; 
-    
+    if (!key.includes('.all')) return;
+
     const markers = MARKER_DATABASE[key];
-    // Check for your specific filename: NAT.2.all.m4a
-    const inputFile = `${AUDIO_DIR}/${key}.m4a`; 
+    // Check for your specific filename: NAT.2.m4a
+    const inputFile = `${AUDIO_DIR}/${key}.m4a`;
     const outputFile = `${CLEAN_DIR}/${key}_clean.m4a`;
 
     if (!fs.existsSync(inputFile)) {
@@ -62,7 +62,7 @@ Object.keys(MARKER_DATABASE).forEach(key => {
     markers.forEach((m, i) => {
         const isObj = (typeof m === 'object' && m !== null);
         // Logical check for start/end points
-        const start = isObj ? m.start : (i === 0 ? 0 : (typeof markers[i-1] === 'object' ? markers[i-1].end : markers[i-1]));
+        const start = isObj ? m.start : (i === 0 ? 0 : (typeof markers[i - 1] === 'object' ? markers[i - 1].end : markers[i - 1]));
         const end = isObj ? m.end : m;
 
         filter += `[0:a]atrim=start=${start}:end=${end},asetpts=PTS-STARTPTS[a${i}]; `;
@@ -70,13 +70,13 @@ Object.keys(MARKER_DATABASE).forEach(key => {
     });
 
     // Run FFmpeg
-//    const cmd = `ffmpeg -i "${inputFile}" -filter_complex "${filter}${inputs}concat=n=${markers.length}:v=0:a=1[outa]" -map "[outa]" -y "${outputFile}"`;
+    //    const cmd = `ffmpeg -i "${inputFile}" -filter_complex "${filter}${inputs}concat=n=${markers.length}:v=0:a=1[outa]" -map "[outa]" -y "${outputFile}"`;
     // Add these filter settings for high-quality learning audio
-const noiseFilter = "afftdn=nr=12:nf=-25"; // Noise reduction
-const compressionFilter = "compand=attacks=0:points=-80/-80|-40/-15|-20/-10|0/-7"; // Volume leveling
+    const noiseFilter = "afftdn=nr=12:nf=-25"; // Noise reduction
+    const compressionFilter = "compand=attacks=0:points=-80/-80|-40/-15|-20/-10|0/-7"; // Volume leveling
 
-// Update the FFmpeg command to include the new filters
-const cmd = `ffmpeg -i "${inputFile}" -filter_complex "${filter}${inputs}concat=n=${markers.length}:v=0:a=1[raw]; [raw]${noiseFilter},${compressionFilter}[outa]" -map "[outa]" -y "${outputFile}"`;
+    // Update the FFmpeg command to include the new filters
+    const cmd = `ffmpeg -i "${inputFile}" -filter_complex "${filter}${inputs}concat=n=${markers.length}:v=0:a=1[raw]; [raw]${noiseFilter},${compressionFilter}[outa]" -map "[outa]" -y "${outputFile}"`;
 
     try {
         execSync(cmd);

@@ -19,7 +19,7 @@ const CONFIG = {
         // Listing a key here automatically activates BOTH the local high-fi audio track 
         // AND the corresponding custom chapter timeline file.
         availableContent: [
-            "3_1", "3_2", "3_3","3_4","3_5"
+            "3_1", "3_2", "3_3", "3_4", "3_5"
         ],
 
 
@@ -35,7 +35,7 @@ const CONFIG = {
             // Generate the unique key for this segment
             const lookupKey = `${chapter}_${subChapter}`;
 
-            return `markers/tvm/timeline_${chapter}.js`;
+            return `aruLicheyal/TVM/markers/timelines_${chapter}.js`;
 
         },
 
@@ -51,7 +51,7 @@ const CONFIG = {
 
             // If it's in our override list, swap out the remote URL for the local .ogg asset
             if (this.availableContent.includes(lookupKey)) {
-                return `audiofiles/TVM/TVM_${chapter}.${subChapter}.ogg`;
+                return `aruLicheyal/TVM/audiofiles/TVM_${chapter}.${subChapter}.ogg`;
             }
 
             // Remote fallback
@@ -68,7 +68,7 @@ const CONFIG = {
             const lookupKey = `${chapter}_${subChapter}`;
 
 
-            return `markers/tvm/${chapter}_${lang}.js`;
+            return `aruLicheyal/TVM/text/${chapter}_${lang}.js`;
 
         }
 
@@ -99,7 +99,7 @@ const CONFIG = {
             // Generate the unique key for this segment
             const lookupKey = `${chapter}_${subChapter}`;
 
-            return `markers/PTM/timeline_${chapter}.js`;
+            return `aruLicheyal/PTM/markers/timelines_${chapter}.js`;
 
         },
 
@@ -115,7 +115,7 @@ const CONFIG = {
 
             // If it's in our override list, swap out the remote URL for the local .ogg asset
             if (this.availableContent.includes(lookupKey)) {
-                return `audiofiles/PTM/PTM_${chapter}.${subChapter}.ogg`;
+                return `aruLicheyal/PTM/audiofiles/PTM_${chapter}.${subChapter}.ogg`;
             }
 
             // Remote fallback
@@ -132,7 +132,7 @@ const CONFIG = {
             const lookupKey = `${chapter}_${subChapter}`;
 
 
-            return `markers/PTM/${chapter}_${lang}.js`;
+            return `aruLicheyal/PTM/text/${chapter}_${lang}.js`;
 
         }
     },
@@ -163,7 +163,7 @@ const CONFIG = {
             // Generate the unique key for this segment
             const lookupKey = `${chapter}_${subChapter}`;
 
-            return `markers/PAT/timeline_${chapter}.js`;
+            return `aruLicheyal/PAT/markers/timelines_${chapter}.js`;
 
         },
 
@@ -179,7 +179,7 @@ const CONFIG = {
 
             // If it's in our override list, swap out the remote URL for the local .ogg asset
             if (this.availableContent.includes(lookupKey)) {
-                return `audiofiles/PAT/PAT_${chapter}.${subChapter}.ogg`;
+                return `aruLicheyal/PAT/audiofiles/PAT_${chapter}.${subChapter}.ogg`;
             }
 
             // Remote fallback
@@ -196,7 +196,7 @@ const CONFIG = {
             const lookupKey = `${chapter}_${subChapter}`;
 
 
-            return `markers/PAT/${chapter}_${lang}.js`;
+            return `aruLicheyal/PAT/text/${chapter}_${lang}.js`;
 
         }
     },
@@ -205,13 +205,13 @@ const CONFIG = {
         hasSub: false, minCh: 0, maxCh: 10, defPas: 10, ex: { '0': 2 },
         getMarkerPath: (num) => {
 
-            return 'markers/marker_pmt_timelines.js';
+            return 'aruLicheyal/PMT/markers/marker_pmt_timelines.js';
 
         },
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY map text assets if the chapter contains an underlying timeline track
-            return `markers/marker_pmt_${langCode}.js`;
+            return `aruLicheyal/PMT/text/marker_pmt_${langCode}.js`;
             return null;
         },
         getAudioSrc: (num) => {
@@ -220,10 +220,10 @@ const CONFIG = {
             const pasuram = parseInt(parts[1], 10);
 
             if (chapter == 0)
-                return `audiofiles/PMT/PMT.${num}.ogg`
+                return `aruLicheyal/PMT/audiofiles/PMT.${num}.ogg`
 
             if (chapter >= 1 && chapter <= 10) {
-                return `audiofiles/PMT/PMT.${chapter}.all.ogg`;
+                return `aruLicheyal/PMT/audiofiles/PMT.${chapter}.ogg`;
             }
             return `https://www.uveda.org/media/recitation/PMT.${num}.mp3`;
         }
@@ -235,14 +235,14 @@ const CONFIG = {
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
             if (chapter >= 0 && chapter <= 14) {
-                return 'markers/marker_nat_timelines.js';
+                return 'aruLicheyal/NAT/markers/marker_nat_timelines.js';
             }
             return null;
         },
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
             if (chapter >= 0 && chapter <= 14) {
-                return `markers/marker_nat_${langCode}.js`;
+                return `aruLicheyal/NAT/text/marker_nat_${langCode}.js`;
             }
 
             return null;
@@ -250,9 +250,9 @@ const CONFIG = {
         getAudioSrc: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
             if (chapter >= 1 && chapter <= 14) {
-                return `audiofiles/NAT/NAT_${chapter}.ogg`;
+                return `aruLicheyal/NAT/audiofiles/NAT_${chapter}.ogg`;
             }
-            if (chapter == 0) { return `audiofiles/NAT/NAT_${num}.ogg` }
+            if (chapter == 0) { return `aruLicheyal/NAT/audiofiles/NAT_${num}.ogg` }
             return `https://www.uveda.org/media/recitation/NAT.${num}.mp3`;
         }
     },
@@ -267,11 +267,11 @@ const CONFIG = {
         ex: { '0': 3 },
 
         getMarkerPath: (num) => {
-            return 'markers/marker_rn_timelines.js';
+            return 'aruLicheyal/RN/markers/marker_rn_timelines.js';
         },
 
         getLanguagePath: (num, langCode) => {
-            return `markers/marker_rn_${langCode}.js`;
+            return `aruLicheyal/RN/text/marker_rn_${langCode}.js`;
         },
 
         getAudioSrc: (num) => {
@@ -281,7 +281,7 @@ const CONFIG = {
 
             // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
             if (chapter === 0) {
-                return `audiofiles/RN/RN.${num}.ogg`;
+                return `aruLicheyal/RN/audiofiles/RN.${num}.ogg`;
             }
 
             // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
@@ -295,16 +295,296 @@ const CONFIG = {
                     fileEnd = 108;
                 }
 
-                return `audiofiles/RN/rn_${fileStart}_${fileEnd}.ogg`;
+                return `aruLicheyal/RN/audiofiles/rn_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
+    '1TA': {
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 100,
+        ex: { '0': 1 },
+
+        getMarkerPath: (num) => {
+            return 'aruLicheyal/1TA/markers/marker_1ta_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `aruLicheyal/1TA/text/marker_1ta_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `aruLicheyal/1TA/audiofiles/1TA_${chapter}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 100
+                if (fileEnd > 100) {
+                    fileEnd = 100;
+                }
+
+                return `aruLicheyal/1TA/audiofiles/1TA_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
+    '2TA': {
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 100,
+        ex: { '0': 1 },
+
+        getMarkerPath: (num) => {
+            return 'aruLicheyal/2TA/markers/marker_2ta_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `aruLicheyal/2TA/text/marker_2ta_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `aruLicheyal/2TA/audiofiles/2TA_${chapter}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 100
+                if (fileEnd > 100) {
+                    fileEnd = 100;
+                }
+
+                return `aruLicheyal/2TA/audiofiles/2TA_${fileStart}_${fileEnd}.ogg`;
             }
         }
     },
     '3TA': {
-        structure: 'flat_pasuram',
-        hasSub: false, maxPas: 100,
-        getMarkerPath: () => 'markers/marker_3ta_timeline.js',
-        getLanguagePath: () => (num, langCode) => `markers/marker_3ta_${langCode}.js`,
-        getAudioSrc: (num) => `https://www.uveda.org/media/recitation/MUT.${num}.mp3`
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 100,
+        ex: { '0': 1 },
+
+        getMarkerPath: (num) => {
+            return 'aruLicheyal/3TA/markers/marker_3ta_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `aruLicheyal/3TA/text/marker_3ta_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `aruLicheyal/3TA/audiofiles/3TA_${chapter}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 100
+                if (fileEnd > 100) {
+                    fileEnd = 100;
+                }
+
+                return `aruLicheyal/3TA/audiofiles/3TA_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
+    '4TA': {
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 97,
+        ex: { '0': 1 },
+
+        getMarkerPath: (num) => {
+            return 'aruLicheyal/4TA/markers/marker_4ta_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `aruLicheyal/4TA/text/marker_4ta_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `aruLicheyal/4TA/audiofiles/4TA_${chapter}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 100
+                if (fileEnd > 97) {
+                    fileEnd = 97;
+                }
+
+                return `aruLicheyal/4TA/audiofiles/4TA_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
+    'TVT': {
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 100,
+        ex: { '0': 1 },
+
+        getMarkerPath: (num) => {
+            return 'aruLicheyal/TVT/markers/marker_tvt_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `aruLicheyal/TVT/text/marker_tvt_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `aruLicheyal/TVT/audiofiles/TVT.${num}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 100
+                if (fileEnd > 100) {
+                    fileEnd = 100;
+                }
+
+                return `aruLicheyal/TVT/audiofiles/TVT_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
+    'TVS': {
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 7,
+        ex: { '0': 1 },
+
+        getMarkerPath: (num) => {
+            return 'aruLicheyal/TVS/markers/marker_tvs_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `aruLicheyal/TVS/text/marker_tvs_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `aruLicheyal/TVS/audiofiles/TVS.${num}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 7
+                if (fileEnd > 7) {
+                    fileEnd = 7;
+                }
+
+                return `aruLicheyal/TVS/audiofiles/TVS_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
+    },
+    'TVK': {
+        structure: 'chapter_pasuram',
+        hasSub: false,
+        minCh: 0,
+        maxCh: 1,
+        defPas: 8,
+        ex: { '0': 1 },
+
+        getMarkerPath: (num) => {
+            return 'aruLicheyal/TVK/markers/marker_tvk_timelines.js';
+        },
+
+        getLanguagePath: (num, langCode) => {
+            return `aruLicheyal/TVK/text/marker_tvk_${langCode}.js`;
+        },
+
+        getAudioSrc: (num) => {
+            const parts = num.split('.');
+            const chapter = parseInt(parts[0], 10);
+            const pasuram = parseInt(parts[1], 10);
+
+            // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
+            if (chapter === 0) {
+                return `aruLicheyal/TVK/audiofiles/TVK.${num}.ogg`;
+            }
+
+            // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
+            if (chapter === 1) {
+                // Automatically groups: 1-10 -> 1, 11-20 -> 11, 101-108 -> 101
+                let fileStart = Math.floor((pasuram - 1) / 10) * 10 + 1;
+                let fileEnd = fileStart + 9;
+
+                // Cap the final audio file window string at 8
+                if (fileEnd > 8) {
+                    fileEnd = 8;
+                }
+
+                return `aruLicheyal/TVK/audiofiles/TVK_${fileStart}_${fileEnd}.ogg`;
+            }
+        }
     },
     'TPE': {
         structure: 'chapter_pasuram',
@@ -312,20 +592,20 @@ const CONFIG = {
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
-            return 'markers/marker_tpe_timelines.js';
+            return 'aruLicheyal/TPE/markers/marker_tpe_timelines.js';
 
         },
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY map text assets if the chapter contains an underlying timeline track
 
-            return `markers/marker_tpe_${langCode}.js`;
+            return `aruLicheyal/TPE/text/marker_tpe_${langCode}.js`;
 
         },
         getAudioSrc: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
-            return `audiofiles/TPE/TPE.${chapter}.ogg`;
+            return `aruLicheyal/TPE/audiofiles/TPE.${chapter}.ogg`;
 
         }
     },
@@ -335,20 +615,20 @@ const CONFIG = {
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
-            return 'markers/marker_tpl_timelines.js';
+            return 'aruLicheyal/TPL/markers/marker_tpl_timelines.js';
 
         },
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY map text assets if the chapter contains an underlying timeline track
 
-            return `markers/marker_tpl_${langCode}.js`;
+            return `aruLicheyal/TPL/text/marker_tpl_${langCode}.js`;
 
         },
         getAudioSrc: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
-            return `audiofiles/TPL/TPL.${chapter}.ogg`;
+            return `aruLicheyal/TPL/audiofiles/TPL.${chapter}.ogg`;
 
         }
     },
@@ -358,20 +638,20 @@ const CONFIG = {
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
-            return 'markers/marker_kct_timelines.js';
+            return 'aruLicheyal/KCT/markers/marker_kct_timelines.js';
 
         },
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY map text assets if the chapter contains an underlying timeline track
 
-            return `markers/marker_kct_${langCode}.js`;
+            return `aruLicheyal/KCT/text/marker_kct_${langCode}.js`;
 
         },
         getAudioSrc: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
-            return `audiofiles/KCT/KCT_${chapter}.ogg`;
+            return `aruLicheyal/KCT/audiofiles/KCT_${chapter}.ogg`;
 
         }
     },
@@ -381,20 +661,20 @@ const CONFIG = {
         getMarkerPath: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
-            return 'markers/marker_aap_timelines.js';
+            return 'aruLicheyal/AAP/markers/marker_aap_timelines.js';
 
         },
         getLanguagePath: (num, langCode) => {
             const chapter = parseInt(num.split('.')[0], 10);
             // ONLY map text assets if the chapter contains an underlying timeline track
 
-            return `markers/marker_aap_${langCode}.js`;
+            return `aruLicheyal/AAP/text/marker_aap_${langCode}.js`;
 
         },
         getAudioSrc: (num) => {
             const chapter = parseInt(num.split('.')[0], 10);
 
-            return `audiofiles/AAP/AAP_${chapter}.ogg`;
+            return `aruLicheyal/AAP/audiofiles/AAP_${chapter}.ogg`;
 
         }
     },
@@ -408,11 +688,11 @@ const CONFIG = {
         ex: { '0': 1 },
 
         getMarkerPath: (num) => {
-            return 'markers/marker_urm_timelines.js';
+            return 'aruLicheyal/URM/markers/marker_urm_timelines.js';
         },
 
         getLanguagePath: (num, langCode) => {
-            return `markers/marker_urm_${langCode}.js`;
+            return `aruLicheyal/URM/text/marker_urm_${langCode}.js`;
         },
 
         getAudioSrc: (num) => {
@@ -422,7 +702,7 @@ const CONFIG = {
 
             // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
             if (chapter === 0) {
-                return `audiofiles/URM/URM_${chapter}.ogg`;
+                return `aruLicheyal/URM/audiofiles/URM_${chapter}.ogg`;
             }
 
             // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
@@ -436,7 +716,7 @@ const CONFIG = {
                     fileEnd = 74;
                 }
 
-                return `audiofiles/URM/URM_${fileStart}_${fileEnd}.ogg`;
+                return `aruLicheyal/URM/audiofiles/URM_${fileStart}_${fileEnd}.ogg`;
             }
         }
     },
@@ -450,11 +730,11 @@ const CONFIG = {
         ex: { '0': 3 },
 
         getMarkerPath: (num) => {
-            return 'markers/marker_tcv_timelines.js';
+            return 'aruLicheyal/TCV/markers/marker_tcv_timelines.js';
         },
 
         getLanguagePath: (num, langCode) => {
-            return `markers/marker_tcv_${langCode}.js`;
+            return `aruLicheyal/TCV/text/marker_tcv_${langCode}.js`;
         },
 
         getAudioSrc: (num) => {
@@ -464,7 +744,7 @@ const CONFIG = {
 
             // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
             if (chapter === 0) {
-                return `audiofiles/TCV/TCV_${chapter}.ogg`;
+                return `aruLicheyal/TCV/audiofiles/TCV_${chapter}.ogg`;
             }
 
             // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
@@ -478,7 +758,7 @@ const CONFIG = {
                     fileEnd = 120;
                 }
 
-                return `audiofiles/TCV/TCV_${fileStart}_${fileEnd}.ogg`;
+                return `aruLicheyal/TCV/audiofiles/TCV_${fileStart}_${fileEnd}.ogg`;
             }
         }
     },
@@ -492,11 +772,11 @@ const CONFIG = {
         ex: { '0': 1 },
 
         getMarkerPath: (num) => {
-            return 'markers/marker_tml_timelines.js';
+            return 'aruLicheyal/TML/markers/marker_tml_timelines.js';
         },
 
         getLanguagePath: (num, langCode) => {
-            return `markers/marker_tml_${langCode}.js`;
+            return `aruLicheyal/TML/text/marker_tml_${langCode}.js`;
         },
 
         getAudioSrc: (num) => {
@@ -506,7 +786,7 @@ const CONFIG = {
 
             // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
             if (chapter === 0) {
-                return `audiofiles/TML/TML_${chapter}.ogg`;
+                return `aruLicheyal/TML/audiofiles/TML_${chapter}.ogg`;
             }
 
             // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
@@ -520,7 +800,7 @@ const CONFIG = {
                     fileEnd = 45;
                 }
 
-                return `audiofiles/TML/TML_${fileStart}_${fileEnd}.ogg`;
+                return `aruLicheyal/TML/audiofiles/TML_${fileStart}_${fileEnd}.ogg`;
             }
         }
     },
@@ -534,11 +814,11 @@ const CONFIG = {
         ex: { '0': 3 },
 
         getMarkerPath: (num) => {
-            return 'markers/marker_tpv_timelines.js';
+            return 'aruLicheyal/TPV/markers/marker_tpv_timelines.js';
         },
 
         getLanguagePath: (num, langCode) => {
-            return `markers/marker_tpv_${langCode}.js`;
+            return `aruLicheyal/TPV/text/marker_tpv_${langCode}.js`;
         },
 
         getAudioSrc: (num) => {
@@ -548,7 +828,7 @@ const CONFIG = {
 
             // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
             if (chapter === 0) {
-                return `audiofiles/TPV/TPV_${chapter}.ogg`;
+                return `aruLicheyal/TPV/audiofiles/TPV_${chapter}.ogg`;
             }
 
             // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
@@ -562,7 +842,7 @@ const CONFIG = {
                     fileEnd = 30;
                 }
 
-                return `audiofiles/TPV/TPV_${fileStart}_${fileEnd}.ogg`;
+                return `aruLicheyal/TPV/audiofiles/TPV_${fileStart}_${fileEnd}.ogg`;
             }
         }
     },
@@ -575,11 +855,11 @@ const CONFIG = {
         ex: { '0': 3 },
 
         getMarkerPath: (num) => {
-            return 'markers/marker_tkt_timelines.js';
+            return 'aruLicheyal/TKT/markers/marker_tkt_timelines.js';
         },
 
         getLanguagePath: (num, langCode) => {
-            return `markers/marker_tkt_${langCode}.js`;
+            return `aruLicheyal/TKT/text/marker_tkt_${langCode}.js`;
         },
 
         getAudioSrc: (num) => {
@@ -590,7 +870,7 @@ const CONFIG = {
             // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
             if (chapter === 0) {
                 // Take from Periya Thirumozhi since they share thanian tracks
-                return `audiofiles/PTM/PTM_${chapter}.ogg`;
+                return `aruLicheyal/PTM/audiofiles/PTM_${chapter}.ogg`;
             }
 
             // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
@@ -604,7 +884,7 @@ const CONFIG = {
                     fileEnd = 20;
                 }
 
-                return `audiofiles/TKT/TKT_${fileStart}_${fileEnd}.ogg`;
+                return `aruLicheyal/TKT/audiofiles/TKT_${fileStart}_${fileEnd}.ogg`;
             }
         }
     },
@@ -617,11 +897,11 @@ const CONFIG = {
         ex: { '0': 3 },
 
         getMarkerPath: (num) => {
-            return 'markers/marker_tnt_timelines.js';
+            return 'aruLicheyal/TNT/markers/marker_tnt_timelines.js';
         },
 
         getLanguagePath: (num, langCode) => {
-            return `markers/marker_tnt_${langCode}.js`;
+            return `aruLicheyal/TNT/text/marker_tnt_${langCode}.js`;
         },
 
         getAudioSrc: (num) => {
@@ -632,7 +912,7 @@ const CONFIG = {
             // CASE 1: Thanians (Chapter 0) -> Plays individual files per Thaniyan
             if (chapter === 0) {
                 // Take from Periya Thirumozhi since they share thanian tracks
-                return `audiofiles/PTM/PTM_${chapter}.ogg`;
+                return `aruLicheyal/PTM/audiofiles/PTM_${chapter}.ogg`;
             }
 
             // CASE 2: Main Pasurams (Chapter 1) -> Grouped in batches of 10
@@ -646,7 +926,7 @@ const CONFIG = {
                     fileEnd = 30;
                 }
 
-                return `audiofiles/TNT/TNT_${fileStart}_${fileEnd}.ogg`;
+                return `aruLicheyal/TNT/audiofiles/TNT_${fileStart}_${fileEnd}.ogg`;
             }
         }
     },

@@ -124,7 +124,15 @@ function syncTextToAudioTimeline() {
     const step1Timeline = targetPasuram["step1"] || [];
 
     // Smooth Normalization: Round playhead down to 1 decimal point to avoid floating-point race flickers
-    const currentTime = Math.round((playerEl.currentTime || 0) * 10) / 10;
+  //  const currentTime = Math.round((playerEl.currentTime || 0) * 10) / 10;
+   // Use overrideTime if specified (e.g. during manual/auto transitions) to bypass playhead latency
+    let currentTime;
+    if (typeof overrideTime === 'number') {
+        currentTime = Math.round(overrideTime * 10) / 10;
+    } else {
+        currentTime = Math.round((playerEl.currentTime || 0) * 10) / 10;
+    }
+
 
     let matchIndex = -1;
     for (let i = 0; i < step1Timeline.length; i++) {
