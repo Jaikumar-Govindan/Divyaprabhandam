@@ -218,23 +218,23 @@
                 </div>
 
                 <div class="form-group">
-                    <label>2. Text Companion Script File (e.g., 5_ta.js)</label>
+                    <label>2. Text Companion Script File <span style="font-weight:normal; color:#64748b;">(auto-filled from audio)</span></label>
                     <input type="file" accept=".js" onchange="injectLocalScriptAsset(this)"
                         style="margin-bottom:6px; display:block; font-size:12px;">
-                    <input type="text" id="textUrlInput" placeholder="Paste raw JavaScript repository file link...">
+                    <input type="text" id="textUrlInput" placeholder="Auto-filled on audio select, or paste URL...">
                 </div>
 
                 <div class="form-group">
-                    <label>3. Timeline Database Coordinates File (e.g., timeline_5.js)</label>
+                    <label>3. Timeline File <span style="font-weight:normal; color:#64748b;">(auto-filled from audio)</span></label>
                     <input type="file" accept=".js" onchange="injectLocalScriptAsset(this)"
                         style="margin-bottom:6px; display:block; font-size:12px;">
-                    <input type="text" id="stepsUrlInput" placeholder="Paste raw JavaScript timeline file link...">
+                    <input type="text" id="stepsUrlInput" placeholder="Auto-filled on audio select, or paste URL...">
                 </div>
 
 
                 <div style="display: flex; gap: 10px; margin-top: 15px;">
                     <button class="btn btn-primary" style="flex: 1;"
-                        onclick="triggerUnifiedNetworkPipelineFetch()">Assemble Network Assets ⚡</button>
+                        onclick="triggerUnifiedNetworkPipelineFetch()">Load Files ⚡</button>
                     <button class="btn btn-danger" onclick="clearWorkspaceState()">Reset Canvas</button>
                 </div>
 
@@ -304,6 +304,7 @@
 
         let currentHighlightIndex = -1;
         let currentFileName = "audio_data";
+        let currentAudioFileName = ""; // tracks the audio file basename separately for range detection
         let detectedDuration = 0;
 
         window.isUserEditingActiveCell = false;
@@ -360,7 +361,36 @@
 
         function loadLocalAudio(input) {
             if (!input || !input.files || input.files.length === 0) return;
-            initiateAudioStreamingNode(URL.createObjectURL(input.files[0]), input.files[0].name);
+            const file = input.files[0];
+            initiateAudioStreamingNode(URL.createObjectURL(file), file.name);
+            autoFillCompanionPaths(file.name);
+        }
+
+        /**
+         * Derives the book key from the audio filename and auto-fills the text
+         * and timeline URL fields with their standard relative paths.
+         * e.g. "RN_11_20.ogg" → book=RN → fills marker_rn_ta.js + marker_rn_timelines.js
+         */
+        function autoFillCompanionPaths(audioFilename) {
+            // Strip extension, then extract book key = everything before the first underscore+digit
+            const base  = audioFilename.replace(/\.[^.]+$/, '');          // "RN_11_20"
+            const match = base.match(/^([A-Za-z0-9]+?)_/);                // "RN"
+            if (!match) return;
+
+            const book  = match[1];
+            const bLow  = book.toLowerCase();
+            const root  = 'aruLicheyal';
+
+            const textPath     = `${root}/${book}/text/marker_${bLow}_ta.js`;
+            const timelinePath = `${root}/${book}/markers/marker_${bLow}_timelines.js`;
+
+            const textEl  = document.getElementById('textUrlInput');
+            const stepsEl = document.getElementById('stepsUrlInput');
+
+            if (textEl  && !textEl.value)  textEl.value  = textPath;
+            if (stepsEl && !stepsEl.value) stepsEl.value = timelinePath;
+
+            console.log(`[Splitter] Auto-filled paths for book "${book}":`, textPath, timelinePath);
         }
 
         function initiateAudioStreamingNode(url, targetFilename = "") {
@@ -369,6 +399,7 @@
             } else {
                 currentFileName = url.split('/').pop().split('?')[0].split('.')[0] || "audio_track";
             }
+            currentAudioFileName = currentFileName; // save audio basename for range detection
             player.src = url;
             player.load();
             document.getElementById('captureBtn').disabled = false;
@@ -425,34 +456,94 @@
         }
 
         function evaluateIncomingPipelineAssets() {
-            // Find active configurations tracked directly across global windows memory namespaces
             const targetKeys = Object.keys(window.MARKER_DATABASE || {});
-            if (targetKeys.length > 0) {
+            if (targetKeys.length === 0) return;
+
+            // Auto-detect best matching key from audio filename
+            const bestKey = pickBestMarkerKey(targetKeys, currentAudioFileName);
+
+            if (bestKey) {
+                // Auto-load without showing dropdown
+                autoLoadMarkerKey(bestKey, targetKeys);
+            } else {
+                // Multiple ambiguous keys — show selector
                 renderPipelineSelectorDropdownPanel(targetKeys);
             }
         }
 
-        function renderPipelineSelectorDropdownPanel(keys) {
+        /**
+         * Picks the best MARKER_DATABASE key for the current audio file.
+         * Prefers keys that contain the book name from the audio filename.
+         */
+        function pickBestMarkerKey(keys, audioFilename) {
+            if (!audioFilename) return keys.length === 1 ? keys[0] : null;
+
+            // Extract book from audio filename e.g. "RN_11_20" → "RN"
+            const bookMatch = audioFilename.match(/^([A-Za-z0-9]+?)_/);
+            const book = bookMatch ? bookMatch[1].toLowerCase() : '';
+
+            // Find keys that contain the book name
+            const matching = keys.filter(k => book && k.toLowerCase().includes(book));
+            if (matching.length === 1) return matching[0];
+            if (keys.length === 1) return keys[0];
+            return null; // ambiguous
+        }
+
+        function autoLoadMarkerKey(key, allKeys) {
+            // Pre-select in dropdown (in case user needs to change it)
+            renderPipelineSelectorDropdownPanel(allKeys, key);
+            // Then immediately load
+            buildActiveWorkspaceCanvasTimeline(key);
+        }
+
+        function renderPipelineSelectorDropdownPanel(keys, selectedKey = null) {
             const container = document.getElementById('pipelineKeySelectorContainer');
             container.innerHTML = `
                 <label style="color:#065f46; font-size:13px; font-weight:bold; display:block; margin-bottom:5px;">
-                    🎯 Pipeline Key Identifier Targets Traced
+                    🎯 Marker Key
                 </label>
                 <div style="display:flex; gap:10px; align-items:center;">
                     <select id="selectedPipelineTargetNamespace" style="flex:1; padding:6px; font-size:12px; border:1px solid #10b981; border-radius:4px; height:32px;">
-                        ${keys.map(k => `<option value="${k}">${k}</option>`).join('')}
+                        ${keys.map(k => `<option value="${k}" ${k === selectedKey ? 'selected' : ''}>${k}</option>`).join('')}
                     </select>
-                    <button class="btn btn-success" style="padding:6px 14px;" onclick="buildActiveWorkspaceCanvasTimeline()">Load Combined Matrix</button>
+                    <button class="btn btn-success" style="padding:6px 14px;" onclick="buildActiveWorkspaceCanvasTimeline()">Load</button>
                 </div>
             `;
             container.style.display = 'block';
         }
 
-        function buildActiveWorkspaceCanvasTimeline() {
-            const targetNamespaceKey = document.getElementById('selectedPipelineTargetNamespace').value;
+        /**
+         * Parse the pasuram range from the audio filename.
+         * "RN_11_20"  → { start: 11, end: 20 }
+         * "RN_0"      → { start: 0,  end: 0  }
+         * "RN_1_10"   → { start: 1,  end: 10 }
+         * Returns null if no range can be determined (load all).
+         */
+        function parseRangeFromFilename(filename) {
+            // Match BOOK_START_END  (e.g. RN_11_20, 1TA_91_100)
+            const rangeMatch = filename.match(/_(\d+)_(\d+)$/);
+            if (rangeMatch) return { start: parseInt(rangeMatch[1], 10), end: parseInt(rangeMatch[2], 10) };
+
+            // Match BOOK_N  (e.g. RN_0, PMT_3 — single chapter)
+            const singleMatch = filename.match(/_(\d+)$/);
+            if (singleMatch) {
+                const n = parseInt(singleMatch[1], 10);
+                return { start: n, end: n };
+            }
+
+            return null; // no range info — load all
+        }
+
+        function buildActiveWorkspaceCanvasTimeline(overrideKey = null) {
+            const sel = document.getElementById('selectedPipelineTargetNamespace');
+            const targetNamespaceKey = overrideKey || (sel ? sel.value : null);
             if (!targetNamespaceKey) return;
 
             currentFileName = targetNamespaceKey;
+
+            // Determine pasuram range from audio filename (not the namespace key)
+            const audioRange = parseRangeFromFilename(currentAudioFileName);
+            console.log(`[Splitter] Audio file: "${currentAudioFileName}" → Range: ${audioRange ? `p${audioRange.start}–${audioRange.end}` : 'all'}`);
 
             // 1. Trace and extract text directly from the native nested script engine structure
             let textSourceMap = {};
@@ -469,7 +560,23 @@
                 });
             }
 
-            const stepsSourceTimelineArray = window.MARKER_DATABASE[targetNamespaceKey] || [];
+            const allSteps = window.MARKER_DATABASE[targetNamespaceKey] || [];
+
+            // Filter to only the pasurums covered by the loaded audio file
+            const stepsSourceTimelineArray = audioRange
+                ? allSteps.filter(b => b.p >= audioRange.start && b.p <= audioRange.end)
+                : allSteps;
+
+            // Also filter textSourceMap to the same range
+            if (audioRange) {
+                const filteredTextMap = {};
+                Object.keys(textSourceMap).forEach(k => {
+                    const n = parseInt(k, 10);
+                    if (n >= audioRange.start && n <= audioRange.end) filteredTextMap[k] = textSourceMap[k];
+                });
+                textSourceMap = filteredTextMap;
+            }
+
             let unifiedCompiledMarkers = [];
 
             // Check if we actually have valid step timing blocks
@@ -825,6 +932,54 @@
             requestAnimationFrame(monitor);
         }
 
+        /**
+         * Distribute n items into 4 groups.
+         * Start from [2,2,2,2]=8. Subtract deficit from inner positions first (2,1,0), outer last (3).
+         * n=8→[2,2,2,2], n=7→[2,2,1,2], n=6→[2,1,1,2], n=5→[1,1,1,2], n=4→[1,1,0,2]...
+         * For n<4 collapses gracefully.
+         */
+        function distributeInto4(n) {
+            // Start from [2,2,2,2]=8, subtract 1 at a time cycling through positions 2,1,0,3
+            // n=8→[2,2,2,2], n=7→[2,2,1,2], n=6→[2,1,1,2], n=5→[1,1,1,2]
+            const g = [2, 2, 2, 2];
+            const order = [2, 1, 0, 3];
+            let deficit = 8 - n;
+            while (deficit > 0) {
+                for (const pos of order) {
+                    if (deficit <= 0) break;
+                    if (g[pos] > 0) { g[pos]--; deficit--; }
+                }
+            }
+            return g;
+        }
+
+        /** Build step2: merge step1 segments according to 4-group distribution */
+        function buildStep2(step1) {
+            const n = step1.length;
+            if (n === 0) return [];
+            const groups = distributeInto4(n);
+            const step2 = [];
+            let idx = 0;
+            for (const size of groups) {
+                if (size === 0) continue;
+                const slice = step1.slice(idx, idx + size);
+                step2.push([slice[0][0], slice[slice.length - 1][1]]);
+                idx += size;
+            }
+            return step2;
+        }
+
+        /** Build step3: pair up step2 entries (groups of 2) */
+        function buildStep3(step2) {
+            const step3 = [];
+            for (let i = 0; i < step2.length; i += 2) {
+                const a = step2[i];
+                const b = step2[i + 1];
+                step3.push([a[0], b ? b[1] : a[1]]);
+            }
+            return step3;
+        }
+
         function serializeWorkspaceStateToJsCodeblock() {
             if (!ioJson || window.rawMarkers.length === 0) return;
 
@@ -846,30 +1001,10 @@
                 let activeGroup = groupedByP[pKey];
                 let step1 = activeGroup.map(seg => [parseFloat(seg.start.toFixed(1)), parseFloat(seg.end.toFixed(1))]);
 
-                let headMarker = activeGroup[0];
-                let step2 = headMarker.origStep2;
-                let step3 = headMarker.origStep3;
-                let step4 = headMarker.origStep4;
-
-                if (!step2 || step2.length === 0) {
-                    step2 = [];
-                    for (let j = 0; j < step1.length; j += 2) {
-                        if (step1[j]) {
-                            step2.push([step1[j][0], step1[j + 1] ? step1[j + 1][1] : step1[j][1]]);
-                        }
-                    }
-                }
-                if (!step3 || step3.length === 0) {
-                    step3 = [];
-                    for (let k = 0; k < step2.length; k += 2) {
-                        if (step2[k]) {
-                            step3.push([step2[k][0], step2[k + 1] ? step2[k + 1][1] : step2[k][1]]);
-                        }
-                    }
-                }
-                if (!step4 || step4.length === 0) {
-                    step4 = [parseFloat(activeGroup[0].start.toFixed(1)), parseFloat(activeGroup[activeGroup.length - 1].end.toFixed(1))];
-                }
+                // Always recompute steps 2/3/4 from step1 so edits propagate correctly.
+                const step2 = buildStep2(step1);
+                const step3 = buildStep3(step2);
+                const step4 = [step1[0][0], step1[step1.length - 1][1]];
 
                 timelineBlocks.push({
                     p: parseInt(pKey),

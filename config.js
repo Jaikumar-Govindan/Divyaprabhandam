@@ -163,7 +163,7 @@ const CONFIG = {
         availableContent: ["3_1", "3_2", "3_3", "3_4", "3_5"]
     }),
 
-    'RN': makeGroupedBook({ key: 'RN', defPas: 108, ex: { '0': 1 } }),
+    'RN': makeGroupedBook({ key: 'RN', defPas: 108, ex: { '0': 3 } }),
     'URM': makeGroupedBook({ key: 'URM', defPas: 74, ex: { '0': 1 } }),
 };
 
