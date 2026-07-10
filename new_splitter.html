@@ -371,35 +371,65 @@
          * and timeline URL fields with their standard relative paths.
          * e.g. "RN_11_20.ogg" → book=RN → fills marker_rn_ta.js + marker_rn_timelines.js
          */
+        /**
+         * Parse audio filename into components.
+         * Returns: { book, chapter, subChapter, type }
+         *   type: 'grouped'     e.g. RN_11_20    → chapter=null, range via parseRangeFromFilename
+         *         'simple'      e.g. AAP_1        → chapter=1, subChapter=null
+         *         'subchapter'  e.g. PAT_3.1      → chapter=3, subChapter=1
+         */
+        function parseAudioFilename(audioFilename) {
+            const base = audioFilename.replace(/\.[^.]+$/, ''); // strip extension
+
+            // Sub-chapter: BOOK_CH.SUBCH  e.g. PAT_3.1
+            const subMatch = base.match(/^([A-Za-z0-9]+)_(\d+)\.(\d+)$/);
+            if (subMatch) return { book: subMatch[1], chapter: parseInt(subMatch[2]), subChapter: parseInt(subMatch[3]), type: 'subchapter' };
+
+            // Grouped: BOOK_START_END  e.g. RN_11_20
+            const groupMatch = base.match(/^([A-Za-z0-9]+)_(\d+)_(\d+)$/);
+            if (groupMatch) return { book: groupMatch[1], chapter: null, subChapter: null, type: 'grouped' };
+
+            // Simple single chapter: BOOK_N  e.g. AAP_1, PMT_3
+            const simpleMatch = base.match(/^([A-Za-z0-9]+)_(\d+)$/);
+            if (simpleMatch) return { book: simpleMatch[1], chapter: parseInt(simpleMatch[2]), subChapter: null, type: 'simple' };
+
+            return null;
+        }
+
         function autoFillCompanionPaths(audioFilename) {
-            // Strip extension, then extract book key = everything before the first underscore+digit
-            const base  = audioFilename.replace(/\.[^.]+$/, '');          // "RN_11_20"
-            const match = base.match(/^([A-Za-z0-9]+?)_/);                // "RN"
-            if (!match) return;
+            const parsed = parseAudioFilename(audioFilename);
+            if (!parsed) return;
 
-            const book  = match[1];
-            const bLow  = book.toLowerCase();
-            const root  = 'aruLicheyal';
+            const { book, chapter, type } = parsed;
+            const bLow = book.toLowerCase();
+            const root = 'aruLicheyal';
 
-            const textPath     = `${root}/${book}/text/marker_${bLow}_ta.js`;
-            const timelinePath = `${root}/${book}/markers/marker_${bLow}_timelines.js`;
+            let textPath, timelinePath;
+
+            if (type === 'subchapter') {
+                // PAT_3.1 → text/3_ta.js, markers/timelines_3.js
+                textPath     = `${root}/${book}/text/${chapter}_ta.js`;
+                timelinePath = `${root}/${book}/markers/timelines_${chapter}.js`;
+            } else {
+                // grouped (RN_11_20) or simple (AAP_1) → flat marker files
+                textPath     = `${root}/${book}/text/marker_${bLow}_ta.js`;
+                timelinePath = `${root}/${book}/markers/marker_${bLow}_timelines.js`;
+            }
 
             const textEl  = document.getElementById('textUrlInput');
             const stepsEl = document.getElementById('stepsUrlInput');
 
-            if (textEl  && !textEl.value)  textEl.value  = textPath;
-            if (stepsEl && !stepsEl.value) stepsEl.value = timelinePath;
+            if (textEl)  textEl.value  = textPath;
+            if (stepsEl) stepsEl.value = timelinePath;
 
-            console.log(`[Splitter] Auto-filled paths for book "${book}":`, textPath, timelinePath);
+            console.log(`[Splitter] Auto-filled [${type}] paths for book "${book}":`, textPath, timelinePath);
         }
 
         function initiateAudioStreamingNode(url, targetFilename = "") {
-            if (targetFilename) {
-                currentFileName = targetFilename.split('.')[0];
-            } else {
-                currentFileName = url.split('/').pop().split('?')[0].split('.')[0] || "audio_track";
-            }
-            currentAudioFileName = currentFileName; // save audio basename for range detection
+            const rawName = targetFilename || url.split('/').pop().split('?')[0] || "audio_track";
+            // Strip only the final extension (.ogg) — preserve dots in sub-chapter names like PAT_3.1
+            currentAudioFileName = rawName.replace(/\.[^.]+$/, '');
+            currentFileName = currentAudioFileName;
             player.src = url;
             player.load();
             document.getElementById('captureBtn').disabled = false;
@@ -473,20 +503,40 @@
 
         /**
          * Picks the best MARKER_DATABASE key for the current audio file.
-         * Prefers keys that contain the book name from the audio filename.
+         *
+         * RN_11_20    → keys like "RN.1.steps"    → match on book "RN"
+         * AAP_1       → keys like "AAP.1.steps"   → match on book + chapter "AAP.1"
+         * PAT_3.1     → keys like "PAT.3.10.steps"→ match on book + chapter "PAT.3"
          */
         function pickBestMarkerKey(keys, audioFilename) {
             if (!audioFilename) return keys.length === 1 ? keys[0] : null;
 
-            // Extract book from audio filename e.g. "RN_11_20" → "RN"
-            const bookMatch = audioFilename.match(/^([A-Za-z0-9]+?)_/);
-            const book = bookMatch ? bookMatch[1].toLowerCase() : '';
+            const parsed = parseAudioFilename(audioFilename);
+            if (!parsed) return keys.length === 1 ? keys[0] : null;
 
-            // Find keys that contain the book name
-            const matching = keys.filter(k => book && k.toLowerCase().includes(book));
+            const { book, chapter, type } = parsed;
+            const bLow = book.toLowerCase();
+
+            if (type === 'subchapter' && chapter !== null) {
+                // Match keys containing book + chapter: "PAT.3."
+                const prefix = `${bLow}.${chapter}.`;
+                const matching = keys.filter(k => k.toLowerCase().includes(prefix));
+                if (matching.length === 1) return matching[0];
+                if (matching.length > 1) return matching[0]; // pick first (most likely steps key)
+            }
+
+            if (type === 'simple' && chapter !== null) {
+                // Match keys containing book + chapter: "AAP.1."
+                const prefix = `${bLow}.${chapter}.`;
+                const matching = keys.filter(k => k.toLowerCase().includes(prefix));
+                if (matching.length === 1) return matching[0];
+            }
+
+            // grouped or fallback: match on book name only
+            const matching = keys.filter(k => k.toLowerCase().includes(bLow));
             if (matching.length === 1) return matching[0];
             if (keys.length === 1) return keys[0];
-            return null; // ambiguous
+            return null; // ambiguous — show dropdown
         }
 
         function autoLoadMarkerKey(key, allKeys) {
@@ -514,22 +564,23 @@
 
         /**
          * Parse the pasuram range from the audio filename.
-         * "RN_11_20"  → { start: 11, end: 20 }
-         * "RN_0"      → { start: 0,  end: 0  }
-         * "RN_1_10"   → { start: 1,  end: 10 }
-         * Returns null if no range can be determined (load all).
+         * "RN_11_20"   → { start: 11, end: 20, type: 'grouped' }
+         * "AAP_1"      → { start: null, end: null, type: 'simple' }   load all
+         * "PAT_3.1"    → { start: null, end: null, type: 'subchapter' } load all for that chapter
+         * Returns null if unparseable (load all).
          */
         function parseRangeFromFilename(filename) {
-            // Match BOOK_START_END  (e.g. RN_11_20, 1TA_91_100)
-            const rangeMatch = filename.match(/_(\d+)_(\d+)$/);
-            if (rangeMatch) return { start: parseInt(rangeMatch[1], 10), end: parseInt(rangeMatch[2], 10) };
+            const parsed = parseAudioFilename(filename);
+            if (!parsed) return null;
 
-            // Match BOOK_N  (e.g. RN_0, PMT_3 — single chapter)
-            const singleMatch = filename.match(/_(\d+)$/);
-            if (singleMatch) {
-                const n = parseInt(singleMatch[1], 10);
-                return { start: n, end: n };
+            if (parsed.type === 'grouped') {
+                // Extract start/end from BOOK_START_END
+                const m = filename.match(/_(\d+)_(\d+)/);
+                if (m) return { start: parseInt(m[1], 10), end: parseInt(m[2], 10), type: 'grouped' };
             }
+
+            // simple and subchapter: load all entries (no pasuram filtering needed)
+            return null;
 
             return null; // no range info — load all
         }
