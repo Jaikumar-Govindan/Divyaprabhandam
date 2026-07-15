@@ -107,16 +107,77 @@ const Navigation = {
     },
 
     /**
+     * Expected pasuram count for a section id ("0", "1", or "2.7") from CONFIG.ex / defPas.
+     */
+    sectionPasuramCount: function (pre, sectionId) {
+        const c = typeof CONFIG !== 'undefined' ? CONFIG[pre] : null;
+        if (!c) return 0;
+        const ex = c.ex || {};
+        const sid = String(sectionId);
+        if (typeof ex[sid] !== 'undefined') return ex[sid];
+        return c.defPas || 10;
+    },
+
+    /**
+     * Lists all valid pasuram / taniyan options for a book from CONFIG limits.
+     * Returns [{ value, label, group }, ...] for building the #number select.
+     */
+    listPasuramOptions: function (pre) {
+        const c = typeof CONFIG !== 'undefined' ? CONFIG[pre] : null;
+        if (!c) return [];
+
+        const options = [];
+
+        if (c.hasSub || c.structure === 'chapter_sub_pasuram') {
+            const maxCh = c.maxCh || 10;
+            const maxSub = c.maxSub || c.defSubs || 10;
+            for (let ch = 1; ch <= maxCh; ch++) {
+                for (let sub = 1; sub <= maxSub; sub++) {
+                    const sectionId = `${ch}.${sub}`;
+                    const n = this.sectionPasuramCount(pre, sectionId);
+                    const group = sectionId;
+                    for (let pas = 1; pas <= n; pas++) {
+                        const value = `${ch}.${sub}.${pas}`;
+                        options.push({ value, label: `Pasuram ${pas}`, group });
+                    }
+                }
+            }
+            return options;
+        }
+
+        const minCh = typeof c.minCh !== 'undefined' ? c.minCh : 0;
+        const maxCh = typeof c.maxCh !== 'undefined' ? c.maxCh : 1;
+        for (let ch = minCh; ch <= maxCh; ch++) {
+            const n = this.sectionPasuramCount(pre, String(ch));
+            const group = ch === 0 ? 'Taniyans' : `Chapter ${ch}`;
+            for (let pas = 1; pas <= n; pas++) {
+                const value = `${ch}.${pas}`;
+                const label = ch === 0 ? `Taniyan ${pas}` : `Pasuram ${pas}`;
+                options.push({ value, label, group });
+            }
+        }
+        return options;
+    },
+
+    /**
      * Returns the total maximum pasuram limit for the current active section boundary.
      */
     getLimit: function (pre, ch, sub) {
-        // 1. Prioritize structural config exceptions (like Thaniyan counts) first
         const c = typeof CONFIG !== 'undefined' ? CONFIG[pre] : null;
-        if (c && c.ex && typeof c.ex[ch] !== 'undefined') {
-            return c.ex[ch];
+
+        // 1. Prioritize structural config exceptions (Thaniyan counts / sub-chapter ex)
+        if (c && c.ex) {
+            if (c.hasSub || c.structure === 'chapter_sub_pasuram') {
+                const subKey = `${ch}.${sub}`;
+                if (typeof c.ex[subKey] !== 'undefined') return c.ex[subKey];
+            }
+            if (typeof c.ex[ch] !== 'undefined') return c.ex[ch];
+            if (typeof c.ex[String(ch)] !== 'undefined') return c.ex[String(ch)];
         }
 
-        if (!window.MARKER_DATABASE) return 0;
+        if (!window.MARKER_DATABASE) {
+            return c ? (c.defPas || 10) : 0;
+        }
 
         // 2. Construct a fallback list of separator variants (. vs _) and casing (upper/lower)
         // This ensures compatibility with both standard "TVM.3.2" and splitter-produced "tvm_3_2" keys.
@@ -157,3 +218,5 @@ const Navigation = {
         return c ? (c.defPas || 10) : 0;
     }
 };
+
+window.Navigation = Navigation;

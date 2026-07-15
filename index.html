@@ -21,32 +21,38 @@
 
         .card {
             background: white;
-            padding: 20px;
+            padding: 16px;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             width: 100%;
             max-width: 680px;
             box-sizing: border-box;
             position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-chrome {
+            flex: 0 0 auto;
         }
 
         h2 {
             text-align: center;
             color: #1c1e21;
             margin-top: 0;
-            margin-bottom: 12px;
-            font-size: 1.35rem;
+            margin-bottom: 0;
+            font-size: 1.2rem;
             font-weight: 700;
         }
 
         .input-group {
-            margin-bottom: 10px;
+            margin-bottom: 0;
         }
 
         label {
             display: block;
-            font-size: 0.75rem;
-            margin-bottom: 4px;
+            font-size: 0.7rem;
+            margin-bottom: 3px;
             color: #4b4f56;
             font-weight: 600;
             text-transform: uppercase;
@@ -54,16 +60,19 @@
         }
 
         select,
-        input {
+        input[type="text"],
+        input[type="number"],
+        input:not([type]) {
             width: 100%;
-            padding: 10px;
+            padding: 6px 8px;
             border: 1px solid #ccd0d5;
-            border-radius: 10px;
-            font-size: 15px;
+            border-radius: 8px;
+            font-size: 14px;
             box-sizing: border-box;
             background-color: #fff;
             color: #1c1e21;
-            height: 42px;
+            height: 34px;
+            min-height: 34px;
         }
 
         select:focus,
@@ -73,120 +82,390 @@
             box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.15);
         }
 
-        /* READJUSTED COMPACT SELECTION & CONFIGURATION GRID */
-        .config-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
-            gap: 10px;
-            margin-bottom: 12px;
+        .pasuram-pickers {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 6px;
+            width: auto;
+            align-items: end;
         }
 
-        .flex-row {
+        .picker-field {
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+            flex: 0 0 auto;
+        }
+
+        .picker-field label {
+            margin: 0;
+            font-size: 0.65rem;
+            letter-spacing: 0.3px;
+            color: #65676b;
+        }
+
+        #pasPartField {
+            width: 6.75rem;
+        }
+
+        #pasSubField {
+            width: 4.25rem;
+        }
+
+        #pasVerseField {
+            width: 3.75rem;
+        }
+
+        .pasuram-pickers select,
+        .pasuram-pickers input[type="number"] {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .pasuram-pickers select.hidden,
+        .pasuram-pickers .picker-field.hidden {
+            display: none !important;
+        }
+
+        .pasuram-hint {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .config-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 0;
+        }
+
+        .config-row {
+            display: grid;
+            gap: 8px;
+        }
+
+        .config-row-primary {
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: end;
+            gap: 8px;
+        }
+
+        .input-group-pasuram {
+            flex: 0 0 auto;
+        }
+
+        .config-row-practice {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 6px;
+            padding: 0;
+            border-top: none;
+            margin-top: 0;
+            align-items: end;
+        }
+
+        .config-row-practice .input-group {
+            min-width: 0;
+        }
+
+        .switch-field {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .switch-field .switch-label,
+        .config-row-practice .switch-label {
+            display: block;
+            margin: 0 0 3px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #4b4f56;
+        }
+
+        .switch-control {
+            display: inline-flex;
             align-items: center;
+            height: 34px;
+            min-height: 34px;
+        }
+
+        .switch-control input {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            pointer-events: none;
+        }
+
+        .switch-ui {
+            position: relative;
+            width: 40px;
+            height: 24px;
+            border-radius: 999px;
+            background: #ccd0d5;
+            transition: background 0.15s;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .switch-ui::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transition: transform 0.15s;
+        }
+
+        .switch-control input:checked + .switch-ui {
+            background: #0070ba;
+        }
+
+        .switch-control input:checked + .switch-ui::after {
+            transform: translateX(16px);
+        }
+
+        .switch-control input:focus-visible + .switch-ui {
+            box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.25);
+        }
+
+        .transport-row {
+            display: block;
+            margin-top: 8px;
         }
 
         .nav-controls {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
-            margin-top: 16px;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 6px;
+            width: 100%;
+            margin-top: 0;
+        }
+
+        .repeat-stepper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0;
+            height: 34px;
+            min-height: 34px;
+            padding: 0;
+            background: #fff;
+            border: 1px solid #ccd0d5;
+            border-radius: 8px;
+            box-sizing: border-box;
+            min-width: 0;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .repeat-stepper .repeat-count {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1c1e21;
+            line-height: 1;
+            min-width: 1.5ch;
+            text-align: left;
+            flex: 1 1 auto;
+            padding: 0 8px;
+        }
+
+        .stepper-rail {
+            display: flex;
+            flex-direction: column;
+            width: 22px;
+            height: 100%;
+            background: #f0f2f5;
+            border-left: 1px solid #ccd0d5;
+            border-radius: 0;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .stepper-rail button {
+            flex: 1 1 50%;
+            height: 50%;
+            min-height: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            color: #4b4f56;
+            font-size: 0.5rem;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .stepper-rail button + button {
+            border-top: 1px solid #ccd0d5;
+        }
+
+        .stepper-rail button:active {
+            background: #e4e6eb;
+            transform: none;
+        }
+
+        @media (min-width: 901px) and (min-height: 701px) {
+            .card {
+                max-width: 720px;
+                padding: 20px;
+                min-height: min(88vh, 820px);
+            }
+
+            .config-row-primary {
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 10px;
+            }
+
+            .config-row-practice {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                gap: 10px;
+            }
         }
 
         button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            height: 46px;
             border: none;
-            border-radius: 10px;
-            font-size: 0.95rem;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
             user-select: none;
             touch-action: manipulation;
+            box-sizing: border-box;
         }
 
         button:active {
-            transform: scale(0.98);
+            transform: scale(0.96);
+        }
+
+        button:disabled {
+            opacity: 0.35;
+            cursor: default;
+            transform: none;
+        }
+
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .header-row h2 {
+            margin: 0;
+            flex: 1;
+            min-width: 0;
+            text-align: left;
+            font-size: 1.05rem;
+            line-height: 1.2;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            min-height: 32px;
+            padding: 0;
+            background-color: #e4e6eb;
+            color: #050505;
+            font-size: 1rem;
+            line-height: 1;
+            border-radius: 8px;
+        }
+
+        .btn-icon:hover {
+            background-color: #d8dadf;
+        }
+
+        .btn-nav,
+        .btn-play {
+            height: 36px;
+            min-height: 36px;
+            padding: 0;
+            font-size: 1.05rem;
+            line-height: 1;
+            border-radius: 8px;
+        }
+
+        .btn-nav {
+            background-color: #e4e6eb;
+            color: #050505;
+        }
+
+        .btn-nav:hover:not(:disabled) {
+            background-color: #d8dadf;
         }
 
         .btn-play {
-            width: 100%;
-
-            padding: 14px 10px;
             background-color: #0070ba;
             color: white;
-            border: none;
-
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 4px 12px rgba(0, 112, 186, 0.2);
-
-            margin-bottom: 0;
-            letter-spacing: 0.5px;
-            height: 48px;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 112, 186, 0.2);
         }
 
         .btn-play:hover {
             background-color: #005a96;
         }
 
-        .btn-nav {
-
-            padding: 14px 10px;
-            background-color: #e4e6eb;
-            color: #050505;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            height: 48px;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .btn-play.is-playing {
+            background-color: #d93838;
+            box-shadow: 0 2px 8px rgba(217, 56, 56, 0.25);
         }
 
-        .status {
-            margin-top: 12px;
-            font-size: 0.75rem;
-            color: #0070ba;
-            text-align: center;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        /* EXPANDED PASURAM DISPLAY TEXT AREA */
         .pasuram-text-panel {
             background: #fffdf2;
             border: 1px solid #f6e58d;
-            padding: 20px 16px;
+            padding: 12px 14px;
             border-radius: 12px;
-            margin-top: 14px;
-            font-size: clamp(1.3rem, 5vw, 1.65rem);
-            line-height: 1.7;
+            margin-top: 10px;
+            font-size: 1.35rem;
+            line-height: 1.45;
             color: #2c3e50;
             text-align: center;
             box-sizing: border-box;
             white-space: normal;
             word-break: break-word;
             overflow-wrap: break-word;
+            flex: 1 1 auto;
             min-height: 280px;
-            max-height: calc(100vh - 340px);
-            overflow-y: auto;
+            overflow: hidden;
         }
 
         .pasuram-text-panel span.active-segment {
@@ -209,13 +488,254 @@
             display: none;
         }
 
-        @media (min-width: 580px) {
+        /* Zero-scroll: phones + landscape (width OR short height) */
+        @media (max-width: 900px), (max-height: 700px) {
+            html,
+            body {
+                height: 100%;
+                max-height: 100dvh;
+                overflow: hidden;
+                overscroll-behavior: none;
+            }
+
+            body {
+                align-items: stretch;
+                padding: 0;
+                min-height: 100dvh;
+                min-height: 100svh;
+            }
+
             .card {
-                padding: 24px;
+                width: 100%;
+                max-width: none;
+                height: 100dvh;
+                height: 100svh;
+                max-height: 100dvh;
+                max-height: 100svh;
+                min-height: 0;
+                margin: 0;
+                padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+                border-radius: 0;
+                box-shadow: none;
+                overflow: hidden;
+            }
+
+            .app-chrome {
+                flex: 0 1 auto;
+                min-height: 0;
+                max-height: 42%;
+                overflow: hidden;
+            }
+
+            .header-row {
+                margin-bottom: 4px;
+                gap: 6px;
+            }
+
+            .header-row h2 {
+                font-size: 0.88rem;
+            }
+
+            .btn-icon {
+                width: 28px;
+                height: 28px;
+                min-height: 28px;
+                font-size: 0.9rem;
+                border-radius: 6px;
+            }
+
+            .config-stack {
+                gap: 4px;
+            }
+
+            .config-row {
+                gap: 4px;
+            }
+
+            label,
+            .switch-field .switch-label,
+            .config-row-practice .switch-label {
+                font-size: 0.58rem;
+                margin-bottom: 1px;
+                letter-spacing: 0.15px;
+            }
+
+            select,
+            input[type="text"],
+            input[type="number"],
+            input:not([type]) {
+                height: 28px;
+                min-height: 28px;
+                padding: 2px 6px;
+                font-size: 12px;
+                border-radius: 6px;
+            }
+
+            .config-row-primary {
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 4px;
+            }
+
+            .pasuram-pickers {
+                gap: 4px;
+            }
+
+            #pasPartField {
+                width: 5.5rem;
+            }
+
+            #pasSubField {
+                width: 3.5rem;
+            }
+
+            #pasVerseField {
+                width: 3.25rem;
+            }
+
+            .picker-field {
+                gap: 1px;
+            }
+
+            .picker-field label {
+                font-size: 0.55rem;
+            }
+
+            .config-row-practice {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                gap: 4px;
+                padding: 0;
+                margin-top: 4px;
+            }
+
+            .switch-control {
+                height: 28px;
+                min-height: 28px;
+            }
+
+            .switch-ui {
+                width: 36px;
+                height: 22px;
+            }
+
+            .switch-ui::after {
+                width: 18px;
+                height: 18px;
+            }
+
+            .switch-control input:checked + .switch-ui::after {
+                transform: translateX(14px);
+            }
+
+            .transport-row {
+                gap: 6px;
+                margin-top: 6px;
+            }
+
+            .nav-controls {
+                gap: 4px;
+            }
+
+            .btn-nav,
+            .btn-play {
+                height: 30px;
+                min-height: 30px;
+                font-size: 0.95rem;
+                border-radius: 6px;
+            }
+
+            .stepper-rail {
+                width: 20px;
+            }
+
+            .repeat-stepper {
+                height: 28px;
+                min-height: 28px;
+                border-radius: 6px;
+            }
+
+            .repeat-stepper .repeat-count {
+                font-size: 12px;
+                padding: 0 6px;
+            }
+
+            /* Remaining viewport = lyrics; never force a min that overflows */
+            .pasuram-text-panel {
+                flex: 1 1 0;
+                min-height: 0;
+                margin-top: 6px;
+                padding: 8px 10px;
+                border-radius: 10px;
+                font-size: 1.2rem;
+                line-height: 1.35;
+                overflow: hidden;
+            }
+        }
+
+        /* Short landscape: compress chrome further so lyrics stays on-screen */
+        @media ((max-width: 900px) and (max-height: 480px)),
+               ((orientation: landscape) and (max-height: 500px)) {
+            .card {
+                padding: 4px 6px calc(4px + env(safe-area-inset-bottom, 0px));
+            }
+
+            .app-chrome {
+                max-height: 38%;
+            }
+
+            .header-row {
+                margin-bottom: 2px;
+            }
+
+            .header-row h2 {
+                font-size: 0.78rem;
+            }
+
+            .btn-icon {
+                width: 24px;
+                height: 24px;
+                min-height: 24px;
+                font-size: 0.8rem;
+            }
+
+            label,
+            .switch-field .switch-label,
+            .config-row-practice .switch-label,
+            .picker-field label {
+                display: none;
+            }
+
+            .config-stack {
+                gap: 2px;
+            }
+
+            select,
+            input[type="text"],
+            input[type="number"],
+            input:not([type]),
+            .switch-control {
+                height: 24px;
+                min-height: 24px;
+            }
+
+            .btn-nav,
+            .btn-play {
+                height: 26px;
+                min-height: 26px;
+                font-size: 0.85rem;
+            }
+
+            .stepper-rail {
+                width: 18px;
+            }
+
+            .transport-row {
+                margin-top: 4px;
             }
 
             .pasuram-text-panel {
-                min-height: 340px;
+                margin-top: 4px;
+                padding: 6px 8px;
+                line-height: 1.25;
             }
         }
     </style>
@@ -224,89 +744,143 @@
 <body>
 
     <div id="mainCard" class="card">
-        <h2>AruLicheyal Sandhai Player</h2>
-
-        <div class="config-grid">
-            <div class="input-group">
-                <label>Prabandham</label>
-
-                <select id="prefix" onchange="resetToStart()">
-                    <optgroup label="1000 - Mudhalaayiram">
-                        <option value="TPL">ThiruppaLLaaNdu</option>
-                        <option value="PAT">Periyaazhwaar Thirumozhi</option>
-                        <option value="TPV">Thiruppaavai</option>
-                        <option value="NAT">Naachiyaar Thirumozhi</option>
-                        <option value="PMT" selected>PerumaaL Thirumozhi</option>
-                        <option value="TCV">Thiruchchandha Viruththam</option>
-                        <option value="TML">Thirumaalai</option>
-                        <option value="TPE">ThiruppaLLiyezhuchchi</option>
-                        <option value="AAP">Amalanaadhipiraan</option>
-                        <option value="KCT">Kanninunchiruththaambu</option>
-                    </optgroup>
-                    <optgroup label="2000 - Periya Thirumozhi">
-                        <option value="PTM">Periya Thirumozhi</option>
-                        <option value="TKT">Thirukkurunthaandakam</option>
-                        <option value="TNT">Thirunedunthaandakam</option>
-                    </optgroup>
-                    <optgroup label="3000 - Iyarpaa">
-                        <option value="1TA">Mudhal Thiruvandhaadhi</option>
-                        <option value="2TA">Irandaam Thiruvandhaadhi</option>
-                        <option value="3TA">Moondraam Thiruvandhaadhi</option>
-                    </optgroup>
-                    <optgroup label="4000 - Thiruvaaimozhi">
-                        <option value="TVM">Thiruvaaimozhi</option>
-                        <option value="RN">Raamaanusa Nootrandhaadhi</option>
-                    </optgroup>
-                    <optgroup label="Others">
-                        <option value="URM">UpadEsa Rathinamaalai</option>
-                    </optgroup>
-                </select>
+        <div class="app-chrome" id="appChrome">
+            <div class="header-row">
+                <h2>AruLicheyal Sandhai</h2>
+                <div class="header-actions">
+                    <button type="button" id="copyLinkBtn" class="btn-icon" onclick="copyShareLink()"
+                        title="Copy shareable link" aria-label="Copy shareable link">🔗</button>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label id="numLabel">Paasuram</label>
-                <input title="(Ch.Sub.Pas) - eg: For TVM - 1.1.1" type="text" id="number" value="0.1" inputmode="decimal" placeholder="e.g. 1.1">
+            <div class="config-stack">
+                <div class="config-row config-row-primary">
+                    <div class="input-group">
+                        <label for="prefix">Prabandham</label>
+                        <select id="prefix" onchange="resetToStart()">
+                            <optgroup label="1000 - Mudhalaayiram">
+                                <option value="TPL">ThiruppaLLaaNdu</option>
+                                <option value="PAT">Periyaazhwaar Thirumozhi</option>
+                                <option value="TPV">Thiruppaavai</option>
+                                <option value="NAT">Naachiyaar Thirumozhi</option>
+                                <option value="PMT" selected>PerumaaL Thirumozhi</option>
+                                <option value="TCV">Thiruchchandha Viruththam</option>
+                                <option value="TML">Thirumaalai</option>
+                                <option value="TPE">ThiruppaLLiyezhuchchi</option>
+                                <option value="AAP">Amalanaadhipiraan</option>
+                                <option value="KCT">Kanninunchiruththaambu</option>
+                            </optgroup>
+                            <optgroup label="2000 - Periya Thirumozhi">
+                                <option value="PTM">Periya Thirumozhi</option>
+                                <option value="TKT">Thirukkurunthaandakam</option>
+                                <option value="TNT">Thirunedunthaandakam</option>
+                            </optgroup>
+                            <optgroup label="3000 - Iyarpaa">
+                                <option value="1TA">Mudhal Thiruvandhaadhi</option>
+                                <option value="2TA">Irandaam Thiruvandhaadhi</option>
+                                <option value="3TA">Moondraam Thiruvandhaadhi</option>
+                            </optgroup>
+                            <optgroup label="4000 - Thiruvaaimozhi">
+                                <option value="TVM">Thiruvaaimozhi</option>
+                                <option value="RN">Raamaanusa Nootrandhaadhi</option>
+                            </optgroup>
+                            <optgroup label="Others">
+                                <option value="URM">UpadEsa Rathinamaalai</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="input-group input-group-pasuram">
+                        <span id="numLabel" class="sr-only">Paasuram</span>
+                        <div class="pasuram-pickers" id="pasuramPickers" role="group" aria-labelledby="numLabel">
+                            <div class="picker-field" id="pasPartField">
+                                <label for="pasPart">Ch.</label>
+                                <select id="pasPart" aria-label="Chapter or taniyans" onchange="onPasuramPickerChange()">
+                                    <option value="0">Taniyan</option>
+                                    <option value="1">1</option>
+                                </select>
+                            </div>
+                            <div class="picker-field hidden" id="pasSubField">
+                                <label for="pasSub">Dec.</label>
+                                <select id="pasSub" aria-label="Decad" onchange="onPasuramPickerChange()"></select>
+                            </div>
+                            <div class="picker-field" id="pasVerseField">
+                                <label for="pasVerse">No.</label>
+                                <input id="pasVerse" type="number" min="1" step="1" inputmode="numeric"
+                                    aria-label="Paasuram number" placeholder="1" value="1"
+                                    onchange="onPasuramPickerChange()" enterkeyhint="done">
+                            </div>
+                        </div>
+                        <div class="pasuram-hint" id="pasuramHint" aria-live="polite"></div>
+                        <input type="hidden" id="number" value="0.1">
+                    </div>
+                </div>
+
+                <div id="practicePanel" class="config-row config-row-practice practice-panel">
+                    <div class="input-group">
+                        <label for="learningStep">Mode</label>
+                        <select id="learningStep" onchange="onLearningStepChange()">
+                            <option value="step1" selected>Half-Line</option>
+                            <option value="step2">One-Line</option>
+                            <option value="step3">Two-Line</option>
+                            <option value="step4">Full</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="playbackSpeed">Speed</label>
+                        <select id="playbackSpeed" onchange="updateEngineSpeed()">
+                            <option value="0.75">0.75x</option>
+                            <option value="0.85">0.85x</option>
+                            <option value="1.0" selected>1.0x</option>
+                            <option value="1.15">1.15x</option>
+                            <option value="1.25">1.25x</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="textLanguage">Language</label>
+                        <select id="textLanguage" onchange="onTextLanguageChange()">
+                            <option value="ta" selected>தமிழ்</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <div class="switch-field">
+                        <span class="switch-label" id="autoLabel">Auto-Next</span>
+                        <label class="switch-control" title="Auto-advance to next paasuram">
+                            <input type="checkbox" id="autoNextToggle" checked
+                                aria-labelledby="autoLabel" onchange="onAutoToggleChange()">
+                            <span class="switch-ui" aria-hidden="true"></span>
+                        </label>
+                        <input type="hidden" id="autoNext" value="true">
+                    </div>
+                    <div class="input-group">
+                        <label id="repeatLabel" for="repeatDisplay">Repeat</label>
+                        <div class="repeat-stepper" title="Repeat count" role="group" aria-labelledby="repeatLabel">
+                            <span class="repeat-count" id="repeatDisplay">3</span>
+                            <div class="stepper-rail">
+                                <button type="button" onclick="nudgeRepeat(1)" title="Increase repeat"
+                                    aria-label="Increase repeat">▲</button>
+                                <button type="button" onclick="nudgeRepeat(-1)" title="Decrease repeat"
+                                    aria-label="Decrease repeat">▼</button>
+                            </div>
+                            <input type="hidden" id="repeatLimit" value="3" min="1">
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label>Learning Mode</label>
-                <select id="learningStep" onchange="resetLineTracking()">
-                    <option value="step1" selected>Step 1: Half-Line</option>
-                    <option value="step2">Step 2: One-Line</option>
-                    <option value="step3">Step 3: Two-Line</option>
-                    <option value="step4">Step 4: Full Practice</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Speed</label>
-                <select id="playbackSpeed" onchange="updateEngineSpeed()">
-                    <option value="0.75">0.75x (Slower)</option>
-                    <option value="0.85">0.85x</option>
-                    <option value="1.0" selected>1.0x (Normal)</option>
-                    <option value="1.15">1.15x</option>
-                    <option value="1.25">1.25x (Faster)</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Repeat</label>
-                <input type="number" id="repeatLimit" value="3" min="1">
-            </div>
-            <div class="input-group">
-                <label>Language</label>
-                <select id="textLanguage" onchange="renderCurrentPasuramText()">
-                    <option value="ta" selected>தமிழ் (Tamil)</option>
-                    <option value="en">English</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Auto-Advance</label>
-                <select id="autoNext">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
+            <div class="transport-row">
+                <div class="nav-controls" role="group" aria-label="Playback navigation">
+                    <button type="button" class="btn-nav" onclick="navigate(-1)" title="Previous paasuram"
+                        aria-label="Previous paasuram">⏮</button>
+                    <button type="button" id="prevPhraseBtn" class="btn-nav" onclick="navigatePhrase(-1)"
+                        title="Previous phrase" aria-label="Previous phrase">◂</button>
+                    <button type="button" id="toggleBtn" class="btn-play" onclick="handlePlaybackToggle()"
+                        title="Start recitation" aria-label="Start recitation">▶</button>
+                    <button type="button" id="nextPhraseBtn" class="btn-nav" onclick="navigatePhrase(1)"
+                        title="Next phrase" aria-label="Next phrase">▸</button>
+                    <button type="button" class="btn-nav" onclick="navigate(1)" title="Next paasuram"
+                        aria-label="Next paasuram">⏭</button>
+                </div>
             </div>
         </div>
 
@@ -316,20 +890,11 @@
             </select>
         </div>
 
-
-
-
-        <div class="nav-controls" style="grid-template-columns: 1fr 2fr 1fr;">
-            <button class="btn-nav" onclick="navigate(-1)">Prev</button>
-            <button id="toggleBtn" class="btn-play" onclick="handlePlaybackToggle()">START RECITATION</button>
-            <button class="btn-nav" onclick="navigate(1)">Next</button>
-        </div>
         <div id="pasuramDisplay" class="pasuram-text-panel">
             <em>Select a file or press start to view pasuram lines...</em>
         </div>
 
         <audio id="audioPlayer" playsinline></audio>
-        <!-- <div id="status" class="status">Ready</div> -->
     </div>
     <script src="sync_engine.js"></script>
     <script src="config.js"></script>

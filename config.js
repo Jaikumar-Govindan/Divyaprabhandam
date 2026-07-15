@@ -111,7 +111,7 @@ const CONFIG = {
     'PAT': makeSubChapterBook({
         key: 'PAT', remotePrefix: 'PT',
         structure: 'chapter_sub_pasuram',
-        hasSub: true, maxCh: 10, maxSub: 10, defPas: 10,
+        hasSub: true, maxCh: 5, maxSub: 10, defPas: 10,
         ex: { '1.2': 21, '1.5': 11, '1.6': 11, '1.7': 11, '1.8': 11 },
         availableContent: [
             "1_1", "1_2", "1_3", "1_4", "1_5", "1_6", "1_7", "1_8", "1_9",
@@ -134,8 +134,8 @@ const CONFIG = {
     'PTM': makeSubChapterBook({
         key: 'PTM', remotePrefix: 'PT',
         structure: 'chapter_sub_pasuram',
-        hasSub: true, maxCh: 10, maxSub: 10, defPas: 10, ex: { '2.7': 13 },
-        availableContent: ["5_1", "5_2", "5_3", "5_4", "5_5", "5_6", "5_7", "5_8"]
+        hasSub: true, maxCh: 11, maxSub: 10, defPas: 10, ex: { '2.7': 13 },
+        availableContent: ["5_1", "5_2", "5_3", "5_4", "5_5", "5_6", "5_7", "5_8", "5_9", "5_10"]
     }),
 
     'TKT': makeGroupedBook({ key: 'TKT', defPas: 20, ex: { '0': 3 } }),

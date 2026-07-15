@@ -66,6 +66,10 @@
                     window.mergeLanguageTexts();
                     console.log("[Sync Engine] State modifications merged successfully.");
                 }
+                // Re-init pasuram pickers after hot-swap (DOMContentLoaded will not re-fire)
+                if (typeof window.initPasuramPickers === "function") {
+                    window.initPasuramPickers();
+                }
             }
 
             // Commit new verified signatures map back to client storage bounds

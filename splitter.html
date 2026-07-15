@@ -4,89 +4,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Marker Studio</title>
+    <title>Audio Marker Studio - Native Script Pipeline</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 10px;
-            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 15px;
+            background-color: #f4f6f9;
+            color: #333;
         }
 
-        /* Flex layout splits the workspace into balanced side-by-side columns on desktop */
         .container {
-            max-width: 1400px;
+            max-width: 1550px;
             margin: 0 auto;
             background: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             display: flex;
             gap: 25px;
         }
 
-        /* Left Panel stays focused on configurations and media tracking tools */
         .left-panel {
             flex: 1;
-            min-width: 400px;
+            min-width: 420px;
+            max-width: 550px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        /* Right Panel handles the massive scrollable interactive sequence list */
         .right-panel {
-            flex: 1.2;
-            min-width: 450px;
-            border-left: 1px solid #ddd;
+            flex: 1.4;
+            min-width: 550px;
+            border-left: 1px solid #e0e0e0;
             padding-left: 25px;
             display: flex;
             flex-direction: column;
+            gap: 15px;
         }
 
-        h2 {
-            margin-top: 0;
-            color: #333;
+        .card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 16px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 14px;
         }
 
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #4a5568;
         }
 
-        input[type="text"],
-        select,
-        textarea {
+        .form-group input[type="text"] {
             width: 100%;
             padding: 8px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
+            border: 1px solid #cbd5e0;
             border-radius: 4px;
-        }
-
-        textarea {
-            resize: vertical;
+            font-size: 13px;
+            box-sizing: border-box;
         }
 
         .btn {
-            background-color: #007bff;
-            color: white;
+            padding: 8px 16px;
             border: none;
-            padding: 10px 15px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: background 0.2s;
         }
 
-        .btn:hover {
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
             background-color: #0056b3;
         }
 
-        .btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            min-width: 28px;
+            min-height: 28px;
+            line-height: 0;
+        }
+
+        .btn-icon img {
+            width: 18px;
+            height: 18px;
+            display: block;
+            object-fit: contain;
         }
 
         audio {
@@ -94,315 +130,285 @@
             margin-top: 10px;
         }
 
-        #yt-container {
-            width: 100%;
-            height: 200px;
-            background: #000;
-            margin-top: 10px;
-            display: none;
+        .wf-overview-wrap {
+            margin-top: 8px;
+            border: 1px solid #cfd8dc;
+            border-radius: 4px;
+            background: #fafafa;
+            padding: 6px 8px 8px;
         }
 
-        .marker-list {
-            max-height: 550px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            padding: 10px;
-            background: #fafafa;
+        .wf-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #546e7a;
+            margin-bottom: 4px;
+        }
+
+        .wf-overview-canvas {
+            width: 100%;
+            height: 72px;
+            display: block;
+            cursor: crosshair;
+            border-radius: 3px;
+            background: #eceff1;
+        }
+
+        .wf-segment-canvas {
+            width: 100%;
+            height: 96px;
+            display: block;
+            cursor: ew-resize;
+            border-radius: 6px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            margin-top: 8px;
+            flex: 1 1 100%;
+            touch-action: none;
+        }
+
+        .wf-segment-canvas.wf-expanded {
+            height: 140px;
+        }
+
+        .wf-unavailable {
+            font-size: 12px;
+            color: #888;
+            padding: 8px;
+            background: #f5f5f5;
             border-radius: 4px;
-            flex-grow: 1;
+            margin-top: 8px;
+        }
+
+        #marker-list {
+            max-height: 620px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 10px;
+            background: #f8fafc;
         }
 
         .marker-item {
             display: flex;
             align-items: center;
-            background: #f9f9f9;
-            padding: 8px;
-            margin-bottom: 6px;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            transition: background 0.2s ease;
             flex-wrap: wrap;
-            /* Allows row contents to break lines on small screens */
-            gap: 4px;
+            gap: 8px;
+            padding: 8px;
+            background: #fff;
+            border: 1px solid #edf2f7;
+            border-radius: 4px;
+            margin-bottom: 6px;
         }
 
         .marker-item input[type="number"] {
-            width: 60px;
-            padding: 6px 4px;
-            text-align: center;
+            width: 70px;
+            padding: 6px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-size: 12px;
         }
 
         .marker-item input[type="text"] {
-            flex-grow: 1;
-            min-width: 120px;
-            padding: 6px 8px;
+            flex: 1;
+            padding: 6px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-size: 12px;
         }
 
         .checkbox-label {
+            font-size: 11px;
             display: flex;
             align-items: center;
-            font-size: 12px;
+            gap: 3px;
             cursor: pointer;
-            user-select: none;
             white-space: nowrap;
         }
 
-        .checkbox-label input {
-            margin-right: 3px;
-        }
-
-        .live-display-box {
-            margin-top: 15px;
-            padding: 12px;
-            background: #fffde7;
-            border: 1px solid #fff59d;
-            border-radius: 4px;
+        #livePasuramView {
+            background: #1e1e24;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
             font-size: 15px;
-            line-height: 1.6;
-            max-height: 160px;
+            line-height: 1.8;
+            max-height: 220px;
             overflow-y: auto;
         }
 
+        #livePasuramView hr {
+            border-top: 1px dashed #444;
+            margin: 8px 0;
+        }
+
         .active-phrase {
-            background-color: #ffeb3b;
-            font-weight: bold;
-            padding: 2px 4px;
+            background: #ffeb3b;
+            color: #000;
+            padding: 0 4px;
             border-radius: 3px;
-            border: 1px solid #fbc02d;
+            font-weight: bold;
         }
 
         .normal-phrase {
-            color: #212121;
+            color: #e0e0e0;
+            opacity: 0.85;
         }
 
-        /* Responsive Mobile Breakpoint Overrides */
-        @media (max-width: 768px) {
-            body {
-                margin: 5px;
-            }
-
-            .container {
-                flex-direction: column;
-                padding: 12px;
-                gap: 15px;
-            }
-
-            .left-panel,
-            .right-panel {
-                min-width: 100%;
-                width: 100%;
-                padding-left: 0;
-                border-left: none;
-            }
-
-            .right-panel {
-                margin-top: 10px;
-                border-top: 1px solid #ddd;
-                padding-top: 20px;
-            }
-
-            .marker-list {
-                max-height: 400px;
-                /* Shorter scroll height balances screen real estate on mobile */
-            }
-
-            .btn {
-                padding: 12px 10px;
-                /* Larger tap targets */
-                font-size: 13px;
-            }
-
-            .marker-item {
-                padding: 10px 6px;
-            }
-
-            .marker-item .btn {
-                padding: 8px 10px;
-                font-size: 12px;
-            }
+        textarea {
+            width: 100%;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #fafafa;
+            white-space: pre;
+            overflow-x: auto;
         }
     </style>
-    <script src="https://www.youtube.com/iframe_api" async></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="audioWaveform.js"></script>
 </head>
 
 <body>
 
     <div class="container">
         <div class="left-panel">
-            <h2>Audio Marker Studio</h2>
+            <div class="card" style="background: #f8fafc; border: 1px solid #cbd5e0;">
+                <h3 style="margin-top:0; color:#1e293b; border-bottom:2px solid #3b82f6; padding-bottom:6px;">📥 Native
+                    Script Ingestion Pipeline</h3>
 
-            <div class="form-group"
-                style="display: flex; gap: 10px; background: #f1f3f4; padding: 10px; border-radius: 4px; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 160px;">
-                    <label style="font-size:12px;">Audio File Track</label>
-                    <input type="file" accept="audio/*" onchange="loadLocalFile(this)" style="width: 100%;">
+                <div class="form-group">
+                    <label>1. Audio Stream Target</label>
+                    <input type="file" accept="audio/*" onchange="loadLocalAudio(this)"
+                        style="margin-bottom:6px; display:block; font-size:12px;">
+                    <input type="text" id="audioUrlInput" placeholder="Paste raw audio link...">
                 </div>
-                <div style="flex: 1; min-width: 160px;">
-                    <label style="font-size:12px;">Text Script File (.txt)</label>
-                    <input type="file" accept=".txt" onchange="loadTextFile(this)" style="width: 100%;">
+
+                <div class="form-group">
+                    <label>2. Text Companion Script File <span style="font-weight:normal; color:#64748b;">(auto-filled from audio)</span></label>
+                    <input type="file" accept=".js" onchange="injectLocalScriptAsset(this)"
+                        style="margin-bottom:6px; display:block; font-size:12px;">
+                    <input type="text" id="textUrlInput" placeholder="Auto-filled on audio select, or paste URL...">
                 </div>
+
+                <div class="form-group">
+                    <label>3. Timeline File <span style="font-weight:normal; color:#64748b;">(auto-filled from audio)</span></label>
+                    <input type="file" accept=".js" onchange="injectLocalScriptAsset(this)"
+                        style="margin-bottom:6px; display:block; font-size:12px;">
+                    <input type="text" id="stepsUrlInput" placeholder="Auto-filled on audio select, or paste URL...">
+                </div>
+
+
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn btn-primary" style="flex: 1;"
+                        onclick="triggerUnifiedNetworkPipelineFetch()">Load Files ⚡</button>
+                    <button class="btn btn-danger" onclick="clearWorkspaceState()">Reset Canvas</button>
+                </div>
+
+                <div style="margin-top: 12px; display: flex; align-items: center; gap: 6px;">
+                    <input type="checkbox" id="rippleTimeAdjustmentsToggle" checked style="cursor: pointer;">
+                    <label for="rippleTimeAdjustmentsToggle"
+                        style="font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; user-select: none;">
+                        🔄 Ripple changes to subsequent segments
+                    </label>
+                </div>
+
             </div>
 
-            <div class="form-group" style="margin-top: 10px;">
-                <label for="urlInput">GitHub Link, Direct File URL, or YouTube Stream Page</label>
-                <div style="display: flex; gap: 8px;">
-                    <input type="text" id="urlInput"
-                        placeholder="Paste GitHub Repository link or specific asset file path...">
-                    <button class="btn" onclick="handleURL()">Load</button>
+            <div id="pipelineKeySelectorContainer" class="card"
+                style="display:none; background:#ecfdf5; border:1px solid #a7f3d0;"></div>
+
+            <div class="card">
+                <h4 style="margin:0 0 8px 0; color:#334155;">🎧 Media Playback Controls</h4>
+                <div id="timeDisplay" style="font-size:24px; font-weight:bold; color:#0f172a; margin-bottom:4px;">0.0s
                 </div>
-            </div>
-
-            <div class="form-group" id="chapterSelectorContainer"
-                style="display: none; background: #e3f2fd; padding: 12px; border: 1px solid #90caf9; border-radius: 4px;">
-                <label for="chapterDropdown" style="color: #0d47a1;">Select Chapter / Pasuram Section to
-                    Initialize:</label>
-                <select id="chapterDropdown" onchange="loadSelectedChapter()"></select>
-            </div>
-
-            <div class="form-group">
                 <audio id="player" controls></audio>
-                <div id="timeDisplay"
-                    style="font-family: monospace; font-size: 14px; font-weight: bold; color: #333; margin-top: 4px; padding-left: 2px;">
-                    0.0s</div>
-                <div id="yt-container">
-                    <div id="yt-player"></div>
+                <div id="waveformOverview"></div>
+                <div style="display:flex; gap:8px; margin-top:8px;">
+                    <button class="btn btn-primary" onclick="rewindPlayback()">↩ Rewind 2s</button>
+                    <button id="captureBtn" class="btn btn-success" onclick="captureLiveTimestamp()" disabled>Capture
+                        Stamp (M)</button>
                 </div>
             </div>
 
-            <div class="form-group" style="display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;">
-                <button class="btn" id="recordBtn" style="background-color: #28a745; flex: 1; min-width: 130px;"
-                    disabled onclick="captureTimestampAtCurrent()">Capture Stamp (M)</button>
-                <button class="btn" style="background-color: #6c757d; flex: 1;" onclick="rewind()">Rewind 2s</button>
-                <button class="btn" style="background-color: #17a2b8; flex: 1;"
-                    onclick="distributeTimelineProrally()">Even Distribute</button>
-                <button class="btn" style="background-color: #dc3545; flex: 1;" onclick="clearAllState()">Reset</button>
-            </div>
-
-            <div class="form-group" style="display:flex; gap:8px; align-items:center; background:#f1f3f4; padding:10px; border-radius:4px; flex-wrap:wrap;">
-                <button class="btn" style="background-color:#5c35a0; flex:1; min-width:140px;" onclick="copyHandoffURL()">📋 Copy Handoff URL</button>
-                <button class="btn" style="background-color:#c0392b; flex:1; min-width:120px;" onclick="showHandoffQR()">📷 Show QR Code</button>
-                <span id="handoffStatus" style="font-size:12px; color:#555; flex:1; min-width:120px;"></span>
-            </div>
-
-            <!-- QR Code Modal -->
-            <div id="qrModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center;">
-                <div style="background:#fff; border-radius:12px; padding:24px; max-width:340px; width:90%; text-align:center; position:relative;">
-                    <button onclick="closeQRModal()" style="position:absolute; top:10px; right:14px; background:none; border:none; font-size:22px; cursor:pointer; color:#555;">&times;</button>
-                    <p style="margin:0 0 6px 0; font-weight:bold; font-size:15px; color:#333;">Scan to open on another device</p>
-                    <p style="margin:0 0 14px 0; font-size:11px; color:#888;">Opens splitter with full session restored</p>
-                    <div id="qrCodeCanvas" style="display:flex; justify-content:center; margin-bottom:14px;"></div>
-                    <p id="qrMarkerCount" style="font-size:12px; color:#555; margin:0;"></p>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="textGuidedContent">Raw Pasuram / Script Source Text Content</label>
-                <textarea id="textGuidedContent" rows="6"
-                    placeholder="Paste script texts block sequence lines here... Use asterisks * to mark sub-phrases inside blocks."></textarea>
-                <button class="btn" style="width: 100%; margin-top: 6px; background-color: #6f42c1;"
-                    onclick="parseTextToMutableState()">Parse Source to Canvas Steps</button>
-            </div>
-
-            <div class="form-group">
-                <label for="ioJson">Serialized Config JS Field Object Structure</label>
-                <textarea id="ioJson" rows="12"
-                    placeholder="Generated output layout state maps array formats populate directly here..."></textarea>
-                <button class="btn" style="width: 100%; margin-top: 6px; background-color: #fd7e14;"
-                    onclick="importExistingConfig()">Import Config Code Block Snippet</button>
+            <div class="card">
+                <h4 style="margin:0 0 8px 0; color:#334155;"># Live Verse Synchronizer View</h4>
+                <div id="livePasuramView"><em>Load assets to generate dynamic highlighter canvas...</em></div>
             </div>
         </div>
 
         <div class="right-panel">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h3 style="margin: 0;">Interactive Segment Sequence Grid</h3>
-                <span id="status" style="font-size: 13px; font-weight: bold; color: #666;">Markers: 0</span>
+            <div class="card" style="flex: 1; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; justify-content:between; align-items:center;">
+                    <h3 id="status" style="margin:0; color:#1e293b;">Markers: 0</h3>
+                    <div style="margin-left:auto;">
+                        <button class="btn btn-primary" onclick="reproportionalizeTimelineDist()">Distribute
+                            Uniformly</button>
+                    </div>
+                </div>
+
+                <div id="marker-list">
+                    <div style="text-align:center; color:#94a3b8; padding:50px 0;">Workspace clear. Ingest asset
+                        configurations to populate interactive canvas grids.</div>
+                </div>
             </div>
 
-            <div class="live-display-box" id="livePasuramView">
-                <em>Load or parse script text content to visualize running live display...</em>
-            </div>
-            <p style="font-size: 11px; color:#777; margin: 4px 0 10px 0;">💡 Tip: Press <strong>Shift + Enter</strong>
-                within any input cell row above to split and insert a fresh segment immediately below it.</p>
-
-            <div class="marker-list" id="marker-list">
-                <div style="text-align: center; color: #999; padding-top: 40px;">No segment nodes compiled. Paste text
-                    code maps above or parse script sources to begin canvas adjustments.</div>
+            <div class="card">
+                <h4 style="margin:0 0 6px 0; color:#334155;">💾 Compiled Database Configuration File Output</h4>
+                <textarea id="ioJson" rows="10"
+                    placeholder="Valid JavaScript payload arrays auto-serialize here..."></textarea>
+                <div style="margin-top:8px; display:flex; gap:10px;">
+                    <button class="btn btn-success" onclick="importFromRawConfigSnippet()">Import Structured
+                        Configuration Code Block</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Initialize global structures if not loaded yet
+        window.MARKER_DATABASE = window.MARKER_DATABASE || {};
         window.rawMarkers = [];
+
         let currentHighlightIndex = -1;
         let currentFileName = "audio_data";
-        let ytPlayer = null;
-        let isYouTube = false;
+        let currentAudioFileName = ""; // tracks the audio file basename separately for range detection
         let detectedDuration = 0;
 
-        // Global Editing Locks and Storage Configuration
         window.isUserEditingActiveCell = false;
         window.isTestingSegmentAudio = false;
-        let repoChapterDatabase = {};
+        let isSystemImportingData = false;
+        let waveformReady = false;
+        let activeSegmentWaveformExpanded = true;
+        let mountedActiveSegmentIndex = -1;
+        let isWaveformInteracting = false;
 
         let player, markerList, ioJson, livePasuramView;
-
-        window.loadLocalFile = function (input) {
-            if (!input || !input.files || input.files.length === 0) return;
-            setupDirectAudio(URL.createObjectURL(input.files[0]));
-        };
-
-        window.loadTextFile = function (input) {
-            if (!input || !input.files || input.files.length === 0) return;
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById('textGuidedContent').value = e.target.result;
-                localStorage.setItem('asm_saved_text', e.target.result);
-                parseTextToMutableState();
-            };
-            reader.readAsText(input.files[0]);
-        };
 
         window.addEventListener('DOMContentLoaded', () => {
             player = document.getElementById('player');
             markerList = document.getElementById('marker-list');
             ioJson = document.getElementById('ioJson');
             livePasuramView = document.getElementById('livePasuramView');
-            setupSyncLoop();
+            setupGlobalSyncLoop();
 
-            document.getElementById('textGuidedContent').addEventListener('input', (e) => {
-                localStorage.setItem('asm_saved_text', e.target.value);
-            });
+            // Try restoring from localStorage cache snapshot
+            const cachedMarkers = localStorage.getItem('asm_saved_markers');
+            const cachedFilename = localStorage.getItem('asm_current_filename');
 
-            // Event listeners to release segment preview locks on manual tracking interaction
-            player.addEventListener('play', () => { window.isTestingSegmentAudio = false; });
-            player.addEventListener('seeking', () => { window.isTestingSegmentAudio = false; });
+            if (cachedMarkers) {
+                try {
+                    window.rawMarkers = JSON.parse(cachedMarkers);
+                    if (cachedFilename) currentFileName = cachedFilename;
 
-            // Hash-based handoff takes priority over localStorage restore
-            const restoredFromHash = restoreFromHash();
-
-            if (!restoredFromHash) {
-                const savedText = localStorage.getItem('asm_saved_text');
-                const savedUrl = localStorage.getItem('asm_saved_url');
-                const savedMarkers = localStorage.getItem('asm_saved_markers');
-
-                if (savedText) document.getElementById('textGuidedContent').value = savedText;
-                if (savedUrl) {
-                    document.getElementById('urlInput').value = savedUrl;
-                    if (savedUrl.includes('github.com') && !savedUrl.endsWith('.txt') && !savedUrl.endsWith('.js') && !savedUrl.endsWith('.ogg') && !savedUrl.endsWith('.mp3')) {
-                        scanGitHubRepositoryFolder(savedUrl, false);
-                    } else if (savedUrl.toLowerCase().endsWith('.js')) {
-                        fetchAndParseJsFile(savedUrl);
-                    } else if (savedUrl.includes('youtube.com') || savedUrl.includes('youtu.be')) {
-                        setupYouTube(savedUrl);
-                    } else {
-                        setupDirectAudio(savedUrl);
-                    }
-                }
-                if (savedMarkers) {
-                    window.rawMarkers = JSON.parse(savedMarkers);
-                    renderInteractiveGrid(true);
-                    serializeStateToJS();
+                    isSystemImportingData = true;
+                    renderTimelineGridCanvas(true);
+                    serializeWorkspaceStateToJsCodeblock();
+                    isSystemImportingData = false;
+                } catch (e) {
+                    console.error("Failed to restore canvas snapshot from localStorage", e);
                 }
             }
 
@@ -411,635 +417,669 @@
                     const active = document.activeElement;
                     if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) return;
                     e.preventDefault();
-                    captureTimestampAtCurrent();
+                    captureLiveTimestamp();
                 }
             });
 
-            if (markerList) {
-                markerList.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' && e.shiftKey) {
-                        const activeRow = e.target.closest('.marker-item');
-                        if (activeRow) {
-                            e.preventDefault();
-                            const index = parseInt(activeRow.id.replace('item-', ''), 10);
-                            if (!isNaN(index)) insertSegmentInBetween(index);
-                        }
+            markerList.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.shiftKey) {
+                    const activeRow = e.target.closest('.marker-item');
+                    if (activeRow) {
+                        e.preventDefault();
+                        const index = parseInt(activeRow.id.replace('item-', ''), 10);
+                        if (!isNaN(index)) insertMidpointSegmentRow(index);
                     }
-                });
-            }
+                }
+            });
         });
 
-        // MASTER ENGINE: Dynamic Link Router & GitHub API Normalizer
-        function handleURL() {
-            let url = document.getElementById('urlInput').value.trim();
-            if (!url) return;
-
-            // Route A: Is user target an implicit repository folder structural layout overview?
-            if (url.includes('github.com') && !url.endsWith('.txt') && !url.endsWith('.js') && !url.endsWith('.ogg') && !url.endsWith('.mp3') && !url.includes('/blob/')) {
-                scanGitHubRepositoryFolder(url, true);
-                return;
-            }
-
-            // Route B: Handle standard single file layout rewrites
-            if (url.includes('github.com') && url.includes('/blob/')) {
-                url = url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
-                document.getElementById('urlInput').value = url;
-            }
-
-            localStorage.setItem('asm_saved_url', url);
-
-            if (url.toLowerCase().endsWith('.txt')) {
-                fetchTextScriptFromWeb(url);
-            } else if (url.toLowerCase().endsWith('.js')) {
-                fetchAndParseJsFile(url);
-            } else if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                setupYouTube(url);
-            } else {
-                setupDirectAudio(url);
-            }
+        function seekPlayback(time) {
+            if (!player) return;
+            player.currentTime = Math.max(0, time);
         }
 
-        // AUTOMATED CHAPTER PAIR EXTRACTION VIA THE GITHUB API 
-        async function scanGitHubRepositoryFolder(repoUrl, alertUser = true) {
-            try {
-                let cleanPath = repoUrl.replace('https://github.com/', '');
-                let parts = cleanPath.split('/');
-                let user = parts[0];
-                let repo = parts[1];
-
-                let branch = "main";
-                let folderPath = "";
-
-                if (parts[2] === "tree" || parts[2] === "blob") {
-                    branch = parts[3];
-                    folderPath = parts.slice(4).join('/');
-                } else {
-                    folderPath = parts.slice(2).join('/');
-                }
-
-                let apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${folderPath}?ref=${branch}`;
-
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error("Could not parse repository folder layout via GitHub API.");
-
-                const items = await response.json();
-                repoChapterDatabase = {};
-
-                // Loop and associate asset components based on identical key prefixes (e.g. "NAT_2")
-                items.forEach(item => {
-                    let name = item.name;
-                    let lastDot = name.lastIndexOf('.');
-                    if (lastDot === -1) return;
-
-                    let key = name.substring(0, lastDot);
-                    let ext = name.substring(lastDot).toLowerCase();
-
-                    if (!key) return;
-
-                    if (!repoChapterDatabase[key]) {
-                        repoChapterDatabase[key] = { audio: null, text: null, label: key };
-                    }
-
-                    if (ext === '.ogg' || ext === '.mp3' || ext === '.wav') {
-                        repoChapterDatabase[key].audio = item.download_url;
-                    } else if (ext === '.txt' || ext === '.js') {
-                        repoChapterDatabase[key].text = item.download_url;
-                    }
-                });
-
-                const keys = Object.keys(repoChapterDatabase).filter(k => repoChapterDatabase[k].audio || repoChapterDatabase[k].text);
-
-                if (keys.length === 0) {
-                    if (alertUser) alert("No matching audio track/text bundle script file pairs mapped inside this folder view.");
-                    return;
-                }
-
-                const dropdown = document.getElementById('chapterDropdown');
-                dropdown.innerHTML = '<option value="">-- Choose Chapter/Pasuram Tracking Node --</option>';
-
-                keys.sort().forEach(k => {
-                    dropdown.innerHTML += `<option value="${k}">${k} (${repoChapterDatabase[k].audio ? 'Audio ✓' : 'No Audio'} | ${repoChapterDatabase[k].text ? 'Text ✓' : 'No Text'})</option>`;
-                });
-
-                document.getElementById('chapterSelectorContainer').style.display = 'block';
-                localStorage.setItem('asm_saved_url', repoUrl);
-
-                if (alertUser) alert(`Discovered ${keys.length} parseable track chapters! Please make a choice inside the dropdown menu.`);
-
-            } catch (err) {
-                console.error(err);
-                if (alertUser) alert("Directory Scan Failed.\nDetails: " + err.message);
-            }
+        function roundMarkerTime(t) {
+            if (window.AudioWaveform && waveformReady) return AudioWaveform.roundTime(t);
+            return parseFloat(Number(t).toFixed(1));
         }
 
-        // DISPATCH SELECTED CHAPTER ASSETS TO RUNTIME ENGINE
-        function loadSelectedChapter() {
-            const key = document.getElementById('chapterDropdown').value;
-            if (!key || !repoChapterDatabase[key]) return;
-
-            const chapter = repoChapterDatabase[key];
-            currentFileName = key;
-
-            if (chapter.audio) {
-                setupDirectAudio(chapter.audio);
-            } else {
-                alert("⚠️ No companion streaming audio track discovered for this chapter node element.");
-            }
-
-            if (chapter.text) {
-                const isJs = chapter.text.toLowerCase().endsWith('.js');
-                if (isJs) {
-                    fetchAndParseJsFile(chapter.text);
-                } else {
-                    fetchTextScriptFromWeb(chapter.text);
-                }
-            }
-        }
-
-        async function fetchTextScriptFromWeb(url) {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP network error status: ${response.status}`);
-                const text = await response.text();
-
-                document.getElementById('textGuidedContent').value = text;
-                localStorage.setItem('asm_saved_text', text);
-                parseTextToMutableState();
-            } catch (err) {
-                alert("Failed to retrieve text content stream: " + err.message);
-            }
-        }
-
-        // ─── JS FILE PARSER ───────────────────────────────────────────────────────
-        // Fetches a 1_ta.js-style marker database file from any URL (GitHub raw,
-        // CDN, or local server), extracts all named pasuram key blocks from the
-        // mergeLanguageTexts / text_bundle structure, then presents an inline
-        // dropdown so the user can pick which pasuram set to load into the canvas.
-
-        let jsKeyDatabase = {};
-        let jsSourceUrl   = '';
-
-        async function fetchAndParseJsFile(url) {
-            let rawUrl = url;
-            if (rawUrl.includes('github.com') && rawUrl.includes('/blob/')) {
-                rawUrl = rawUrl.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
-            }
-            try {
-                const response = await fetch(rawUrl);
-                if (!response.ok) throw new Error('HTTP ' + response.status + ' fetching JS file.');
-                const src = await response.text();
-                jsKeyDatabase = parseJsTextBundle(src);
-                jsSourceUrl   = rawUrl;
-                const keys = Object.keys(jsKeyDatabase);
-                if (keys.length === 0) {
-                    alert("No named pasuram key blocks found in this JS file.\nMake sure it uses the text_bundle / mergeLanguageTexts structure.");
-                    return;
-                }
-                showJsKeySelectorPanel(keys, rawUrl);
-                localStorage.setItem('asm_saved_url', url);
-            } catch (err) {
-                alert("Failed to load JS file: " + err.message);
-            }
-        }
-
-        function parseJsTextBundle(src) {
-            let clean = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
-            const result = {};
-            const keyPattern = /['"]([A-Za-z0-9_.]+)['"]\s*:\s*\{/g;
-            let match;
-            while ((match = keyPattern.exec(clean)) !== null) {
-                const blockKey  = match[1];
-                const bodyStart = match.index + match[0].length;
-                let depth = 1, i = bodyStart;
-                while (i < clean.length && depth > 0) {
-                    if (clean[i] === '{') depth++;
-                    else if (clean[i] === '}') depth--;
-                    i++;
-                }
-                const bodyText = clean.substring(bodyStart, i - 1);
-                const entryPat = /(\d+|['"][^'"]+['"])\s*:\s*['"]([^'"]+)['"]/g;
-                let entryMatch;
-                const entries = {};
-                while ((entryMatch = entryPat.exec(bodyText)) !== null) {
-                    let eKey = entryMatch[1].replace(/['"]/g, '').trim();
-                    entries[eKey] = entryMatch[2].trim();
-                }
-                if (Object.keys(entries).length > 0) {
-                    result[blockKey] = entries;
-                }
-            }
-            return result;
-        }
-
-        function showJsKeySelectorPanel(keys, sourceUrl) {
-            let panel = document.getElementById('jsKeySelectorContainer');
-            if (!panel) {
-                panel = document.createElement('div');
-                panel.id = 'jsKeySelectorContainer';
-                panel.className = 'form-group';
-                panel.style.cssText = 'background:#e8f5e9;padding:12px;border:1px solid #a5d6a7;border-radius:4px;';
-                const anchor = document.getElementById('chapterSelectorContainer');
-                anchor.parentNode.insertBefore(panel, anchor.nextSibling);
-            }
-            const filename = sourceUrl.split('/').pop();
-            panel.innerHTML =
-                '<label style="color:#1b5e20;margin-bottom:6px;display:block;">' +
-                    '\uD83D\uDCC4 JS File loaded \u2014 <span style="font-weight:normal;font-size:12px;">' + filename + '</span><br>' +
-                    '<span style="font-weight:normal;font-size:11px;color:#388e3c;">' + keys.length + ' pasuram block' + (keys.length !== 1 ? 's' : '') + ' found</span>' +
-                '</label>' +
-                '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
-                    '<select id="jsKeyDropdown" style="flex:1;min-width:200px;padding:7px 8px;border:1px solid #a5d6a7;border-radius:4px;">' +
-                        '<option value="">-- Select a Pasuram Block --</option>' +
-                        keys.sort().map(function(k) {
-                            return '<option value="' + k + '">' + k + ' (' + Object.keys(jsKeyDatabase[k]).length + ' verses)</option>';
-                        }).join('') +
-                    '</select>' +
-                    '<button class="btn" style="background:#2e7d32;white-space:nowrap;" onclick="loadJsKeyBlock()">Load Block \u2192</button>' +
-                '</div>';
-            panel.style.display = 'block';
-        }
-
-        function loadJsKeyBlock() {
-            const dropdown = document.getElementById('jsKeyDropdown');
-            if (!dropdown) return;
-            const selectedKey = dropdown.value;
-            if (!selectedKey || !jsKeyDatabase[selectedKey]) {
-                alert("Please select a pasuram block first.");
-                return;
-            }
-            const entries = jsKeyDatabase[selectedKey];
-            const lines   = [];
-            Object.keys(entries).forEach(function(idx) {
-                let verse = entries[idx].trim().replace(/\.\s*$/, '');
-                lines.push(verse + ' * ' + idx + '.');
-            });
-            const formatted = lines.join('\n\n');
-            document.getElementById('textGuidedContent').value = formatted;
-            localStorage.setItem('asm_saved_text', formatted);
-            currentFileName = selectedKey;
-            parseTextToMutableState();
-        }
-        // ─── END JS FILE PARSER ───────────────────────────────────────────────────
-
-        // ─── HANDOFF URL (hash-based session sharing) ────────────────────────────
-        // Encodes the current session (source URL, selected JS key, all markers)
-        // into the page's #hash so the URL can be opened on any device to restore
-        // the full session without any copy-paste or file transfer.
-
-        function encodeHandoffState() {
-            const state = {
-                v: 1,                                               // schema version
-                url: localStorage.getItem('asm_saved_url') || '',
-                key: currentFileName || '',
-                markers: window.rawMarkers || []
-            };
-            try {
-                const json = JSON.stringify(state);
-                // btoa needs a byte string; use encodeURIComponent to handle Unicode (Tamil)
-                return btoa(unescape(encodeURIComponent(json)));
-            } catch(e) {
+        function placeActiveSegmentCanvas(index) {
+            if (!markerList) return null;
+            markerList.querySelectorAll('.wf-segment-canvas').forEach((el) => el.remove());
+            if (!waveformReady || index < 0 || index >= window.rawMarkers.length) {
+                mountedActiveSegmentIndex = -1;
                 return null;
             }
-        }
-
-        function decodeHandoffState(hash) {
-            try {
-                const b64 = hash.startsWith('#') ? hash.slice(1) : hash;
-                const json = decodeURIComponent(escape(atob(b64)));
-                return JSON.parse(json);
-            } catch(e) {
-                return null;
-            }
-        }
-
-        function copyHandoffURL() {
-            const encoded = encodeHandoffState();
-            if (!encoded) {
-                document.getElementById('handoffStatus').textContent = 'Nothing to share yet.';
-                return;
-            }
-            const url = window.location.href.split('#')[0] + '#' + encoded;
-            navigator.clipboard.writeText(url).then(function() {
-                const s = document.getElementById('handoffStatus');
-                s.textContent = '✓ Copied! Open on any device.';
-                s.style.color = '#28a745';
-                setTimeout(function() { s.textContent = ''; }, 4000);
-            }).catch(function() {
-                // Fallback: prompt the user to copy manually
-                window.prompt('Copy this handoff URL:', url);
-            });
-        }
-
-        function showHandoffQR() {
-            const encoded = encodeHandoffState();
-            if (!encoded) {
-                document.getElementById('handoffStatus').textContent = 'Nothing to share yet.';
-                return;
-            }
-            const url = window.location.href.split('#')[0] + '#' + encoded;
-
-            // Clear previous QR
-            const container = document.getElementById('qrCodeCanvas');
-            container.innerHTML = '';
-
-            // Generate QR using QRious
+            const row = document.getElementById(`item-${index}`);
+            if (!row) return null;
             const canvas = document.createElement('canvas');
-            container.appendChild(canvas);
-            new QRious({
-                element: canvas,
-                value: url,
-                size: 260,
-                level: 'M',        // Medium error correction — good balance of density vs robustness
-                background: '#ffffff',
-                foreground: '#1a1a2e'
-            });
-
-            // Show marker count info
-            const count = window.rawMarkers ? window.rawMarkers.length : 0;
-            document.getElementById('qrMarkerCount').textContent =
-                count + ' marker' + (count !== 1 ? 's' : '') + ' encoded • ' + (currentFileName || 'no file');
-
-            // Show modal
-            const modal = document.getElementById('qrModal');
-            modal.style.display = 'flex';
-
-            // Close on backdrop click
-            modal.onclick = function(e) { if (e.target === modal) closeQRModal(); };
+            canvas.className = 'wf-segment-canvas' + (activeSegmentWaveformExpanded ? ' wf-expanded' : '');
+            canvas.id = 'wf-seg-' + index;
+            canvas.title = 'Drag the green start/end pins to trim; click waveform to seek';
+            row.appendChild(canvas);
+            mountedActiveSegmentIndex = index;
+            return canvas;
         }
 
-        function closeQRModal() {
-            document.getElementById('qrModal').style.display = 'none';
-        }
-
-        function restoreFromHash() {
-            const hash = window.location.hash;
-            if (!hash || hash.length < 10) return false;
-
-            const state = decodeHandoffState(hash);
-            if (!state || state.v !== 1) return false;
-
-            // Restore markers
-            if (Array.isArray(state.markers) && state.markers.length > 0) {
-                window.rawMarkers = state.markers;
-                // Save to localStorage so subsequent reloads (without hash) also work
-                localStorage.setItem('asm_saved_markers', JSON.stringify(state.markers));
-            }
-
-            // Restore source URL + media
-            if (state.url) {
-                document.getElementById('urlInput').value = state.url;
-                localStorage.setItem('asm_saved_url', state.url);
-
-                if (state.url.toLowerCase().endsWith('.js')) {
-                    // After JS file loads & panel renders, auto-select the saved key
-                    fetchAndParseJsFile(state.url).then(function() {
-                        if (state.key) autoSelectJsKey(state.key);
-                    });
-                } else if (state.url.includes('github.com') && !state.url.endsWith('.txt') &&
-                           !state.url.endsWith('.ogg') && !state.url.endsWith('.mp3')) {
-                    scanGitHubRepositoryFolder(state.url, false);
-                } else if (state.url.includes('youtube.com') || state.url.includes('youtu.be')) {
-                    setupYouTube(state.url);
-                } else {
-                    setupDirectAudio(state.url);
-                }
-            }
-
-            // Restore filename/key
-            if (state.key) currentFileName = state.key;
-
-            renderInteractiveGrid(true);
-            serializeStateToJS();
-
-            const s = document.getElementById('handoffStatus');
-            s.textContent = '✓ Session restored from URL (' + window.rawMarkers.length + ' markers).';
-            s.style.color = '#007bff';
-
-            return true;
-        }
-
-        function autoSelectJsKey(key) {
-            const dropdown = document.getElementById('jsKeyDropdown');
-            if (!dropdown) return;
-            for (let i = 0; i < dropdown.options.length; i++) {
-                if (dropdown.options[i].value === key) {
-                    dropdown.selectedIndex = i;
-                    loadJsKeyBlock();
-                    break;
-                }
-            }
-        }
-        // ─── END HANDOFF URL ──────────────────────────────────────────────────────
-
-        function setupYouTube(url) {
-            const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
-            isYouTube = true; currentFileName = videoId;
-            player.style.display = 'none';
-            document.getElementById('yt-container').style.display = 'block';
-
-            if (ytPlayer) {
-                ytPlayer.loadVideoById(videoId);
-                setTimeout(() => { extractDuration(); }, 1500);
+        function onWaveformBoundaryChange(index, field, time) {
+            if (!window.rawMarkers[index]) return;
+            isWaveformInteracting = true;
+            const t = roundMarkerTime(time);
+            const m = window.rawMarkers[index];
+            const minGap = 0.01;
+            if (field === 'start') {
+                const floor = index > 0 ? window.rawMarkers[index - 1].start + minGap : 0;
+                const ceil = m.end - minGap;
+                const clamped = Math.max(floor, Math.min(ceil, t));
+                m.start = clamped;
+                if (window.rawMarkers[index - 1]) window.rawMarkers[index - 1].end = clamped;
             } else {
-                ytPlayer = new YT.Player('yt-player', {
-                    height: '100%', width: '100%', videoId: videoId,
-                    events: { 'onReady': () => { document.getElementById('recordBtn').disabled = false; setTimeout(() => { extractDuration(); }, 1500); } }
+                const floor = m.start + minGap;
+                const ceil = index < window.rawMarkers.length - 1
+                    ? window.rawMarkers[index + 1].end - minGap
+                    : (detectedDuration || m.end + 1);
+                const clamped = Math.max(floor, Math.min(ceil, t));
+                m.end = clamped;
+                if (window.rawMarkers[index + 1]) window.rawMarkers[index + 1].start = clamped;
+            }
+            renderTimelineGridCanvas(false);
+            if (!isSystemImportingData) serializeWorkspaceStateToJsCodeblock();
+            // Redraw only — do not remount the bar mid-drag
+            if (waveformReady && window.AudioWaveform) AudioWaveform.refreshAll();
+        }
+
+        function mountActiveSegmentWaveform() {
+            if (!waveformReady || !window.AudioWaveform) return;
+            const idx = currentHighlightIndex;
+            if (idx < 0 || idx >= window.rawMarkers.length) return;
+
+            let canvas = document.getElementById('wf-seg-' + idx);
+            if (!canvas || mountedActiveSegmentIndex !== idx) {
+                // Only tear down when the active phrase (or canvas) actually changes
+                AudioWaveform.clearSegmentBars();
+                canvas = placeActiveSegmentCanvas(idx);
+            }
+            if (!canvas) return;
+            canvas.classList.toggle('wf-expanded', activeSegmentWaveformExpanded);
+            AudioWaveform.createSegmentBar(canvas, idx, {
+                getMarkers: () => window.rawMarkers,
+                onSeek: (t) => {
+                    isWaveformInteracting = true;
+                    seekPlayback(t);
+                },
+                onBoundaryChange: onWaveformBoundaryChange,
+                onDragStart: () => { isWaveformInteracting = true; },
+                onDragEnd: () => { isWaveformInteracting = false; },
+                onToggleExpand: () => {
+                    activeSegmentWaveformExpanded = !activeSegmentWaveformExpanded;
+                    canvas.classList.toggle('wf-expanded', activeSegmentWaveformExpanded);
+                    mountActiveSegmentWaveform();
+                }
+            }, activeSegmentWaveformExpanded);
+            AudioWaveform.setActiveSegment(idx);
+            AudioWaveform.refreshAll();
+        }
+
+        function refreshWaveformViews() {
+            if (!waveformReady || !window.AudioWaveform) return;
+            // While dragging start/end, only redraw — never remount (that aborts the drag)
+            if (isWaveformInteracting) {
+                AudioWaveform.refreshAll();
+                return;
+            }
+            mountActiveSegmentWaveform();
+        }
+
+        function clearWaveformOverview() {
+            waveformReady = false;
+            mountedActiveSegmentIndex = -1;
+            const container = document.getElementById('waveformOverview');
+            if (window.AudioWaveform) {
+                AudioWaveform.clearSegmentBars();
+                AudioWaveform.destroyOverview();
+            }
+            if (container) container.innerHTML = '';
+            if (markerList) markerList.querySelectorAll('.wf-segment-canvas').forEach((el) => el.remove());
+        }
+
+        function initWaveformForAudio(url) {
+            const container = document.getElementById('waveformOverview');
+            if (!container || !window.AudioWaveform) return;
+            waveformReady = false;
+            AudioWaveform.clearSegmentBars();
+            AudioWaveform.destroyOverview();
+            container.innerHTML = '<div class="wf-unavailable">Decoding waveform…</div>';
+            AudioWaveform.decode(url).then((ok) => {
+                if (!ok) {
+                    AudioWaveform.showUnavailable(container, 'Waveform unavailable (CORS or decode error). Ear-only marking still works.');
+                    return;
+                }
+                waveformReady = true;
+                AudioWaveform.mountOverview(container, {
+                    getMarkers: () => window.rawMarkers,
+                    getIssues: () => [],
+                    onSeek: (t) => seekPlayback(t),
+                    onSegmentClick: (idx) => focusRowScrollHighlight(idx)
                 });
+                refreshWaveformViews();
+            });
+        }
+
+        function loadLocalAudio(input) {
+            if (!input || !input.files || input.files.length === 0) return;
+            const file = input.files[0];
+            initiateAudioStreamingNode(URL.createObjectURL(file), file.name);
+            autoFillCompanionPaths(file.name);
+        }
+
+        /**
+         * Derives the book key from the audio filename and auto-fills the text
+         * and timeline URL fields with their standard relative paths.
+         * e.g. "RN_11_20.ogg" → book=RN → fills marker_rn_ta.js + marker_rn_timelines.js
+         */
+        /**
+         * Parse audio filename into components.
+         * Returns: { book, chapter, subChapter, type }
+         *   type: 'grouped'     e.g. RN_11_20    → chapter=null, range via parseRangeFromFilename
+         *         'simple'      e.g. AAP_1        → chapter=1, subChapter=null
+         *         'subchapter'  e.g. PAT_3.1      → chapter=3, subChapter=1
+         */
+        function parseAudioFilename(audioFilename) {
+            const base = audioFilename.replace(/\.[^.]+$/, ''); // strip extension
+
+            // Sub-chapter: BOOK_CH.SUBCH  e.g. PAT_3.1
+            const subMatch = base.match(/^([A-Za-z0-9]+)_(\d+)\.(\d+)$/);
+            if (subMatch) return { book: subMatch[1], chapter: parseInt(subMatch[2]), subChapter: parseInt(subMatch[3]), type: 'subchapter' };
+
+            // Grouped: BOOK_START_END  e.g. RN_11_20
+            const groupMatch = base.match(/^([A-Za-z0-9]+)_(\d+)_(\d+)$/);
+            if (groupMatch) return { book: groupMatch[1], chapter: null, subChapter: null, type: 'grouped' };
+
+            // Simple single chapter: BOOK_N  e.g. AAP_1, PMT_3
+            const simpleMatch = base.match(/^([A-Za-z0-9]+)_(\d+)$/);
+            if (simpleMatch) return { book: simpleMatch[1], chapter: parseInt(simpleMatch[2]), subChapter: null, type: 'simple' };
+
+            return null;
+        }
+
+        function autoFillCompanionPaths(audioFilename) {
+            const parsed = parseAudioFilename(audioFilename);
+            if (!parsed) return;
+
+            const { book, chapter, type } = parsed;
+            const bLow = book.toLowerCase();
+            const root = 'aruLicheyal';
+
+            let textPath, timelinePath;
+
+            if (type === 'subchapter') {
+                // PAT_3.1 → text/3_ta.js, markers/timelines_3.js
+                textPath     = `${root}/${book}/text/${chapter}_ta.js`;
+                timelinePath = `${root}/${book}/markers/timelines_${chapter}.js`;
+            } else {
+                // grouped (RN_11_20) or simple (AAP_1) → flat marker files
+                textPath     = `${root}/${book}/text/marker_${bLow}_ta.js`;
+                timelinePath = `${root}/${book}/markers/marker_${bLow}_timelines.js`;
             }
+
+            const textEl  = document.getElementById('textUrlInput');
+            const stepsEl = document.getElementById('stepsUrlInput');
+
+            if (textEl)  textEl.value  = textPath;
+            if (stepsEl) stepsEl.value = timelinePath;
+
+            console.log(`[Splitter] Auto-filled [${type}] paths for book "${book}":`, textPath, timelinePath);
         }
 
-        function setupDirectAudio(url) {
-            isYouTube = false;
-            if (!currentFileName || currentFileName === "audio_data") {
-                currentFileName = url.split('/').pop().split('.')[0] || "audio_track";
-            }
-            document.getElementById('yt-container').style.display = 'none'; player.style.display = 'block';
-            player.src = url; player.load();
-            document.getElementById('recordBtn').disabled = false;
-            player.onloadedmetadata = function () { extractDuration(); };
+        function initiateAudioStreamingNode(url, targetFilename = "") {
+            const rawName = targetFilename || url.split('/').pop().split('?')[0] || "audio_track";
+            // Strip only the final extension (.ogg) — preserve dots in sub-chapter names like PAT_3.1
+            currentAudioFileName = rawName.replace(/\.[^.]+$/, '');
+            currentFileName = currentAudioFileName;
+            player.src = url;
+            player.load();
+            document.getElementById('captureBtn').disabled = false;
+            initWaveformForAudio(url);
+            player.onloadedmetadata = function () {
+                detectedDuration = player.duration;
+                evaluateIncomingPipelineAssets();
+            };
         }
 
-        function extractDuration() {
-            detectedDuration = isYouTube ? ytPlayer.getDuration() : player.duration;
-            if (!detectedDuration || isNaN(detectedDuration)) detectedDuration = 300;
-        }
-
-        function parseTextToMutableState() {
-            const textRaw = document.getElementById('textGuidedContent').value;
-            if (!textRaw.trim()) return;
-
-            let cleanText = textRaw.replace(/\\/gi, '');
-            cleanText = cleanText.replace(/[\r\n\t]+/g, ' ').replace(/\s+/g, ' ').trim();
-
-            let splitMarker = new RegExp('\\x2a\\s*\\d+\\s*', 'g');
-            let pasuramBlocks = cleanText.split(splitMarker);
-            let allSegmentPhrases = [];
-
-            for (let blockIdx = 0; blockIdx < pasuramBlocks.length; blockIdx++) {
-                let blockText = pasuramBlocks[blockIdx].trim();
-                if (!blockText) continue;
-
-                let subPhrases = blockText.split('*');
-                let validSubphrasesInBlock = [];
-
-                for (let chunk of subPhrases) {
-                    let phraseString = chunk.trim();
-                    if (phraseString.length > 0 && phraseString !== '*') {
-                        validSubphrasesInBlock.push({ text: phraseString, forceEndBlock: false });
-                    }
+        // Direct clean script dynamic injector method
+        function injectLocalScriptAsset(input) {
+            if (!input || !input.files || input.files.length === 0) return;
+            const scriptUrl = URL.createObjectURL(input.files[0]);
+            appendScriptNodeToDOM(scriptUrl, () => {
+                // Check if text bundle engine merge function is present inside language definitions
+                if (typeof window.mergeLanguageTexts === 'function') {
+                    window.mergeLanguageTexts();
                 }
-
-                if (validSubphrasesInBlock.length > 0) {
-                    validSubphrasesInBlock[validSubphrasesInBlock.length - 1].forceEndBlock = true;
-                    allSegmentPhrases.push(...validSubphrasesInBlock);
-                }
-            }
-
-            let totalDuration = detectedDuration || 300;
-            let uniformSegmentLength = totalDuration / allSegmentPhrases.length;
-
-            window.rawMarkers = allSegmentPhrases.map((phrase, i) => ({
-                start: parseFloat((i * uniformSegmentLength).toFixed(1)),
-                end: (i === allSegmentPhrases.length - 1) ? parseFloat(totalDuration.toFixed(1)) : parseFloat(((i + 1) * uniformSegmentLength).toFixed(1)),
-                text: phrase.text,
-                forceEndBlock: phrase.forceEndBlock
-            }));
-
-            renderInteractiveGrid(true);
-            serializeStateToJS();
+                evaluateIncomingPipelineAssets();
+            });
         }
 
-        function insertSegmentInBetween(index) {
-            const currentSegment = window.rawMarkers[index];
-            if (!currentSegment) return;
+        function appendScriptNodeToDOM(srcUrl, callback) {
+            const script = document.createElement('script');
+            script.src = srcUrl;
+            script.async = false;
+            script.onload = () => {
+                if (callback) callback();
+            };
+            script.onerror = () => console.error("Could not parse native script resource context cleanly.");
+            document.head.appendChild(script);
+        }
 
-            const midTime = parseFloat(((currentSegment.start + currentSegment.end) / 2).toFixed(1));
-            const originalEnd = currentSegment.end;
+        async function triggerUnifiedNetworkPipelineFetch() {
+            const audioUrl = document.getElementById('audioUrlInput').value.trim();
+            const textUrl = document.getElementById('textUrlInput').value.trim();
+            const stepsUrl = document.getElementById('stepsUrlInput').value.trim();
 
-            currentSegment.end = midTime;
+            const parseCleanUrl = (u) => u.includes('github.com') && u.includes('/blob/') ? u.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/') : u;
 
-            const newSegment = {
-                start: midTime,
-                end: originalEnd,
-                text: "",
-                forceEndBlock: currentSegment.forceEndBlock
+            if (audioUrl) initiateAudioStreamingNode(parseCleanUrl(audioUrl));
+
+            let tracksLoaded = 0;
+            const checkSyncStatus = () => {
+                tracksLoaded++;
+                if (tracksLoaded >= [textUrl, stepsUrl].filter(Boolean).length) {
+                    if (typeof window.mergeLanguageTexts === 'function') window.mergeLanguageTexts();
+                    evaluateIncomingPipelineAssets();
+                }
             };
 
-            currentSegment.forceEndBlock = false;
-            window.rawMarkers.splice(index + 1, 0, newSegment);
-
-            renderInteractiveGrid(true);
-            serializeStateToJS();
-
-            setTimeout(() => {
-                const nextRow = document.getElementById(`item-${index + 1}`);
-                if (nextRow) {
-                    const txtInput = nextRow.querySelector('input[type="text"]');
-                    if (txtInput) txtInput.focus({ preventScroll: true });
-                    highlightUIRow(index + 1);
-                }
-            }, 50);
+            if (textUrl) appendScriptNodeToDOM(parseCleanUrl(textUrl), checkSyncStatus);
+            if (stepsUrl) appendScriptNodeToDOM(parseCleanUrl(stepsUrl), checkSyncStatus);
         }
 
-        function deleteSegment(index) {
-            if (window.rawMarkers.length <= 1) {
-                alert("Cannot delete the last remaining track marker segment.");
+        function evaluateIncomingPipelineAssets() {
+            const targetKeys = Object.keys(window.MARKER_DATABASE || {});
+            if (targetKeys.length === 0) return;
+
+            // Auto-detect best matching key from audio filename
+            const bestKey = pickBestMarkerKey(targetKeys, currentAudioFileName);
+
+            if (bestKey) {
+                // Auto-load without showing dropdown
+                autoLoadMarkerKey(bestKey, targetKeys);
+            } else {
+                // Multiple ambiguous keys — show selector
+                renderPipelineSelectorDropdownPanel(targetKeys);
+            }
+        }
+
+        /**
+         * Picks the best MARKER_DATABASE key for the current audio file.
+         *
+         * RN_11_20    → keys like "RN.1.steps"    → match on book "RN"
+         * AAP_1       → keys like "AAP.1.steps"   → match on book + chapter "AAP.1"
+         * PAT_3.1     → keys like "PAT.3.10.steps"→ match on book + chapter "PAT.3"
+         */
+        function pickBestMarkerKey(keys, audioFilename) {
+            if (!audioFilename) return keys.length === 1 ? keys[0] : null;
+
+            const parsed = parseAudioFilename(audioFilename);
+            if (!parsed) return keys.length === 1 ? keys[0] : null;
+
+            const { book, chapter, type } = parsed;
+            const bLow = book.toLowerCase();
+
+            if (type === 'subchapter' && chapter !== null) {
+                // Match keys containing book + chapter: "PAT.3."
+                const prefix = `${bLow}.${chapter}.`;
+                const matching = keys.filter(k => k.toLowerCase().includes(prefix));
+                if (matching.length === 1) return matching[0];
+                if (matching.length > 1) return matching[0]; // pick first (most likely steps key)
+            }
+
+            if (type === 'simple' && chapter !== null) {
+                // Match keys containing book + chapter: "AAP.1."
+                const prefix = `${bLow}.${chapter}.`;
+                const matching = keys.filter(k => k.toLowerCase().includes(prefix));
+                if (matching.length === 1) return matching[0];
+            }
+
+            // grouped or fallback: match on book name only
+            const matching = keys.filter(k => k.toLowerCase().includes(bLow));
+            if (matching.length === 1) return matching[0];
+            if (keys.length === 1) return keys[0];
+            return null; // ambiguous — show dropdown
+        }
+
+        function autoLoadMarkerKey(key, allKeys) {
+            // Pre-select in dropdown (in case user needs to change it)
+            renderPipelineSelectorDropdownPanel(allKeys, key);
+            // Then immediately load
+            buildActiveWorkspaceCanvasTimeline(key);
+        }
+
+        function renderPipelineSelectorDropdownPanel(keys, selectedKey = null) {
+            const container = document.getElementById('pipelineKeySelectorContainer');
+            container.innerHTML = `
+                <label style="color:#065f46; font-size:13px; font-weight:bold; display:block; margin-bottom:5px;">
+                    🎯 Marker Key
+                </label>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <select id="selectedPipelineTargetNamespace" style="flex:1; padding:6px; font-size:12px; border:1px solid #10b981; border-radius:4px; height:32px;">
+                        ${keys.map(k => `<option value="${k}" ${k === selectedKey ? 'selected' : ''}>${k}</option>`).join('')}
+                    </select>
+                    <button class="btn btn-success" style="padding:6px 14px;" onclick="buildActiveWorkspaceCanvasTimeline()">Load</button>
+                </div>
+            `;
+            container.style.display = 'block';
+        }
+
+        /**
+         * Parse the pasuram range from the audio filename.
+         * "RN_11_20"   → { start: 11, end: 20, type: 'grouped' }
+         * "AAP_1"      → { start: null, end: null, type: 'simple' }   load all
+         * "PAT_3.1"    → { start: null, end: null, type: 'subchapter' } load all for that chapter
+         * Returns null if unparseable (load all).
+         */
+        function parseRangeFromFilename(filename) {
+            const parsed = parseAudioFilename(filename);
+            if (!parsed) return null;
+
+            if (parsed.type === 'grouped') {
+                // Extract start/end from BOOK_START_END
+                const m = filename.match(/_(\d+)_(\d+)/);
+                if (m) return { start: parseInt(m[1], 10), end: parseInt(m[2], 10), type: 'grouped' };
+            }
+
+            // simple and subchapter: load all entries (no pasuram filtering needed)
+            return null;
+
+            return null; // no range info — load all
+        }
+
+        function buildActiveWorkspaceCanvasTimeline(overrideKey = null) {
+            const sel = document.getElementById('selectedPipelineTargetNamespace');
+            const targetNamespaceKey = overrideKey || (sel ? sel.value : null);
+            if (!targetNamespaceKey) return;
+
+            currentFileName = targetNamespaceKey;
+
+            // Determine pasuram range from audio filename (not the namespace key)
+            const audioRange = parseRangeFromFilename(currentAudioFileName);
+            console.log(`[Splitter] Audio file: "${currentAudioFileName}" → Range: ${audioRange ? `p${audioRange.start}–${audioRange.end}` : 'all'}`);
+
+            // 1. Trace and extract text directly from the native nested script engine structure
+            let textSourceMap = {};
+            if (window.text_bundle_ta && window.text_bundle_ta[targetNamespaceKey]) {
+                textSourceMap = window.text_bundle_ta[targetNamespaceKey];
+            } else if (window.MARKER_DATABASE[targetNamespaceKey] && window.MARKER_DATABASE[targetNamespaceKey]._textSourceMap) {
+                textSourceMap = window.MARKER_DATABASE[targetNamespaceKey]._textSourceMap;
+            } else if (Array.isArray(window.MARKER_DATABASE[targetNamespaceKey])) {
+                // Check if text is attached directly onto array items
+                window.MARKER_DATABASE[targetNamespaceKey].forEach(block => {
+                    if (block && block.p && block.text && block.text.ta) {
+                        textSourceMap[block.p] = block.text.ta;
+                    }
+                });
+            }
+
+            const allSteps = window.MARKER_DATABASE[targetNamespaceKey] || [];
+
+            // Filter to only the pasurums covered by the loaded audio file
+            const stepsSourceTimelineArray = audioRange
+                ? allSteps.filter(b => b.p >= audioRange.start && b.p <= audioRange.end)
+                : allSteps;
+
+            // Also filter textSourceMap to the same range
+            if (audioRange) {
+                const filteredTextMap = {};
+                Object.keys(textSourceMap).forEach(k => {
+                    const n = parseInt(k, 10);
+                    if (n >= audioRange.start && n <= audioRange.end) filteredTextMap[k] = textSourceMap[k];
+                });
+                textSourceMap = filteredTextMap;
+            }
+
+            let unifiedCompiledMarkers = [];
+
+            // Check if we actually have valid step timing blocks
+            let hasTimings = Array.isArray(stepsSourceTimelineArray) &&
+                stepsSourceTimelineArray.length > 0 &&
+                stepsSourceTimelineArray.some(b => b.step1 && b.step1.length > 0);
+
+            if (hasTimings) {
+                // Path A: Parse standard existing timeline steps
+                stepsSourceTimelineArray.forEach((pasuramBlock, blockIdx) => {
+                    if (!pasuramBlock || typeof pasuramBlock !== 'object') return;
+
+                    const step1Timelines = pasuramBlock.step1 || [];
+                    const pIndex = pasuramBlock.p || (blockIdx + 1);
+                    const matchingRawTextLineString = pasuramBlock.text && pasuramBlock.text.ta ? pasuramBlock.text.ta : (textSourceMap[pIndex] || "");
+                    let splitPhrases = matchingRawTextLineString.split('*').map(t => t.trim()).filter(t => t.length > 0);
+
+                    const currentStep2 = pasuramBlock.step2 ? JSON.parse(JSON.stringify(pasuramBlock.step2)) : null;
+                    const currentStep3 = pasuramBlock.step3 ? JSON.parse(JSON.stringify(pasuramBlock.step3)) : null;
+                    const currentStep4 = pasuramBlock.step4 ? JSON.parse(JSON.stringify(pasuramBlock.step4)) : null;
+
+                    for (let i = 0; i < step1Timelines.length; i++) {
+                        let startTime = parseFloat(step1Timelines[i][0]);
+                        let endTime = parseFloat(step1Timelines[i][1]);
+                        let verseContent = splitPhrases[i] !== undefined ? splitPhrases[i] : "";
+
+                        unifiedCompiledMarkers.push({
+                            start: startTime,
+                            end: endTime,
+                            text: verseContent,
+                            pIndex: pIndex,
+                            forceEndBlock: (i === step1Timelines.length - 1),
+                            origStep2: i === 0 ? currentStep2 : null,
+                            origStep3: i === 0 ? currentStep3 : null,
+                            origStep4: i === 0 ? currentStep4 : null
+                        });
+                    }
+                });
+            } else {
+                // Path B: Timeline is missing/empty -> Extract text phrases and distribute evenly
+                let allPhrases = [];
+
+                // Collect phrases from the text map
+                Object.keys(textSourceMap).sort((a, b) => parseInt(a) - parseInt(b)).forEach(pKey => {
+                    let rawText = textSourceMap[pKey] || "";
+                    let splitPhrases = rawText.split('*').map(t => t.trim()).filter(t => t.length > 0);
+
+                    splitPhrases.forEach((phrase, i) => {
+                        allPhrases.push({
+                            text: phrase,
+                            pIndex: parseInt(pKey),
+                            isLastInBlock: (i === splitPhrases.length - 1)
+                        });
+                    });
+                });
+
+                if (allPhrases.length > 0) {
+                    // Use audio duration if loaded, default to a 5-minute workspace canvas if not
+                    let totalDuration = detectedDuration || 300;
+                    let incrementStep = totalDuration / allPhrases.length;
+
+                    allPhrases.forEach((phraseObj, idx) => {
+                        let startTime = parseFloat((idx * incrementStep).toFixed(1));
+                        let endTime = (idx === allPhrases.length - 1) ? parseFloat(totalDuration.toFixed(1)) : parseFloat(((idx + 1) * incrementStep).toFixed(1));
+
+                        unifiedCompiledMarkers.push({
+                            start: startTime,
+                            end: endTime,
+                            text: phraseObj.text,
+                            pIndex: phraseObj.pIndex,
+                            forceEndBlock: phraseObj.isLastInBlock,
+                            origStep2: null, origStep3: null, origStep4: null
+                        });
+                    });
+                }
+            }
+
+            if (unifiedCompiledMarkers.length > 0) {
+                isSystemImportingData = true;
+                window.rawMarkers = unifiedCompiledMarkers;
+                renderTimelineGridCanvas(true);
+                serializeWorkspaceStateToJsCodeblock();
+                isSystemImportingData = false;
+                document.getElementById('pipelineKeySelectorContainer').style.display = 'none';
+            } else {
+                alert("Could not load tracking context. Ensure script targets contain text or structural matrices.");
+            }
+        }
+
+        function renderTimelineGridCanvas(forceFullRedraw = false) {
+            if (!markerList || window.rawMarkers.length === 0) return;
+            const currentDOMItemsLength = markerList.querySelectorAll('.marker-item').length;
+
+            if (!forceFullRedraw && currentDOMItemsLength === window.rawMarkers.length) {
+                window.rawMarkers.forEach((marker, idx) => {
+                    const rowContainer = document.getElementById(`item-${idx}`);
+                    if (rowContainer) {
+                        const numericInputs = rowContainer.querySelectorAll('input[type="number"]');
+                        const alphaTextInput = rowContainer.querySelector('input[type="text"]');
+                        const breakingCheckbox = rowContainer.querySelector('input[type="checkbox"]');
+
+                        if (numericInputs[0] && document.activeElement !== numericInputs[0]) numericInputs[0].value = marker.start;
+                        if (numericInputs[1] && document.activeElement !== numericInputs[1]) numericInputs[1].value = marker.end;
+                        if (alphaTextInput && document.activeElement !== alphaTextInput) alphaTextInput.value = marker.text;
+                        if (breakingCheckbox) breakingCheckbox.checked = marker.forceEndBlock;
+                    }
+                });
+                document.getElementById('status').innerText = `Markers: ${window.rawMarkers.length}`;
                 return;
             }
 
-            const removedSegment = window.rawMarkers[index];
+            markerList.innerHTML = window.rawMarkers.map((marker, i) => {
+                const activeCanvas = (waveformReady && i === currentHighlightIndex)
+                    ? `<canvas class="wf-segment-canvas${activeSegmentWaveformExpanded ? ' wf-expanded' : ''}" id="wf-seg-${i}" title="Drag the green start/end pins to trim; click waveform to seek"></canvas>`
+                    : '';
+                return `
+            <div class="marker-item" id="item-${i}">
+                <span style="font-weight:bold; min-width:35px; font-size:11px; color:#64748b;">P.${marker.pIndex || 1} #${i + 1}</span>
+                <input type="number" step="0.1" value="${marker.start}" 
+                       onfocus="window.isUserEditingActiveCell = true; window.isTestingSegmentAudio = false;" 
+                       onblur="window.isUserEditingActiveCell = false;" 
+                       oninput="modifySegmentTimeCoordinates(${i}, 'start', this.value)">
+                <input type="number" step="0.1" value="${marker.end}" 
+                       onfocus="window.isUserEditingActiveCell = true; window.isTestingSegmentAudio = false;" 
+                       onblur="window.isUserEditingActiveCell = false;" 
+                       oninput="modifySegmentTimeCoordinates(${i}, 'end', this.value)">
+                <input type="text" placeholder="Verse fragment text" value="${marker.text.replace(/"/g, '&quot;')}" 
+                       onfocus="window.isUserEditingActiveCell = true; window.isTestingSegmentAudio = false;" 
+                       onblur="window.isUserEditingActiveCell = false;" 
+                       oninput="modifySegmentTextString(${i}, this.value)">
+                <label class="checkbox-label">
+                    <input type="checkbox" ${marker.forceEndBlock ? 'checked' : ''} onchange="toggleSegmentBlockBoundary(${i}, this.checked)"> Break
+                </label>
+                <div style="display:flex; gap:3px; margin-left:auto;">
+                    <!-- <button class="btn btn-icon" style="background-color: #1a237e;" onclick="cutSegmentAtPlayback(${i})" title="Cut: set end to playhead">
+                        <img src="splitter-assets/cut.png" alt="Cut">
+                    </button> -->
+                    <button class="btn" style="padding: 6px 8px; font-size: 11px; background-color: #28a745;" onclick="testSegmentAudioPlaybackInterval(${i})" title="Play segment">▶</button>
+                    <!--<button class="btn btn-icon" style="background-color: #1565c0;" onclick="pauseSegmentPlayback()" title="Pause playback">
+                        <img src="splitter-assets/pause.png" alt="Pause">
+                    </button>-->
+                    <button class="btn" style="padding: 6px 8px; font-size: 11px; background-color: #dc3545;" onclick="deleteSegmentRow(${i})" title="Delete Segment">×</button>
+                </div>
+                ${activeCanvas}
+            </div>`;
+            }).join('');
 
-            if (index > 0) {
-                window.rawMarkers[index - 1].end = removedSegment.end;
-                if (removedSegment.forceEndBlock) window.rawMarkers[index - 1].forceEndBlock = true;
-            } else if (window.rawMarkers[index + 1]) {
-                window.rawMarkers[index + 1].start = removedSegment.start;
+            if (waveformReady && currentHighlightIndex >= 0) {
+                mountedActiveSegmentIndex = currentHighlightIndex;
+            } else {
+                mountedActiveSegmentIndex = -1;
             }
 
-            window.rawMarkers.splice(index, 1);
-            renderInteractiveGrid(true);
-            serializeStateToJS();
-
-            setTimeout(() => {
-                const focusTargetIndex = index >= window.rawMarkers.length ? window.rawMarkers.length - 1 : index;
-                const targetRow = document.getElementById(`item-${focusTargetIndex}`);
-                if (targetRow) {
-                    const txtInput = targetRow.querySelector('input[type="text"]');
-                    if (txtInput) txtInput.focus({ preventScroll: true });
-                    highlightUIRow(focusTargetIndex);
-                }
-            }, 50);
+            document.getElementById('status').innerText = `Markers: ${window.rawMarkers.length}`;
+            renderRunningLiveHighlightViewer(currentHighlightIndex);
+            refreshWaveformViews();
         }
 
-        function distributeTimelineProrally() {
-            if (window.rawMarkers.length === 0) return;
-            let totalDuration = detectedDuration || 300;
-            let step = totalDuration / window.rawMarkers.length;
-            window.rawMarkers.forEach((m, idx) => {
-                m.start = parseFloat((idx * step).toFixed(1));
-                m.end = (idx === window.rawMarkers.length - 1) ? parseFloat(totalDuration.toFixed(1)) : parseFloat(((idx + 1) * step).toFixed(1));
-            });
-            renderInteractiveGrid(true);
-            serializeStateToJS();
-        }
-
-        function updateStateText(index, value) {
+        function modifySegmentTextString(index, val) {
             if (window.rawMarkers[index]) {
-                window.rawMarkers[index].text = value;
-                localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
-                renderPasuramReaderPanel(currentHighlightIndex);
+                window.rawMarkers[index].text = val;
+                renderRunningLiveHighlightViewer(currentHighlightIndex);
             }
         }
 
-        function updateStateTime(index, field, value) {
+        function modifySegmentTimeCoordinates(index, field, value) {
             if (!window.rawMarkers[index]) return;
 
-            const newVal = parseFloat(value) || 0;
-            const oldVal = window.rawMarkers[index][field];
-            const delta = newVal - oldVal;
+            const parsedNum = parseFloat(value);
+            if (isNaN(parsedNum)) return;
 
-            window.rawMarkers[index][field] = newVal;
+            const originalVal = window.rawMarkers[index][field];
+            const deltaOffset = parsedNum - originalVal;
 
+            window.rawMarkers[index][field] = parsedNum;
+
+            // Maintain back-to-back continuity with immediate neighbors
             if (field === 'start' && window.rawMarkers[index - 1]) {
-                window.rawMarkers[index - 1].end = newVal;
+                window.rawMarkers[index - 1].end = parsedNum;
+            }
+            if (field === 'end' && window.rawMarkers[index + 1]) {
+                window.rawMarkers[index + 1].start = parsedNum;
             }
 
-            if (delta !== 0) {
-                if (field === 'end' && window.rawMarkers[index + 1]) {
-                    window.rawMarkers[index + 1].start = newVal;
-                }
+            // Only cascade the shift down the timeline if the ripple checkbox is enabled
+            const shouldRipple = document.getElementById('rippleTimeAdjustmentsToggle').checked;
 
+            if (deltaOffset !== 0 && shouldRipple && !isSystemImportingData && window.isUserEditingActiveCell) {
                 for (let i = index + 1; i < window.rawMarkers.length; i++) {
-                    let targetEnd = parseFloat((window.rawMarkers[i].end + delta).toFixed(1));
+                    let targetEnd = parseFloat((window.rawMarkers[i].end + deltaOffset).toFixed(1));
                     window.rawMarkers[i].end = targetEnd;
                     window.rawMarkers[i].start = window.rawMarkers[i - 1].end;
                 }
-
-                const lastIdx = window.rawMarkers.length - 1;
-                if (window.rawMarkers[lastIdx].end > detectedDuration && detectedDuration > 0) {
-                    window.rawMarkers[lastIdx].end = parseFloat(detectedDuration.toFixed(1));
-                }
             }
 
-            localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
-            renderInteractiveGrid(false);
-            serializeStateToJS();
+            // Enforce maximum track boundary safety ceiling safely
+            const lastIdx = window.rawMarkers.length - 1;
+            if (window.rawMarkers[lastIdx].end > detectedDuration && detectedDuration > 0) {
+                window.rawMarkers[lastIdx].end = parseFloat(detectedDuration.toFixed(1));
+            }
+
+            renderTimelineGridCanvas(false);
+            if (!isSystemImportingData) {
+                serializeWorkspaceStateToJsCodeblock();
+            }
+            refreshWaveformViews();
         }
 
-        function toggleStateBoundary(index, isChecked) {
+        function toggleSegmentBlockBoundary(index, isChecked) {
             if (window.rawMarkers[index]) {
                 window.rawMarkers[index].forceEndBlock = isChecked;
-                serializeStateToJS();
+                serializeWorkspaceStateToJsCodeblock();
             }
         }
 
-        function snapToCurrentPlayback(index) {
-            const time = isYouTube ? ytPlayer.getCurrentTime() : player.currentTime;
-            updateStateTime(index, 'end', parseFloat(time.toFixed(1)));
+        // function snapSegmentBoundaryToPlaybackTime(index) {
+        //     const time = player.currentTime;
+        //     window.rawMarkers[index].end = parseFloat(time.toFixed(1));
+        //     if (window.rawMarkers[index + 1]) window.rawMarkers[index + 1].start = parseFloat(time.toFixed(1));
+        //     renderTimelineGridCanvas(false);
+        //     serializeWorkspaceStateToJsCodeblock();
+        // }
+
+        function pauseSegmentPlayback() {
+            if (window.segmentPlaybackIntervalHandle) {
+                clearInterval(window.segmentPlaybackIntervalHandle);
+                window.segmentPlaybackIntervalHandle = null;
+            }
+            if (player) player.pause();
+            window.isTestingSegmentAudio = false;
+            isWaveformInteracting = false;
         }
 
-        function captureTimestampAtCurrent() {
-            const time = parseFloat((isYouTube ? ytPlayer.getCurrentTime() : player.currentTime).toFixed(1));
+        function cutSegmentAtPlayback(index) {
+            if (!window.rawMarkers[index] || !player) return;
+            const time = parseFloat(player.currentTime.toFixed(1));
+            window.rawMarkers[index].end = time;
+            if (window.rawMarkers[index + 1]) window.rawMarkers[index + 1].start = time;
+            renderTimelineGridCanvas(false);
+            serializeWorkspaceStateToJsCodeblock();
+            refreshWaveformViews();
+        }
+
+        function captureLiveTimestamp() {
+            const time = parseFloat(player.currentTime.toFixed(1));
             for (let i = 0; i < window.rawMarkers.length; i++) {
                 if (time > window.rawMarkers[i].start && time < window.rawMarkers[i].end) {
                     window.rawMarkers[i].end = time;
@@ -1047,329 +1087,344 @@
                     break;
                 }
             }
-            renderInteractiveGrid(true);
-            serializeStateToJS();
+            renderTimelineGridCanvas(true);
+            serializeWorkspaceStateToJsCodeblock();
+            refreshWaveformViews();
         }
 
-        function renderPasuramReaderPanel(activeIndex) {
-            if (!livePasuramView) return;
-            if (!window.rawMarkers || window.rawMarkers.length === 0) {
-                livePasuramView.innerHTML = `<em>Load or parse script text content to visualize running live display...</em>`;
-                return;
-            }
+        function insertMidpointSegmentRow(index) {
+            const segment = window.rawMarkers[index];
+            if (!segment) return;
 
-            let htmlOutput = [];
-            for (let i = 0; i < window.rawMarkers.length; i++) {
-                const marker = window.rawMarkers[i];
-                const isCurrent = (i === activeIndex);
+            const midpoint = parseFloat(((segment.start + segment.end) / 2).toFixed(1));
+            const boundaryEndVal = segment.end;
 
-                if (isCurrent) htmlOutput.push(`<span class="active-phrase" id="text-phrase-${i}">${marker.text}</span>`);
-                else htmlOutput.push(`<span class="normal-phrase" id="text-phrase-${i}">${marker.text}</span>`);
+            segment.end = midpoint;
 
-                if (marker.forceEndBlock) {
-                    htmlOutput.push(`<br><span style="color:#888; font-size:0.85em; display:block; margin-bottom:8px; border-bottom:1px dashed #eee;"></span>`);
-                } else if (i < window.rawMarkers.length - 1) {
-                    htmlOutput.push(` <span style="color:#bbb;">*</span> `);
+            const addedRecord = {
+                start: midpoint,
+                end: boundaryEndVal,
+                text: "",
+                pIndex: segment.pIndex,
+                forceEndBlock: segment.forceEndBlock,
+                origStep2: null, origStep3: null, origStep4: null
+            };
+
+            segment.forceEndBlock = false;
+            window.rawMarkers.splice(index + 1, 0, addedRecord);
+
+            renderTimelineGridCanvas(true);
+            serializeWorkspaceStateToJsCodeblock();
+            refreshWaveformViews();
+
+            setTimeout(() => {
+                const targetRow = document.getElementById(`item-${index + 1}`);
+                if (targetRow) {
+                    const txt = targetRow.querySelector('input[type="text"]');
+                    if (txt) txt.focus({ preventScroll: true });
+                    focusRowScrollHighlight(index + 1);
                 }
-            }
-
-            livePasuramView.innerHTML = htmlOutput.join('');
-            const activePhraseEl = document.getElementById(`text-phrase-${activeIndex}`);
-            if (activePhraseEl) activePhraseEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 50);
         }
 
-        function renderInteractiveGrid(forceFullRedraw = false) {
-            if (!markerList || window.rawMarkers.length === 0) return;
-            const DOMItemsCount = markerList.querySelectorAll('.marker-item').length;
+        function deleteSegmentRow(index) {
+            if (!(confirm("Do you want to delete this segment?"))) return;
 
-            if (!forceFullRedraw && DOMItemsCount === window.rawMarkers.length) {
-                window.rawMarkers.forEach((m, i) => {
-                    const itemRow = document.getElementById(`item-${i}`);
-                    if (itemRow) {
-                        const inputs = itemRow.querySelectorAll('input[type="number"]');
-                        const textInput = itemRow.querySelector('input[type="text"]');
-                        const checkInput = itemRow.querySelector('input[type="checkbox"]');
+            if (window.rawMarkers.length <= 1) return;
+            const deleted = window.rawMarkers[index];
 
-                        if (inputs[0] && document.activeElement !== inputs[0]) inputs[0].value = m.start;
-                        if (inputs[1] && document.activeElement !== inputs[1]) inputs[1].value = m.end;
-                        if (textInput && document.activeElement !== textInput) textInput.value = m.text;
-                        if (checkInput) checkInput.checked = m.forceEndBlock;
-                    }
-                });
-                document.getElementById('status').innerText = `Markers: ${window.rawMarkers.length}`;
-                return;
+            if (index > 0) {
+                window.rawMarkers[index - 1].end = deleted.end;
+                if (deleted.forceEndBlock) window.rawMarkers[index - 1].forceEndBlock = true;
+            } else if (window.rawMarkers[index + 1]) {
+                window.rawMarkers[index + 1].start = deleted.start;
             }
 
-            markerList.innerHTML = window.rawMarkers.map((m, i) => {
-                return `
-            <div class="marker-item" id="item-${i}">
-                <span style="font-weight:bold; margin-right:4px; min-width:25px; font-size:12px;">#${i + 1}</span>
-                <input type="number" step="0.1" value="${m.start}" 
-                       onfocus="window.isUserEditingActiveCell = true; window.isTestingSegmentAudio = false;" 
-                       onblur="window.isUserEditingActiveCell = false;" 
-                       oninput="updateStateTime(${i}, 'start', this.value)">
-                <input type="number" step="0.1" value="${m.end}" 
-                       onfocus="window.isUserEditingActiveCell = true; window.isTestingSegmentAudio = false;" 
-                       onblur="window.isUserEditingActiveCell = false;" 
-                       oninput="updateStateTime(${i}, 'end', this.value)">
-                <input type="text" placeholder="Add new segment text" value="${m.text.replace(/"/g, '&quot;')}" 
-                       onfocus="window.isUserEditingActiveCell = true; window.isTestingSegmentAudio = false;" 
-                       onblur="window.isUserEditingActiveCell = false;" 
-                       oninput="updateStateText(${i}, this.value)">
-                <label class="checkbox-label">
-                    <input type="checkbox" ${m.forceEndBlock ? 'checked' : ''} onchange="toggleStateBoundary(${i}, this.checked)"> Break
-                </label>
-                <div style="display:flex; gap:3px; margin-left:auto;">
-                    <button class="btn" style="padding: 6px 8px; font-size: 11px;" onclick="snapToCurrentPlayback(${i})">Snap</button>
-                    <button class="btn" style="padding: 6px 8px; font-size: 11px; background-color: #28a745;" onclick="testSegmentAudio(${i})">▶</button>
-                    <button class="btn" style="padding: 6px 8px; font-size: 11px; background-color: #dc3545;" onclick="deleteSegment(${i})" title="Delete Segment">×</button>
-                </div>
-            </div>`;
-            }).join('');
-
-            document.getElementById('status').innerText = `Markers: ${window.rawMarkers.length}`;
-            renderPasuramReaderPanel(currentHighlightIndex);
+            window.rawMarkers.splice(index, 1);
+            renderTimelineGridCanvas(true);
+            serializeWorkspaceStateToJsCodeblock();
+            refreshWaveformViews();
         }
 
-        function testSegmentAudio(targetId) {
-            const marker = window.rawMarkers[targetId];
-            if (!marker) return;
+        function reproportionalizeTimelineDist() {
+            if (window.rawMarkers.length === 0) return;
+            let len = detectedDuration || 300;
+            let step = len / window.rawMarkers.length;
+            window.rawMarkers.forEach((m, i) => {
+                m.start = parseFloat((i * step).toFixed(1));
+                m.end = (i === window.rawMarkers.length - 1) ? parseFloat(len.toFixed(1)) : parseFloat(((i + 1) * step).toFixed(1));
+            });
+            renderTimelineGridCanvas(true);
+            serializeWorkspaceStateToJsCodeblock();
+            refreshWaveformViews();
+        }
 
-            const start = marker.start;
-            const end = marker.end;
+        function testSegmentAudioPlaybackInterval(id) {
+            const m = window.rawMarkers[id];
+            if (!m) return;
 
-            // Set segment preview lock so background scroll listeners ignore automatic advancement highlights
             window.isTestingSegmentAudio = true;
-            currentHighlightIndex = targetId;
-            highlightUIRow(targetId);
+            isWaveformInteracting = false;
+            focusRowScrollHighlight(id);
 
-            if (isYouTube) { ytPlayer.seekTo(start); ytPlayer.playVideo(); }
-            else { player.currentTime = start; player.play(); }
+            player.currentTime = m.start;
+            player.play();
 
-            if (window.activeAudioTrackLoop) clearInterval(window.activeAudioTrackLoop);
+            if (window.segmentPlaybackIntervalHandle) clearInterval(window.segmentPlaybackIntervalHandle);
 
-            window.activeAudioTrackLoop = setInterval(() => {
-                let curr = isYouTube ? ytPlayer.getCurrentTime() : player.currentTime;
-                const currentEnd = window.rawMarkers[targetId] ? window.rawMarkers[targetId].end : end;
-
-                if (curr >= currentEnd) {
-                    if (isYouTube) ytPlayer.pauseVideo(); else player.pause();
-                    clearInterval(window.activeAudioTrackLoop);
+            window.segmentPlaybackIntervalHandle = setInterval(() => {
+                if (player.currentTime >= m.end) {
+                    player.pause();
+                    clearInterval(window.segmentPlaybackIntervalHandle);
+                    window.segmentPlaybackIntervalHandle = null;
+                    window.isTestingSegmentAudio = false;
+                    // Stay on this phrase so waveform trim editing remains available
+                    focusRowScrollHighlight(id);
                 }
-            }, 30);
+            }, 20);
         }
 
-        function highlightUIRow(index) {
-            // 1. Reset backgrounds across all tracking rows
-            document.querySelectorAll('.marker-item').forEach(el => el.style.background = '#f9f9f9');
-
-            let targetRow = document.getElementById(`item-${index}`);
-            if (targetRow) {
-                // 2. Highlight the active focus target segment row
-                targetRow.style.background = '#e1f5fe';
-
-                // 3. DYNAMIC SCROLL CENTER COGNITION
-                // Calculate the physical mid-point of the container viewport window
-                const containerHeight = markerList.clientHeight;
-                const rowTopWithinContainer = targetRow.offsetTop - markerList.offsetTop;
-                const rowHeight = targetRow.offsetHeight;
-
-                // Position target row exactly centered. This naturally forces the 
-                // previous segment element directly above it, safe from being hidden.
-                const perfectCenterScrollPosition = rowTopWithinContainer - (containerHeight / 2) + (rowHeight / 2);
-
-                if (index < 1) {
-                    // Edge case: Keep top anchors neat for segment #1
-                    markerList.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    markerList.scrollTo({ top: perfectCenterScrollPosition, behavior: 'smooth' });
-                }
-            }
-            renderPasuramReaderPanel(index);
-        }
-
-        function serializeStateToJS() {
-            if (!ioJson || window.rawMarkers.length === 0) return;
-
-            let timelineBlocks = [];
-            let textBlocks = {};
-            let currentPasuramIndex = 1;
-            let activeGroup = [];
-
-            for (let i = 0; i < window.rawMarkers.length; i++) {
-                let s = window.rawMarkers[i];
-                activeGroup.push(s);
-
-                if (s.forceEndBlock || i === window.rawMarkers.length - 1) {
-                    let step1 = activeGroup.map(seg => [parseFloat(seg.start.toFixed(1)), parseFloat(seg.end.toFixed(1))]);
-                    let step2 = []; let step3 = [];
-
-                    let pinNadiIndex = activeGroup.findIndex(seg => seg.text.trim().startsWith('**'));
-
-                    for (let j = 0; j < step1.length; j += 2) {
-                        step2.push([step1[j][0], step1[j + 1] ? step1[j + 1][1] : step1[j][1]]);
-                    }
-
-                    if (pinNadiIndex !== -1 && pinNadiIndex > 0) {
-                        step3.push([step1[0][0], step1[pinNadiIndex][0]]);
-                        step3.push([step1[pinNadiIndex][0], step1[step1.length - 1][1]]);
-                    } else {
-                        for (let k = 0; k < step2.length; k += 2) {
-                            step3.push([step2[k][0], step2[k + 1] ? step2[k + 1][1] : step2[k][1]]);
-                        }
-                    }
-
-                    timelineBlocks.push({
-                        p: currentPasuramIndex,
-                        step1: step1, step2: step2, step3: step3,
-                        step4: [parseFloat(activeGroup[0].start.toFixed(1)), parseFloat(activeGroup[activeGroup.length - 1].end.toFixed(1))]
-                    });
-
-                    let combinedPhrases = [];
-                    for (let phraseIdx = 0; phraseIdx < activeGroup.length; phraseIdx++) {
-                        let currentPhraseText = activeGroup[phraseIdx].text.trim();
-                        if (phraseIdx > 0) {
-                            if (currentPhraseText.startsWith('**')) combinedPhrases.push('***');
-                            else combinedPhrases.push('*');
-                        }
-                        combinedPhrases.push(currentPhraseText);
-                    }
-
-                    textBlocks[currentPasuramIndex] = combinedPhrases.join(' ') + ' *';
-
-                    currentPasuramIndex++;
-                    activeGroup = [];
-                }
-            }
-
-            let timelineLines = timelineBlocks.map(b => `  { "p": ${b.p}, "step1": ${JSON.stringify(b.step1)}, "step2": ${JSON.stringify(b.step2)}, "step3": ${JSON.stringify(b.step3)}, "step4": ${JSON.stringify(b.step4)} }`);
-            let timelineOutput = `'${currentFileName}.steps' : [\n${timelineLines.join(",\n")}\n],`;
-
-            let textLines = Object.keys(textBlocks).map(pKey => `    ${pKey}: ${JSON.stringify(textBlocks[pKey])}`);
-            let textOutput = `'${currentFileName}.texts' : {\n${textLines.join(",\n")}\n},`;
-
-            ioJson.value = `// ==========================================\n` +
-                `// FILE 1: TIMELINE CONFIGURATIONS (.js / .json)\n` +
-                `// ==========================================\n` +
-                `${timelineOutput}\n\n` +
-                `// ==========================================\n` +
-                `// FILE 2: TEXT DICTIONARY BUNDLE\n` +
-                `// ==========================================\n` +
-                `${textOutput}`;
-
-            localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
-        }
-
-        function importExistingConfig() {
-            const rawInput = document.getElementById('ioJson').value.trim();
-            if (!rawInput) {
-                alert("Please paste your configuration snippet into the text area first.");
+        function renderRunningLiveHighlightViewer(activeIndex) {
+            if (!livePasuramView) return;
+            if (window.rawMarkers.length === 0) {
+                livePasuramView.innerHTML = `<em>Load assets to generate dynamic highlighter canvas...</em>`;
                 return;
             }
 
-            try {
-                const arrayStart = rawInput.indexOf('[');
-                const arrayEnd = rawInput.lastIndexOf(']');
-                if (arrayStart === -1 || arrayEnd === -1) throw new Error("Could not locate structured array blocks.");
+            let html = window.rawMarkers.map((marker, i) => {
+                let cssClass = (i === activeIndex) ? 'class="active-phrase"' : 'class="normal-phrase"';
+                return `<span ${cssClass} id="text-phrase-${i}">${marker.text}</span>${marker.forceEndBlock ? '<br><hr>' : ' * '}`;
+            });
+            livePasuramView.innerHTML = html.join('');
+        }
 
-                let arrayString = rawInput.substring(arrayStart, arrayEnd + 1);
-                arrayString = arrayString.replace(/,\s*$/, "").replace(/,\s*\]/, "]");
-                const parsedBlocks = JSON.parse(arrayString);
-
-                if (!Array.isArray(parsedBlocks)) throw new Error("Parsed content is not recognized as a structured block.");
-
-                let reconstitutedMarkers = [];
-
-                parsedBlocks.forEach((block) => {
-                    const rawTokens = block.text.split(' ');
-                    let phrases = [];
-                    let currentPhraseBuffer = [];
-
-                    for (let token of rawTokens) {
-                        if (token === '***') {
-                            if (currentPhraseBuffer.length > 0) phrases.push(currentPhraseBuffer.join(' ').trim());
-                            currentPhraseBuffer = ['**'];
-                        } else if (token === '*') {
-                            if (currentPhraseBuffer.length > 0) {
-                                phrases.push(currentPhraseBuffer.join(' ').trim());
-                                currentPhraseBuffer = [];
-                            }
-                        } else {
-                            currentPhraseBuffer.push(token);
-                        }
-                    }
-                    if (currentPhraseBuffer.length > 0) phrases.push(currentPhraseBuffer.join(' ').trim());
-                    if (phrases.length > 0 && phrases[phrases.length - 1] === '') phrases.pop();
-
-                    const timelines = block.step1 || [];
-
-                    for (let i = 0; i < phrases.length; i++) {
-                        let startTime = 0, endTime = 0;
-
-                        if (timelines[i]) {
-                            startTime = parseFloat(parseFloat(timelines[i][0]).toFixed(1));
-                            endTime = parseFloat(parseFloat(timelines[i][1]).toFixed(1));
-                        } else {
-                            startTime = reconstitutedMarkers.length > 0 ? reconstitutedMarkers[reconstitutedMarkers.length - 1].end : 0;
-                            endTime = startTime + 3.0;
-                        }
-
-                        reconstitutedMarkers.push({
-                            start: startTime,
-                            end: endTime,
-                            text: phrases[i].trim(),
-                            forceEndBlock: (i === phrases.length - 1)
-                        });
-                    }
-                });
-
-                window.rawMarkers = reconstitutedMarkers;
-                const nameMatch = rawInput.match(/^'([^']+)'\s*:/);
-                if (nameMatch && nameMatch[1]) currentFileName = nameMatch[1];
-
-                renderInteractiveGrid(true);
-                serializeStateToJS();
-                alert(`Loaded ${window.rawMarkers.length} track markers accurately!`);
-            } catch (err) {
-                alert("Parsing Exception: Verify your text boundaries remain intact.\nDetails: " + err.message);
+        function focusRowScrollHighlight(index) {
+            const highlightChanged = index !== currentHighlightIndex;
+            currentHighlightIndex = index;
+            document.querySelectorAll('.marker-item').forEach(el => el.style.background = '#ffffff');
+            let row = document.getElementById(`item-${index}`);
+            if (row) {
+                row.style.background = '#eff6ff';
+                let midPointScroll = row.offsetTop - markerList.offsetTop - (markerList.clientHeight / 2) + (row.offsetHeight / 2);
+                markerList.scrollTo({ top: Math.max(0, midPointScroll), behavior: 'smooth' });
+            }
+            renderRunningLiveHighlightViewer(index);
+            if (waveformReady && window.AudioWaveform) {
+                AudioWaveform.setActiveSegment(index);
+                // Do not remount the trim canvas mid-drag — that aborts boundary edits
+                if (!isWaveformInteracting && (highlightChanged || mountedActiveSegmentIndex !== index)) {
+                    placeActiveSegmentCanvas(index);
+                    mountActiveSegmentWaveform();
+                }
             }
         }
 
-        function setupSyncLoop() {
+        function setupGlobalSyncLoop() {
             const monitor = () => {
-                let curr = isYouTube ? (ytPlayer ? ytPlayer.getCurrentTime() : 0) : (player ? player.currentTime : 0);
+                let curr = player ? player.currentTime : 0;
                 let idx = window.rawMarkers.findIndex(m => curr >= m.start && curr < m.end);
 
-                // Only fire layout highlight/auto-scroll adjustments if cell input editing and test-preview cycles are quiet
-                if (idx !== -1 && idx !== currentHighlightIndex && !window.isUserEditingActiveCell && !window.isTestingSegmentAudio) {
-                    currentHighlightIndex = idx;
-                    highlightUIRow(idx);
+                // Keep highlight pinned while editing inputs, testing a clip, trimming,
+                // or when paused (so seeking on the active phrase waveform never jumps rows).
+                const allowAutoFollow = player
+                    && !player.paused
+                    && !window.isUserEditingActiveCell
+                    && !window.isTestingSegmentAudio
+                    && !isWaveformInteracting;
+
+                if (allowAutoFollow && idx !== -1 && idx !== currentHighlightIndex) {
+                    focusRowScrollHighlight(idx);
                 }
 
-
-                // DYNAMIC TIMER FIELD HOOK
-                const timeDisplayEl = document.getElementById('timeDisplay');
-                if (timeDisplayEl && typeof curr === 'number') {
-                    timeDisplayEl.innerText = curr.toFixed(1) + 's';
+                const timerElement = document.getElementById('timeDisplay');
+                if (timerElement) timerElement.innerText = curr.toFixed(1) + 's';
+                if (waveformReady && window.AudioWaveform) {
+                    AudioWaveform.setPlayhead(curr);
                 }
                 requestAnimationFrame(monitor);
             };
             requestAnimationFrame(monitor);
         }
 
-        function rewind() { if (isYouTube) ytPlayer.seekTo(ytPlayer.getCurrentTime() - 2); else player.currentTime -= 2; }
+        /**
+         * Distribute n items into 4 groups.
+         * Start from [2,2,2,2]=8. Subtract deficit from inner positions first (2,1,0), outer last (3).
+         * n=8→[2,2,2,2], n=7→[2,2,1,2], n=6→[2,1,1,2], n=5→[1,1,1,2], n=4→[1,1,0,2]...
+         * For n<4 collapses gracefully.
+         */
+        function distributeInto4(n) {
+            // Start from [2,2,2,2]=8, subtract 1 at a time cycling through positions 2,1,0,3
+            // n=8→[2,2,2,2], n=7→[2,2,1,2], n=6→[2,1,1,2], n=5→[1,1,1,2]
+            const g = [2, 2, 2, 2];
+            const order = [2, 1, 0, 3];
+            let deficit = 8 - n;
+            while (deficit > 0) {
+                for (const pos of order) {
+                    if (deficit <= 0) break;
+                    if (g[pos] > 0) { g[pos]--; deficit--; }
+                }
+            }
+            return g;
+        }
 
-        function clearAllState() {
-            if (confirm("Purge canvas?")) {
-                window.rawMarkers = [];
+        /** Build step2: merge step1 segments according to 4-group distribution */
+        function buildStep2(step1) {
+            const n = step1.length;
+            if (n === 0) return [];
+            const groups = distributeInto4(n);
+            const step2 = [];
+            let idx = 0;
+            for (const size of groups) {
+                if (size === 0) continue;
+                const slice = step1.slice(idx, idx + size);
+                step2.push([slice[0][0], slice[slice.length - 1][1]]);
+                idx += size;
+            }
+            return step2;
+        }
+
+        /** Build step3: pair up step2 entries (groups of 2) */
+        function buildStep3(step2) {
+            const step3 = [];
+            for (let i = 0; i < step2.length; i += 2) {
+                const a = step2[i];
+                const b = step2[i + 1];
+                step3.push([a[0], b ? b[1] : a[1]]);
+            }
+            return step3;
+        }
+
+        function serializeWorkspaceStateToJsCodeblock() {
+            if (!ioJson || window.rawMarkers.length === 0) return;
+
+            // Save active workspace memory array and metadata directly to local storage
+            localStorage.setItem('asm_saved_markers', JSON.stringify(window.rawMarkers));
+            localStorage.setItem('asm_current_filename', currentFileName);
+
+            let timelineBlocks = [];
+            let textBlocks = {};
+
+            let groupedByP = {};
+            window.rawMarkers.forEach(m => {
+                let p = m.pIndex || 1;
+                if (!groupedByP[p]) groupedByP[p] = [];
+                groupedByP[p].push(m);
+            });
+
+            Object.keys(groupedByP).sort((a, b) => parseInt(a) - parseInt(b)).forEach(pKey => {
+                let activeGroup = groupedByP[pKey];
+                let step1 = activeGroup.map(seg => [parseFloat(seg.start.toFixed(1)), parseFloat(seg.end.toFixed(1))]);
+
+                // Always recompute steps 2/3/4 from step1 so edits propagate correctly.
+                const step2 = buildStep2(step1);
+                const step3 = buildStep3(step2);
+                const step4 = [step1[0][0], step1[step1.length - 1][1]];
+
+                timelineBlocks.push({
+                    p: parseInt(pKey),
+                    step1: step1, step2: step2, step3: step3, step4: step4
+                });
+
+                let combinedPhrases = [];
+                for (let pIdx = 0; pIdx < activeGroup.length; pIdx++) {
+                    let txt = activeGroup[pIdx].text.trim();
+                    if (pIdx > 0) combinedPhrases.push(' * ');
+                    combinedPhrases.push(txt);
+                }
+                textBlocks[pKey] = combinedPhrases.join('') + ' *';
+            });
+
+            let lines = timelineBlocks.map(b => `  { "p": ${b.p}, "step1": ${JSON.stringify(b.step1)}, "step2": ${JSON.stringify(b.step2)}, "step3": ${JSON.stringify(b.step3)}, "step4": ${JSON.stringify(b.step4)} }`);
+            let txtLines = Object.keys(textBlocks).map(k => `    ${k}: ${JSON.stringify(textBlocks[k])}`);
+
+            ioJson.value = `window.MARKER_DATABASE = window.MARKER_DATABASE || {};\n\n` +
+                `window.MARKER_DATABASE['${currentFileName}'] = [\n${lines.join(",\n")}\n];\n\n` +
+                `// COMPANION TEXT DICTIONARY BUNDLE\n` +
+                `const text_bundle_ta = {\n  '${currentFileName}': {\n${txtLines.join(",\n")}\n  }\n};`;
+        }
+
+        function importFromRawConfigSnippet() {
+            const raw = ioJson.value.trim();
+            if (!raw) return;
+
+            try {
+                const arrayStart = raw.indexOf('[');
+                const arrayEnd = raw.lastIndexOf(']');
+                if (arrayStart === -1 || arrayEnd === -1) throw new Error("Could not detect top-level array anchors.");
+
+                let cleanJsonStr = raw.substring(arrayStart, arrayEnd + 1)
+                    .replace(/,\s*([\]}])/g, '$1')
+                    .replace(/,\s*\n\s*([\]}])/g, '$1');
+                const parsedBlocks = JSON.parse(cleanJsonStr);
+
+                if (!Array.isArray(parsedBlocks)) throw new Error("Target node payload is not an explicit matrix array configuration.");
+
+                let imported = [];
+                parsedBlocks.forEach((block) => {
+                    const step1 = block.step1 || [];
+                    const currentStep2 = block.step2 ? JSON.parse(JSON.stringify(block.step2)) : null;
+                    const currentStep3 = block.step3 ? JSON.parse(JSON.stringify(block.step3)) : null;
+                    const currentStep4 = block.step4 ? JSON.parse(JSON.stringify(block.step4)) : null;
+
+                    for (let i = 0; i < step1.length; i++) {
+                        imported.push({
+                            start: parseFloat(step1[i][0]),
+                            end: parseFloat(step1[i][1]),
+                            text: `Verse Fragment Node Row [P.${block.p || 1} #${i + 1}]`,
+                            pIndex: block.p || 1,
+                            forceEndBlock: (i === step1.length - 1),
+                            origStep2: i === 0 ? currentStep2 : null,
+                            origStep3: i === 0 ? currentStep3 : null,
+                            origStep4: i === 0 ? currentStep4 : null
+                        });
+                    }
+                });
+
+                isSystemImportingData = true;
+                window.rawMarkers = imported;
+                renderTimelineGridCanvas(true);
+                serializeWorkspaceStateToJsCodeblock();
+                isSystemImportingData = false;
+                alert(`Successfully mounted canvas timeline using ${window.rawMarkers.length} structural entries.`);
+            } catch (e) { alert("Import Fault: " + e.message); }
+        }
+
+        function rewindPlayback() { player.currentTime = Math.max(0, player.currentTime - 2); }
+
+        function clearWorkspaceState() {
+            if (confirm("Clear active canvas context?")) {
+                // Wipe local storage backup registers completely
                 localStorage.removeItem('asm_saved_markers');
-                localStorage.removeItem('asm_saved_text');
-                localStorage.removeItem('asm_saved_url');
-                document.getElementById('textGuidedContent').value = '';
-                document.getElementById('urlInput').value = '';
-                document.getElementById('chapterSelectorContainer').style.display = 'none';
-                renderInteractiveGrid(true);
-                serializeStateToJS();
+                localStorage.removeItem('asm_current_filename');
+
+                window.rawMarkers = [];
+                window.MARKER_DATABASE = {};
+                if (window.text_bundle_ta) window.text_bundle_ta = {};
+
+                document.getElementById('audioUrlInput').value = '';
+                document.getElementById('textUrlInput').value = '';
+                document.getElementById('stepsUrlInput').value = '';
+
+                const fileInputs = document.querySelectorAll('input[type="file"]');
+                fileInputs.forEach(input => input.value = '');
+
+                document.getElementById('pipelineKeySelectorContainer').style.display = 'none';
+
+                markerList.innerHTML = `
+                    <div style="text-align:center; color:#94a3b8; padding:50px 0;">
+                        Workspace clear. Ingest asset configurations to populate interactive canvas grids.
+                    </div>
+                `;
+
+                document.getElementById('status').innerText = "Markers: 0";
+                renderRunningLiveHighlightViewer(-1);
+                ioJson.value = '';
+
+                if (player) {
+                    player.pause();
+                    player.src = '';
+                }
+                clearWaveformOverview();
             }
         }
     </script>

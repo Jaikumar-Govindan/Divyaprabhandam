@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Creation Status Report</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #222;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 24px 28px 36px;
+        }
+        h1 {
+            margin: 0 0 6px;
+            font-size: 1.55rem;
+            color: #1a1a2e;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        .totals {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+        .stat {
+            background: #f8f9fb;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px 14px;
+        }
+        .stat .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        .stat .value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        .stat .bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .stat .bar > span {
+            display: block;
+            height: 100%;
+            background: #007bff;
+            border-radius: 3px;
+        }
+        .stat.ta .bar > span { background: #28a745; }
+        .stat.en .bar > span { background: #17a2b8; }
+        .stat.audio .bar > span { background: #fd7e14; }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .toolbar input[type="search"] {
+            flex: 1;
+            min-width: 180px;
+            padding: 8px 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn:hover { background-color: #0056b3; }
+        .btn.secondary {
+            background-color: #6c757d;
+        }
+        .btn.secondary:hover { background-color: #545b62; }
+        label.check {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: #444;
+            user-select: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border-bottom: 1px solid #e8e8e8;
+            padding: 9px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #f1f3f5;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        th:hover { background: #e9ecef; }
+        th[title] { cursor: help; }
+        th .sort-ind { color: #007bff; margin-left: 4px; }
+        tbody tr.book-row {
+            cursor: pointer;
+        }
+        tbody tr.book-row:hover {
+            background: #eef5ff;
+        }
+        tbody tr.book-row.active {
+            background: #e3f2fd;
+        }
+        .pct {
+            font-variant-numeric: tabular-nums;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .badge.yes { background: #d4edda; color: #155724; }
+        .badge.no { background: #f0f0f0; color: #666; }
+        .badge.local { background: #d4edda; color: #155724; }
+        .badge.remote { background: #fff3cd; color: #856404; }
+        .badge.missing { background: #f8d7da; color: #721c24; }
+        .badge.partial { background: #ffe8cc; color: #9a5b00; }
+        .badge.ok { background: #d4edda; color: #155724; }
+        .badge.suspect { background: #fff3cd; color: #856404; }
+        .badge.broken { background: #f8d7da; color: #721c24; }
+        .badge.reviewed { background: #cce5ff; color: #004085; }
+        .badge.unknown { background: #e9ecef; color: #495057; }
+        .stat.quality .bar > span { background: #dc3545; }
+        .audio-files {
+            font-size: 0.82rem;
+            color: #555;
+            margin-top: 6px;
+            max-width: 360px;
+        }
+        .audio-files li {
+            margin: 2px 0;
+            word-break: break-all;
+        }
+        .audio-files .file-label {
+            color: #64748b;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        #detail {
+            display: none;
+            margin-top: 28px;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 20px;
+        }
+        #detail.visible { display: block; }
+        #detail h2 {
+            margin: 0 0 8px;
+            font-size: 1.25rem;
+        }
+        #detail .detail-meta {
+            color: #666;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        .missing-list {
+            font-size: 0.82rem;
+            color: #555;
+            max-width: 280px;
+            word-break: break-word;
+        }
+        .missing-list.empty { color: #28a745; }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 14px;
+            border-radius: 6px;
+            border: 1px solid #f5c6cb;
+        }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 16px; }
+            table { font-size: 0.82rem; }
+            th, td { padding: 7px 6px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Content Creation Status Report</h1>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-bottom:20px;">
+            <p class="meta" id="generatedMeta" style="margin:0; flex:1;">Loading content-status.json…</p>
+            <button type="button" class="btn" id="updateStatusBtn"
+                title="Re-scan CONFIG + aruLicheyal/ on this branch and regenerate content-status.json (requires python3 scripts/server.py).">
+                Update
+            </button>
+            <span id="updateStatusMsg" class="meta" style="margin:0;"></span>
+        </div>
+
+        <div id="errorBox" class="error" style="display:none;"></div>
+
+        <div id="reportRoot" style="display:none;">
+            <div class="totals" id="totals"></div>
+
+            <div class="toolbar">
+                <input type="search" id="bookFilter" placeholder="Filter books…" autocomplete="off">
+                <label class="check"><input type="checkbox" id="uiOnly"> In UI only</label>
+                <label class="check"><input type="checkbox" id="incompleteOnly"> Incomplete only</label>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table id="summaryTable">
+                    <thead>
+                        <tr>
+                            <th data-sort="prefix" title="Prabandam book prefix from CONFIG (e.g. PMT, RN, TVM).">Book</th>
+                            <th data-sort="inUi" title="Whether this book appears in the player book picker on index.html.">In UI</th>
+                            <th data-sort="expected" title="Expected pasuram count from CONFIG (defPas / ex / chapter limits).">Expected</th>
+                            <th data-sort="markedPct" title="Share of expected pasurams that have a non-empty step1 timing array (splitter markers present).">Marked %</th>
+                            <th data-sort="taPct" title="Share of expected pasurams that have Tamil lyrics in text_bundle_ta.">Tamil %</th>
+                            <th data-sort="enPct" title="Share of expected pasurams that have English lyrics in text_bundle_en.">English %</th>
+                            <th data-sort="audioLocal" title="Count of audio files that exist under aruLicheyal/&lt;BOOK&gt;/audiofiles/ and that the player would use (local .ogg).">Audio local files</th>
+                            <th data-sort="audioRemote" title="Count of sections with no usable local file, so playback falls back to uveda.org (https://www.uveda.org/media/recitation/…).">Audio remote files</th>
+                            <th data-sort="audioMissing" title="Count of expected local audio files that are configured but missing from disk (simple/grouped books, or listed in availableContent).">Audio missing files</th>
+                            <th data-sort="qualityBroken" title="Marked pasurams with structural problems: inverted/gap segments, step4 mismatch, or step1 length not matching Tamil * phrase count.">Broken</th>
+                            <th data-sort="qualitySuspect" title="Marked pasurams whose step1 timings look like untouched Even Distribute (near-equal segment lengths). Needs listen check — not proven wrong.">Suspect</th>
+                            <th data-sort="reviewed" title="Pasurams explicitly tagged meta.reviewed=true after listen QA in splitter. Untagged marked verses count as unknown.">Reviewed</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summaryBody"></tbody>
+                </table>
+            </div>
+
+            <div id="detail">
+                <div class="toolbar" style="justify-content: space-between;">
+                    <h2 id="detailTitle" style="margin:0;">Detail</h2>
+                    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                        <label class="check"><input type="checkbox" id="incompleteSections"> Incomplete sections only</label>
+                        <button type="button" class="btn secondary" id="closeDetail">Close detail</button>
+                    </div>
+                </div>
+                <p class="detail-meta" id="detailMeta"></p>
+                <div style="overflow-x: auto;">
+                    <table id="detailTable">
+                        <thead>
+                            <tr>
+                                <th title="Chapter or chapter.sub section id for this book (e.g. 0, 1, or 3.1).">Section</th>
+                                <th title="Audio status for this section: local, remote, missing, or partial — with each resolved file path listed below.">Audio</th>
+                                <th title="Pasurams in this section that have a non-empty step1 timing array, out of expected.">Marked</th>
+                                <th title="Quality triage for marked pasurams: integrity fails, phrase-count mismatches, even-scaffold suspects, and reviewed tags.">Quality issues</th>
+                                <th title="Expected pasuram numbers in this section that still lack step1 markers.">Missing markers</th>
+                                <th title="Pasurams with Tamil lyrics present, out of expected.">Tamil</th>
+                                <th title="Expected pasuram numbers missing Tamil lyrics.">Missing TA</th>
+                                <th title="Pasurams with English lyrics present, out of expected.">English</th>
+                                <th title="Expected pasuram numbers missing English lyrics.">Missing EN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detailBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let DATA = null;
+        let sortKey = "prefix";
+        let sortDir = 1;
+        let selectedPrefix = null;
+
+        function pct(n, d) {
+            if (!d) return 0;
+            return Math.round((1000 * n) / d) / 10;
+        }
+
+        function pctLabel(n, d) {
+            return pct(n, d).toFixed(1) + "% (" + n + "/" + d + ")";
+        }
+
+        function enrich(book) {
+            const s = book.summary;
+            const localFiles = s.audioLocalFiles != null ? s.audioLocalFiles : s.audioLocalSections;
+            const remoteFiles = s.audioRemoteFiles != null ? s.audioRemoteFiles : s.audioRemoteSections;
+            const missingFiles = s.audioMissingFiles != null ? s.audioMissingFiles : s.audioMissingSections;
+            return {
+                ...book,
+                markedPct: pct(s.marked, s.expected),
+                taPct: pct(s.lyricsTa, s.expected),
+                enPct: pct(s.lyricsEn, s.expected),
+                audioLocal: localFiles,
+                audioRemote: remoteFiles,
+                audioMissing: missingFiles,
+                qualityBroken: s.qualityBroken || 0,
+                qualitySuspect: s.qualitySuspect || 0,
+                reviewed: s.reviewed || 0,
+                expected: s.expected,
+                incomplete:
+                    s.marked < s.expected ||
+                    s.lyricsTa < s.expected ||
+                    s.lyricsEn < s.expected ||
+                    missingFiles > 0 ||
+                    (s.audioPartialSections || 0) > 0 ||
+                    (s.qualityBroken || 0) > 0 ||
+                    (s.qualitySuspect || 0) > 0 ||
+                    (s.phraseMismatch || 0) > 0 ||
+                    (s.integrityFail || 0) > 0,
+            };
+        }
+
+        function renderTotals(t) {
+            const localF = t.audioLocalFiles != null ? t.audioLocalFiles : t.audioLocal;
+            const remoteF = t.audioRemoteFiles != null ? t.audioRemoteFiles : t.audioRemote;
+            const missingF = t.audioMissingFiles != null ? t.audioMissingFiles : t.audioMissing;
+            const cards = [
+                { label: "Books", value: t.books, frac: null },
+                { label: "Markers", value: pctLabel(t.marked, t.expected), frac: pct(t.marked, t.expected), cls: "" },
+                { label: "Lyrics Tamil", value: pctLabel(t.ta, t.expected), frac: pct(t.ta, t.expected), cls: "ta" },
+                { label: "Lyrics English", value: pctLabel(t.en, t.expected), frac: pct(t.en, t.expected), cls: "en" },
+                {
+                    label: "Audio files",
+                    value: localF + " local / " + remoteF + " remote / " + missingF + " missing",
+                    frac: pct(localF, localF + remoteF + missingF),
+                    cls: "audio",
+                },
+                {
+                    label: "Marker quality",
+                    value: (t.qualityBroken || 0) + " broken / " +
+                        (t.phraseMismatch || 0) + " phrase / " +
+                        (t.evenScaffoldSuspect || 0) + " even-suspect / " +
+                        (t.reviewed || 0) + " reviewed",
+                    frac: t.marked ? pct((t.qualityOk || 0), t.marked) : 0,
+                    cls: "quality",
+                },
+            ];
+            document.getElementById("totals").innerHTML = cards.map(function (c) {
+                const bar = c.frac == null
+                    ? ""
+                    : '<div class="bar"><span style="width:' + Math.min(100, c.frac) + '%"></span></div>';
+                return '<div class="stat ' + (c.cls || "") + '"><div class="label">' + c.label +
+                    '</div><div class="value">' + c.value + "</div>" + bar + "</div>";
+            }).join("");
+        }
+
+        function filteredBooks() {
+            const q = document.getElementById("bookFilter").value.trim().toLowerCase();
+            const uiOnly = document.getElementById("uiOnly").checked;
+            const incompleteOnly = document.getElementById("incompleteOnly").checked;
+            let rows = DATA.books.map(enrich);
+            if (q) rows = rows.filter(function (b) { return b.prefix.toLowerCase().includes(q); });
+            if (uiOnly) rows = rows.filter(function (b) { return b.inUi; });
+            if (incompleteOnly) rows = rows.filter(function (b) { return b.incomplete; });
+            rows.sort(function (a, b) {
+                let av = a[sortKey], bv = b[sortKey];
+                if (typeof av === "boolean") { av = av ? 1 : 0; bv = bv ? 1 : 0; }
+                if (typeof av === "string") {
+                    return sortDir * av.localeCompare(bv);
+                }
+                return sortDir * ((av || 0) - (bv || 0));
+            });
+            return rows;
+        }
+
+        function renderSummary() {
+            const body = document.getElementById("summaryBody");
+            const rows = filteredBooks();
+            body.innerHTML = rows.map(function (b) {
+                const s = b.summary;
+                const active = b.prefix === selectedPrefix ? " active" : "";
+                const localF = s.audioLocalFiles != null ? s.audioLocalFiles : s.audioLocalSections;
+                const remoteF = s.audioRemoteFiles != null ? s.audioRemoteFiles : s.audioRemoteSections;
+                const missingF = s.audioMissingFiles != null ? s.audioMissingFiles : s.audioMissingSections;
+                return '<tr class="book-row' + active + '" data-prefix="' + b.prefix + '">' +
+                    "<td><strong>" + b.prefix + "</strong></td>" +
+                    '<td><span class="badge ' + (b.inUi ? "yes" : "no") + '">' + (b.inUi ? "Yes" : "No") + "</span></td>" +
+                    '<td class="pct">' + s.expected + "</td>" +
+                    '<td class="pct">' + pctLabel(s.marked, s.expected) + "</td>" +
+                    '<td class="pct">' + pctLabel(s.lyricsTa, s.expected) + "</td>" +
+                    '<td class="pct">' + pctLabel(s.lyricsEn, s.expected) + "</td>" +
+                    '<td class="pct">' + localF + "</td>" +
+                    '<td class="pct">' + remoteF + "</td>" +
+                    '<td class="pct">' + missingF + "</td>" +
+                    '<td class="pct">' + (s.qualityBroken || 0) + "</td>" +
+                    '<td class="pct">' + (s.qualitySuspect || 0) + "</td>" +
+                    '<td class="pct">' + (s.reviewed || 0) +
+                    '<div class="missing-list">unk ' + (s.reviewUnknown || 0) + "</div></td>" +
+                    "</tr>";
+            }).join("");
+
+            body.querySelectorAll(".book-row").forEach(function (tr) {
+                tr.addEventListener("click", function () {
+                    selectedPrefix = tr.getAttribute("data-prefix");
+                    renderSummary();
+                    showDetail(selectedPrefix);
+                });
+            });
+
+            document.querySelectorAll("#summaryTable th[data-sort]").forEach(function (th) {
+                const key = th.getAttribute("data-sort");
+                const ind = th.querySelector(".sort-ind");
+                if (ind) ind.remove();
+                if (key === sortKey) {
+                    const span = document.createElement("span");
+                    span.className = "sort-ind";
+                    span.textContent = sortDir > 0 ? "▲" : "▼";
+                    th.appendChild(span);
+                }
+            });
+        }
+
+        function formatList(arr) {
+            if (!arr || !arr.length) {
+                return '<span class="missing-list empty">—</span>';
+            }
+            return '<span class="missing-list">' + arr.join(", ") + "</span>";
+        }
+
+        function formatAudioFiles(sec) {
+            const files = sec.audioFiles && sec.audioFiles.length
+                ? sec.audioFiles
+                : (sec.audioPath ? [{ path: sec.audioPath, status: sec.audio, label: "" }] : []);
+            if (!files.length) {
+                return '<span class="missing-list empty">—</span>';
+            }
+            const items = files.map(function (f) {
+                const label = f.label
+                    ? '<span class="file-label">' + f.label + "</span>"
+                    : "";
+                return "<li>" + label +
+                    '<span class="badge ' + f.status + '">' + f.status + "</span> " +
+                    f.path + "</li>";
+            }).join("");
+            return '<ul class="audio-files" style="margin:0; padding-left:18px;">' + items + "</ul>";
+        }
+
+        function formatIssueList(label, arr, badgeClass) {
+            if (!arr || !arr.length) return "";
+            return '<div class="missing-list" style="margin-top:4px;">' +
+                '<span class="badge ' + badgeClass + '">' + label + "</span> " +
+                arr.join(", ") + "</div>";
+        }
+
+        function formatQualityCell(sec) {
+            const parts = [];
+            parts.push(formatIssueList("integrity", sec.integrityFail, "broken"));
+            parts.push(formatIssueList("phrase", sec.phraseMismatch, "broken"));
+            parts.push(formatIssueList("even-scaffold", sec.evenScaffoldSuspect, "suspect"));
+            parts.push(formatIssueList("reviewed", sec.reviewed, "reviewed"));
+            const html = parts.filter(Boolean).join("");
+            if (!html) {
+                if ((sec.marked || []).length === 0) {
+                    return '<span class="missing-list empty">—</span>';
+                }
+                return '<span class="badge ok">ok</span>';
+            }
+            return html;
+        }
+
+        function sectionIncomplete(sec) {
+            const hasMissingAudioFile = (sec.audioFiles || []).some(function (f) {
+                return f.status === "missing";
+            });
+            return (
+                sec.missingMarked.length > 0 ||
+                sec.missingLyricsTa.length > 0 ||
+                sec.missingLyricsEn.length > 0 ||
+                sec.audio === "missing" ||
+                sec.audio === "partial" ||
+                hasMissingAudioFile ||
+                (sec.integrityFail && sec.integrityFail.length > 0) ||
+                (sec.phraseMismatch && sec.phraseMismatch.length > 0) ||
+                (sec.evenScaffoldSuspect && sec.evenScaffoldSuspect.length > 0)
+            );
+        }
+
+        function showDetail(prefix) {
+            const book = DATA.books.find(function (b) { return b.prefix === prefix; });
+            if (!book) return;
+            const s = book.summary;
+            const localF = s.audioLocalFiles != null ? s.audioLocalFiles : s.audioLocalSections;
+            const remoteF = s.audioRemoteFiles != null ? s.audioRemoteFiles : s.audioRemoteSections;
+            const missingF = s.audioMissingFiles != null ? s.audioMissingFiles : s.audioMissingSections;
+            document.getElementById("detail").classList.add("visible");
+            document.getElementById("detailTitle").textContent = prefix + " — detailed report";
+            document.getElementById("detailMeta").textContent =
+                book.structure +
+                " · marked " + pctLabel(s.marked, s.expected) +
+                " · TA " + pctLabel(s.lyricsTa, s.expected) +
+                " · EN " + pctLabel(s.lyricsEn, s.expected) +
+                " · audio files " + localF + " local / " +
+                remoteF + " remote / " +
+                missingF + " missing" +
+                " · quality broken " + (s.qualityBroken || 0) +
+                " / suspect " + (s.qualitySuspect || 0) +
+                " / reviewed " + (s.reviewed || 0) +
+                " (unknown " + (s.reviewUnknown || 0) + ")";
+
+            const onlyIncomplete = document.getElementById("incompleteSections").checked;
+            let sections = book.sections.slice();
+            if (onlyIncomplete) sections = sections.filter(sectionIncomplete);
+
+            document.getElementById("detailBody").innerHTML = sections.map(function (sec) {
+                return "<tr>" +
+                    "<td><strong>" + sec.id + "</strong></td>" +
+                    '<td><span class="badge ' + sec.audio + '">' + sec.audio + "</span>" +
+                    formatAudioFiles(sec) + "</td>" +
+                    '<td class="pct">' + sec.marked.length + "/" + sec.expected + "</td>" +
+                    "<td>" + formatQualityCell(sec) + "</td>" +
+                    "<td>" + formatList(sec.missingMarked) + "</td>" +
+                    '<td class="pct">' + sec.lyricsTa.length + "/" + sec.expected + "</td>" +
+                    "<td>" + formatList(sec.missingLyricsTa) + "</td>" +
+                    '<td class="pct">' + sec.lyricsEn.length + "/" + sec.expected + "</td>" +
+                    "<td>" + formatList(sec.missingLyricsEn) + "</td>" +
+                    "</tr>";
+            }).join("") || '<tr><td colspan="9">No sections match the filter.</td></tr>';
+
+            document.getElementById("detail").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        function bindUi() {
+            document.getElementById("bookFilter").addEventListener("input", renderSummary);
+            document.getElementById("uiOnly").addEventListener("change", renderSummary);
+            document.getElementById("incompleteOnly").addEventListener("change", renderSummary);
+            document.getElementById("incompleteSections").addEventListener("change", function () {
+                if (selectedPrefix) showDetail(selectedPrefix);
+            });
+            document.getElementById("closeDetail").addEventListener("click", function () {
+                selectedPrefix = null;
+                document.getElementById("detail").classList.remove("visible");
+                renderSummary();
+            });
+            document.querySelectorAll("#summaryTable th[data-sort]").forEach(function (th) {
+                th.addEventListener("click", function () {
+                    const key = th.getAttribute("data-sort");
+                    if (sortKey === key) sortDir *= -1;
+                    else { sortKey = key; sortDir = 1; }
+                    renderSummary();
+                });
+            });
+        }
+
+        function applyReportData(data) {
+            DATA = data;
+            document.getElementById("generatedMeta").textContent =
+                "Generated " + (data.generatedAt || "—") +
+                " · " + data.totals.books + " books · open via local server (python3 scripts/server.py)";
+            renderTotals(data.totals);
+            renderSummary();
+            if (selectedPrefix) showDetail(selectedPrefix);
+            document.getElementById("reportRoot").style.display = "block";
+            document.getElementById("errorBox").style.display = "none";
+        }
+
+        function loadReport() {
+            return fetch("content-status.json?t=" + Date.now(), { cache: "no-store" })
+                .then(function (r) {
+                    if (!r.ok) throw new Error("HTTP " + r.status + " loading content-status.json");
+                    return r.json();
+                })
+                .then(function (data) {
+                    applyReportData(data);
+                    return data;
+                });
+        }
+
+        function setUpdateMessage(text, isError) {
+            const el = document.getElementById("updateStatusMsg");
+            el.textContent = text || "";
+            el.style.color = isError ? "#721c24" : "#555";
+        }
+
+        function rebuildAndReload() {
+            const btn = document.getElementById("updateStatusBtn");
+            btn.disabled = true;
+            setUpdateMessage("Updating from current branch files…");
+            fetch("/api/rebuild-content-status", { method: "POST", cache: "no-store" })
+                .then(function (r) {
+                    return r.json().then(function (body) {
+                        return { ok: r.ok, status: r.status, body: body };
+                    }).catch(function () {
+                        return { ok: false, status: r.status, body: null };
+                    });
+                })
+                .then(function (res) {
+                    if (!res.ok || !res.body || !res.body.ok) {
+                        const err = (res.body && res.body.error) ||
+                            ("HTTP " + res.status + " — Update only works with python3 scripts/server.py (not GitHub Pages / plain static hosts).");
+                        throw new Error(err);
+                    }
+                    return loadReport().then(function () {
+                        setUpdateMessage("Updated " + (res.body.generatedAt || "just now"));
+                    });
+                })
+                .catch(function (err) {
+                    setUpdateMessage(err.message || String(err), true);
+                })
+                .finally(function () {
+                    btn.disabled = false;
+                });
+        }
+
+        document.getElementById("updateStatusBtn").addEventListener("click", rebuildAndReload);
+
+        loadReport()
+            .then(function () {
+                bindUi();
+            })
+            .catch(function (err) {
+                document.getElementById("generatedMeta").textContent = "";
+                const box = document.getElementById("errorBox");
+                box.style.display = "block";
+                box.textContent =
+                    "Could not load content-status.json. Run: python3 scripts/build_content_status.py — then serve the repo (python3 scripts/server.py) and open /content-status.html. (" +
+                    err.message + ")";
+            });
+    </script>
+</body>
+</html>
