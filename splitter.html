@@ -375,6 +375,7 @@
         let currentHighlightIndex = -1;
         let currentFileName = "audio_data";
         let currentAudioFileName = ""; // tracks the audio file basename separately for range detection
+        let currentTextLang = "";      // language code extracted from the text companion filename
         let detectedDuration = 0;
 
         window.isUserEditingActiveCell = false;
@@ -646,10 +647,20 @@
             };
         }
 
+        /** Extract language code from a text companion filename, e.g. "marker_rn_ta.js" → "ta" */
+        function detectLangFromFilename(filename) {
+            const base = filename.replace(/\.[^.]+$/, ''); // strip extension
+            const m = base.match(/_([a-z]{2})$/i);         // last _xx segment
+            return m ? m[1].toLowerCase() : '';
+        }
+
         // Direct clean script dynamic injector method
         function injectLocalScriptAsset(input) {
             if (!input || !input.files || input.files.length === 0) return;
-            const scriptUrl = URL.createObjectURL(input.files[0]);
+            const file = input.files[0];
+            const lang = detectLangFromFilename(file.name);
+            if (lang) currentTextLang = lang;
+            const scriptUrl = URL.createObjectURL(file);
             appendScriptNodeToDOM(scriptUrl, () => {
                 // Check if text bundle engine merge function is present inside language definitions
                 if (typeof window.mergeLanguageTexts === 'function') {
@@ -688,7 +699,11 @@
                 }
             };
 
-            if (textUrl) appendScriptNodeToDOM(parseCleanUrl(textUrl), checkSyncStatus);
+            if (textUrl) {
+                const lang = detectLangFromFilename(textUrl.split('/').pop());
+                if (lang) currentTextLang = lang;
+                appendScriptNodeToDOM(parseCleanUrl(textUrl), checkSyncStatus);
+            }
             if (stepsUrl) appendScriptNodeToDOM(parseCleanUrl(stepsUrl), checkSyncStatus);
         }
 
@@ -803,17 +818,22 @@
             const audioRange = parseRangeFromFilename(currentAudioFileName);
             console.log(`[Splitter] Audio file: "${currentAudioFileName}" → Range: ${audioRange ? `p${audioRange.start}–${audioRange.end}` : 'all'}`);
 
-            // 1. Trace and extract text directly from the native nested script engine structure
+            // 1. Extract text using the language detected from the text companion filename
+            const lang = currentTextLang || 'ta';
+            const bundleKey = `text_bundle_${lang}`;
             let textSourceMap = {};
-            if (window.text_bundle_ta && window.text_bundle_ta[targetNamespaceKey]) {
-                textSourceMap = window.text_bundle_ta[targetNamespaceKey];
+            if (window[bundleKey] && window[bundleKey][targetNamespaceKey]) {
+                textSourceMap = window[bundleKey][targetNamespaceKey];
             } else if (window.MARKER_DATABASE[targetNamespaceKey] && window.MARKER_DATABASE[targetNamespaceKey]._textSourceMap) {
                 textSourceMap = window.MARKER_DATABASE[targetNamespaceKey]._textSourceMap;
             } else if (Array.isArray(window.MARKER_DATABASE[targetNamespaceKey])) {
-                // Check if text is attached directly onto array items
+                // Extract inline text from block.text using detected language
                 window.MARKER_DATABASE[targetNamespaceKey].forEach(block => {
-                    if (block && block.p && block.text && block.text.ta) {
-                        textSourceMap[block.p] = block.text.ta;
+                    if (block && block.p && block.text) {
+                        const txt = typeof block.text === 'string'
+                            ? block.text
+                            : (block.text[lang] || '');
+                        if (txt) textSourceMap[block.p] = txt;
                     }
                 });
             }
@@ -849,7 +869,10 @@
 
                     const step1Timelines = pasuramBlock.step1 || [];
                     const pIndex = pasuramBlock.p || (blockIdx + 1);
-                    const matchingRawTextLineString = pasuramBlock.text && pasuramBlock.text.ta ? pasuramBlock.text.ta : (textSourceMap[pIndex] || "");
+                    const inlineText = pasuramBlock.text
+                        ? (typeof pasuramBlock.text === 'string' ? pasuramBlock.text : (pasuramBlock.text[lang] || ''))
+                        : '';
+                    const matchingRawTextLineString = inlineText || textSourceMap[pIndex] || "";
                     let splitPhrases = matchingRawTextLineString.split('*').map(t => t.trim()).filter(t => t.length > 0);
 
                     const currentStep2 = pasuramBlock.step2 ? JSON.parse(JSON.stringify(pasuramBlock.step2)) : null;

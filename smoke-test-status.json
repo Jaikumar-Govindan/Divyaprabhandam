@@ -1,0 +1,566 @@
+{
+  "generatedAt": "2026-07-15T19:32:07Z",
+  "ok": true,
+  "mode": "full",
+  "elapsedMs": 1672,
+  "totals": {
+    "checks": 115,
+    "passed": 115,
+    "failed": 0,
+    "suites": 13
+  },
+  "suites": [
+    {
+      "name": "js_syntax",
+      "passed": 6,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "JS syntax: sync_engine.js"
+        },
+        {
+          "status": "pass",
+          "message": "JS syntax: config.js"
+        },
+        {
+          "status": "pass",
+          "message": "JS syntax: navigation.js"
+        },
+        {
+          "status": "pass",
+          "message": "JS syntax: markerProcessor.js"
+        },
+        {
+          "status": "pass",
+          "message": "JS syntax: playerEngine.js"
+        },
+        {
+          "status": "pass",
+          "message": "JS syntax: learningEngine.js"
+        }
+      ]
+    },
+    {
+      "name": "sync_check",
+      "passed": 1,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "JSON valid: sync-check.json (4 keys)"
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "passed": 10,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "config.js uses aruLicheyal ROOT"
+        },
+        {
+          "status": "pass",
+          "message": "config.js has book: TVM"
+        },
+        {
+          "status": "pass",
+          "message": "config.js has book: PAT"
+        },
+        {
+          "status": "pass",
+          "message": "config.js has book: PMT"
+        },
+        {
+          "status": "pass",
+          "message": "config.js has book: RN"
+        },
+        {
+          "status": "pass",
+          "message": "config.js has book: 1TA"
+        },
+        {
+          "status": "pass",
+          "message": "config.js has: makeSimpleBook"
+        },
+        {
+          "status": "pass",
+          "message": "config.js has: makeGroupedBook"
+        },
+        {
+          "status": "pass",
+          "message": "config.js has: makeSubChapterBook"
+        },
+        {
+          "status": "pass",
+          "message": "config.js has: loadMarkerOnDemand"
+        }
+      ]
+    },
+    {
+      "name": "deep_links",
+      "passed": 6,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "deep link: applyDeepLinkFromUrl"
+        },
+        {
+          "status": "pass",
+          "message": "deep link: syncUrlToPrefs"
+        },
+        {
+          "status": "pass",
+          "message": "deep link: copyShareLink"
+        },
+        {
+          "status": "pass",
+          "message": "deep link: getShareUrl"
+        },
+        {
+          "status": "pass",
+          "message": "deep link: hasDeepLinkParams"
+        },
+        {
+          "status": "pass",
+          "message": "deep link: shouldAutoPlayFromUrl"
+        }
+      ]
+    },
+    {
+      "name": "pasuram_pickers",
+      "passed": 12,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "pasuram picker: rebuildPasuramPickers"
+        },
+        {
+          "status": "pass",
+          "message": "pasuram picker: syncNumberFromPickers"
+        },
+        {
+          "status": "pass",
+          "message": "pasuram picker: syncPickersFromNumber"
+        },
+        {
+          "status": "pass",
+          "message": "pasuram picker: setPasuramValue"
+        },
+        {
+          "status": "pass",
+          "message": "pasuram picker: onPasuramPickerChange"
+        },
+        {
+          "status": "pass",
+          "message": "pasuram picker: initPasuramPickers"
+        },
+        {
+          "status": "pass",
+          "message": "pasuram picker: ensureMarkersForCurrentSelection"
+        },
+        {
+          "status": "pass",
+          "message": "pasuram picker: updatePhraseNavButtons"
+        },
+        {
+          "status": "pass",
+          "message": "onPasuramPickerChange preloads markers for phrase nav"
+        },
+        {
+          "status": "pass",
+          "message": "resetToStart preloads markers for phrase nav"
+        },
+        {
+          "status": "pass",
+          "message": "initPasuramPickers preloads markers for phrase nav"
+        },
+        {
+          "status": "pass",
+          "message": "sync_engine.js re-inits pasuram pickers after hot-swap"
+        }
+      ]
+    },
+    {
+      "name": "navigation_limits",
+      "passed": 30,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "getLimit shares sectionPasuramCount with pickers (markers when loaded)"
+        },
+        {
+          "status": "pass",
+          "message": "limit NAT.0 = 2"
+        },
+        {
+          "status": "pass",
+          "message": "limit NAT.1 = 11"
+        },
+        {
+          "status": "pass",
+          "message": "limit NAT.3 = 11"
+        },
+        {
+          "status": "pass",
+          "message": "limit NAT.4 = 12"
+        },
+        {
+          "status": "pass",
+          "message": "limit NAT.5 = 12"
+        },
+        {
+          "status": "pass",
+          "message": "limit NAT.6 = 12"
+        },
+        {
+          "status": "pass",
+          "message": "limit NAT.14 = 11"
+        },
+        {
+          "status": "pass",
+          "message": "limit PMT.0 = 2"
+        },
+        {
+          "status": "pass",
+          "message": "limit PMT.1 = 12"
+        },
+        {
+          "status": "pass",
+          "message": "limit PMT.2 = 10"
+        },
+        {
+          "status": "pass",
+          "message": "limit PMT.3 = 10"
+        },
+        {
+          "status": "pass",
+          "message": "limit PMT.5 = 11"
+        },
+        {
+          "status": "pass",
+          "message": "limit PMT.6 = 11"
+        },
+        {
+          "status": "pass",
+          "message": "limit PMT.7 = 12"
+        },
+        {
+          "status": "pass",
+          "message": "limit KCT.0 = 2"
+        },
+        {
+          "status": "pass",
+          "message": "limit KCT.1 = 11"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next NAT 3.10 → 3.11"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next NAT 3.11 → 4.1"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next NAT 4.12 → 5.1"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next NAT 6.12 → 7.1"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next NAT 14.11 → 0.1"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next PMT 2.10 → 3.1"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next PMT 1.12 → 2.1"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next PMT 5.11 → 6.1"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next PMT 3.10 → 4.1"
+        },
+        {
+          "status": "pass",
+          "message": "auto-next KCT 1.11 → 0.1"
+        },
+        {
+          "status": "pass",
+          "message": "listPasuramOptions includes NAT adivaravu (3.11, 4.12)"
+        },
+        {
+          "status": "pass",
+          "message": "on-disk NAT/PMT marker lengths match getLimit + last-verse chapter roll"
+        },
+        {
+          "status": "pass",
+          "message": "navigate+picker sync cannot recreate the 3.10 auto-next loop"
+        }
+      ]
+    },
+    {
+      "name": "navigate_picker_contract",
+      "passed": 8,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "navigate() syncs pickers after advance"
+        },
+        {
+          "status": "pass",
+          "message": "navigate() uses getLimit for chapter bounds"
+        },
+        {
+          "status": "pass",
+          "message": "sectionPasuramCountSafe delegates to Navigation.sectionPasuramCount"
+        },
+        {
+          "status": "pass",
+          "message": "ensureMarkers rebuilds pickers after marker load"
+        },
+        {
+          "status": "pass",
+          "message": "ensureMarkers updates phrase nav buttons after load"
+        },
+        {
+          "status": "pass",
+          "message": "phrase nav disabled for step4 (Full)"
+        },
+        {
+          "status": "pass",
+          "message": "phrase nav toggles prevPhraseBtn/nextPhraseBtn"
+        },
+        {
+          "status": "pass",
+          "message": "learning-track-ended can auto-next via navigate(1)"
+        }
+      ]
+    },
+    {
+      "name": "index_html",
+      "passed": 17,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"prefix\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"number\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"pasuramPickers\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"pasPart\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"pasSub\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"pasVerse\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"pasuramHint\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"learningStep\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"pasuramDisplay\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"toggleBtn\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"copyLinkBtn\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"prevPhraseBtn\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: id=\"nextPhraseBtn\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: src=\"config.js\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: src=\"playerEngine.js\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html contains: src=\"learningEngine.js\""
+        },
+        {
+          "status": "pass",
+          "message": "index.html script load order"
+        }
+      ]
+    },
+    {
+      "name": "arulicheyal_layout",
+      "passed": 6,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "aruLicheyal/ asset root exists"
+        },
+        {
+          "status": "pass",
+          "message": "aruLicheyal/PMT: markers, text, audio"
+        },
+        {
+          "status": "pass",
+          "message": "aruLicheyal/NAT: markers, text, audio"
+        },
+        {
+          "status": "pass",
+          "message": "aruLicheyal/TPL: markers, text, audio"
+        },
+        {
+          "status": "pass",
+          "message": "aruLicheyal/RN: markers, text, audio"
+        },
+        {
+          "status": "pass",
+          "message": "aruLicheyal/TVM: markers, text, audio"
+        }
+      ]
+    },
+    {
+      "name": "offline_manifest",
+      "passed": 2,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "build_offline_manifest.py ran"
+        },
+        {
+          "status": "pass",
+          "message": "offline-manifest.json has PMT, NAT, TPL under aruLicheyal/"
+        }
+      ]
+    },
+    {
+      "name": "content_status",
+      "passed": 3,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "content-status.html exists"
+        },
+        {
+          "status": "pass",
+          "message": "build_content_status.py ran"
+        },
+        {
+          "status": "pass",
+          "message": "content-status.json has 24 books (marked 1295/4098; broken 61, suspect 2)"
+        }
+      ]
+    },
+    {
+      "name": "smoke_status_page",
+      "passed": 1,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "smoke-test-status.html exists"
+        }
+      ]
+    },
+    {
+      "name": "http",
+      "passed": 13,
+      "failed": 0,
+      "checks": [
+        {
+          "status": "pass",
+          "message": "HTTP 200: /index.html"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /config.js"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /navigation.js"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /playerEngine.js"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /learningEngine.js"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /sync-check.json"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /splitter.html"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /content-status.html"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /content-status.json"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /smoke-test-status.html"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /smoke-test-status.json"
+        },
+        {
+          "status": "pass",
+          "message": "HTTP 200: /aruLicheyal/PMT/markers/marker_pmt_timelines.js"
+        },
+        {
+          "status": "pass",
+          "message": "POST /api/rebuild-content-status"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

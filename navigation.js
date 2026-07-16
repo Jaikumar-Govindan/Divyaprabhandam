@@ -107,9 +107,35 @@ const Navigation = {
     },
 
     /**
-     * Expected pasuram count for a section id ("0", "1", or "2.7") from CONFIG.ex / defPas.
+     * Resolve a loaded marker array for a section ("3" or "3.1"), if present.
+     * Same keys historical getLimit used for chapter / sub-chapter blocks.
      */
-    sectionPasuramCount: function (pre, sectionId) {
+    markerSectionArray: function (pre, sectionId) {
+        if (!window.MARKER_DATABASE) return null;
+        const parts = String(sectionId).split('.');
+        const keysToTry = (parts.length >= 2)
+            ? [
+                `${pre}.${parts[0]}.${parts[1]}.steps`,
+                `${pre}_${parts[0]}_${parts[1]}.steps`
+            ]
+            : [
+                `${pre}.${parts[0]}.steps`,
+                `${pre}_${parts[0]}.steps`
+            ];
+
+        for (const key of keysToTry) {
+            for (const testKey of [key, key.toLowerCase(), key.toUpperCase()]) {
+                const arr = window.MARKER_DATABASE[testKey];
+                if (Array.isArray(arr) && arr.length > 0) return arr;
+            }
+        }
+        return null;
+    },
+
+    /**
+     * CONFIG-only count (defPas / ex). Used before markers load and for tooling.
+     */
+    configPasuramCount: function (pre, sectionId) {
         const c = typeof CONFIG !== 'undefined' ? CONFIG[pre] : null;
         if (!c) return 0;
         const ex = c.ex || {};
@@ -119,7 +145,18 @@ const Navigation = {
     },
 
     /**
-     * Lists all valid pasuram / taniyan options for a book from CONFIG limits.
+     * Pasuram count for a section. Prefer loaded marker array length (same as
+     * pre-picker main navigate), else CONFIG. Pickers and getLimit share this
+     * so auto-next cannot clamp away from a valid next verse.
+     */
+    sectionPasuramCount: function (pre, sectionId) {
+        const markers = this.markerSectionArray(pre, sectionId);
+        if (markers) return markers.length;
+        return this.configPasuramCount(pre, sectionId);
+    },
+
+    /**
+     * Lists all valid pasuram / taniyan options for a book from section limits.
      * Returns [{ value, label, group }, ...] for building the #number select.
      */
     listPasuramOptions: function (pre) {
@@ -161,61 +198,21 @@ const Navigation = {
 
     /**
      * Returns the total maximum pasuram limit for the current active section boundary.
+     * Same source as sectionPasuramCount / pasuram pickers (markers when loaded, else CONFIG).
      */
     getLimit: function (pre, ch, sub) {
         const c = typeof CONFIG !== 'undefined' ? CONFIG[pre] : null;
+        if (!c) return 0;
 
-        // 1. Prioritize structural config exceptions (Thaniyan counts / sub-chapter ex)
-        if (c && c.ex) {
-            if (c.hasSub || c.structure === 'chapter_sub_pasuram') {
-                const subKey = `${ch}.${sub}`;
-                if (typeof c.ex[subKey] !== 'undefined') return c.ex[subKey];
-            }
-            if (typeof c.ex[ch] !== 'undefined') return c.ex[ch];
-            if (typeof c.ex[String(ch)] !== 'undefined') return c.ex[String(ch)];
+        if (c.structure === 'flat_pasuram') {
+            return c.maxPas || c.defPas || 0;
         }
 
-        if (!window.MARKER_DATABASE) {
-            return c ? (c.defPas || 10) : 0;
+        if (c.hasSub || c.structure === 'chapter_sub_pasuram') {
+            return this.sectionPasuramCount(pre, `${ch}.${sub}`);
         }
 
-        // 2. Construct a fallback list of separator variants (. vs _) and casing (upper/lower)
-        // This ensures compatibility with both standard "TVM.3.2" and splitter-produced "tvm_3_2" keys.
-        const keysToTry = [
-            `${pre}.${ch}.${sub}.steps`,
-            `${pre}_${ch}_${sub}.steps`,
-            `${pre}.${ch}.steps`,
-            `${pre}_${ch}.steps`,
-            `${pre}.steps`,
-            pre
-        ];
-
-        let dbArray = null;
-
-        // 3. Resolve the active array from the database by checking all combinations
-        for (const key of keysToTry) {
-            const possibleKeys = [
-                key,
-                key.toLowerCase(),
-                key.toUpperCase()
-            ];
-
-            for (const testKey of possibleKeys) {
-                if (window.MARKER_DATABASE[testKey]) {
-                    dbArray = window.MARKER_DATABASE[testKey];
-                    break;
-                }
-            }
-            if (dbArray) break;
-        }
-
-        // 4. Return the array length if it represents a dedicated sub-section/chapter array
-        if (Array.isArray(dbArray)) {
-            return dbArray.length;
-        }
-
-        // Fallback to config rules if marker data isn't loaded or structured as an array
-        return c ? (c.defPas || 10) : 0;
+        return this.sectionPasuramCount(pre, String(ch));
     }
 };
 

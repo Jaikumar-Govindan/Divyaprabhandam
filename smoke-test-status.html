@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smoke Test Status</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #222;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 24px 28px 36px;
+        }
+        h1 {
+            margin: 0 0 6px;
+            font-size: 1.55rem;
+            color: #1a1a2e;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+        }
+        .totals {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .stat {
+            background: #f8f9fb;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 12px 14px;
+        }
+        .stat .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        .stat .value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        .stat.ok .value { color: #155724; }
+        .stat.fail .value { color: #721c24; }
+        .banner {
+            border-radius: 6px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        .banner.pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .banner.fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .toolbar input[type="search"] {
+            flex: 1;
+            min-width: 180px;
+            padding: 8px 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn:hover { background-color: #0056b3; }
+        .btn:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
+        .btn.secondary {
+            background-color: #6c757d;
+        }
+        .btn.secondary:hover { background-color: #545b62; }
+        label.check {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: #444;
+            user-select: none;
+        }
+        #updateStatusMsg {
+            font-size: 0.88rem;
+            color: #555;
+        }
+        .suite {
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .suite-head {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: #f8f9fb;
+            cursor: pointer;
+            user-select: none;
+        }
+        .suite-head:hover { background: #eef2f7; }
+        .suite-head h2 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .suite-meta {
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .suite-body {
+            display: none;
+            border-top: 1px solid #e2e8f0;
+        }
+        .suite.open .suite-body { display: block; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border-bottom: 1px solid #e8e8e8;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #f1f3f5;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .badge.pass { background: #d4edda; color: #155724; }
+        .badge.fail { background: #f8d7da; color: #721c24; }
+        .msg-fail { color: #721c24; }
+        #errorBox {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+        }
+        .links {
+            margin-top: 18px;
+            font-size: 0.9rem;
+        }
+        .links a { color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Smoke Test Status</h1>
+        <p class="meta" id="generatedMeta">Loading…</p>
+
+        <div id="errorBox"></div>
+
+        <div id="reportRoot" style="display:none">
+            <div id="banner" class="banner"></div>
+
+            <div class="totals" id="totals"></div>
+
+            <div class="toolbar">
+                <input type="search" id="filter" placeholder="Filter checks…" aria-label="Filter checks">
+                <label class="check">
+                    <input type="checkbox" id="failuresOnly"> Failures only
+                </label>
+                <button type="button" class="btn" id="expandAll">Expand all</button>
+                <button type="button" class="btn secondary" id="collapseAll">Collapse all</button>
+                <button type="button" class="btn" id="rerunBtn" title="Runs static smoke checks via local server">Re-run</button>
+                <span id="updateStatusMsg"></span>
+            </div>
+
+            <div id="suiteList"></div>
+
+            <p class="links">
+                Related:
+                <a href="content-status.html">Content status</a> ·
+                <a href="index.html">Player</a> ·
+                <a href="splitter.html">Splitter</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let DATA = null;
+
+        function suiteTitle(name) {
+            return String(name || "general").replace(/_/g, " ");
+        }
+
+        function applyReportData(data) {
+            DATA = data;
+            const t = data.totals || {};
+            document.getElementById("generatedMeta").textContent =
+                "Generated " + (data.generatedAt || "—") +
+                " · mode " + (data.mode || "—") +
+                " · " + (data.elapsedMs != null ? data.elapsedMs + " ms" : "") +
+                " · open via local server (python3 scripts/server.py)";
+
+            const banner = document.getElementById("banner");
+            if (data.ok) {
+                banner.className = "banner pass";
+                banner.textContent = "All smoke checks passed (" + (t.passed || 0) + "/" + (t.checks || 0) + ")";
+            } else {
+                banner.className = "banner fail";
+                banner.textContent = "Smoke checks failed — " + (t.failed || 0) + " failure(s) of " + (t.checks || 0);
+            }
+
+            document.getElementById("totals").innerHTML =
+                '<div class="stat ' + (data.ok ? "ok" : "fail") + '"><div class="label">Result</div><div class="value">' +
+                (data.ok ? "PASS" : "FAIL") + "</div></div>" +
+                '<div class="stat"><div class="label">Checks</div><div class="value">' + (t.checks || 0) + "</div></div>" +
+                '<div class="stat ok"><div class="label">Passed</div><div class="value">' + (t.passed || 0) + "</div></div>" +
+                '<div class="stat fail"><div class="label">Failed</div><div class="value">' + (t.failed || 0) + "</div></div>" +
+                '<div class="stat"><div class="label">Suites</div><div class="value">' + (t.suites || 0) + "</div></div>";
+
+            renderSuites();
+            document.getElementById("reportRoot").style.display = "block";
+            document.getElementById("errorBox").style.display = "none";
+        }
+
+        function renderSuites() {
+            if (!DATA) return;
+            const q = (document.getElementById("filter").value || "").trim().toLowerCase();
+            const failuresOnly = document.getElementById("failuresOnly").checked;
+            const root = document.getElementById("suiteList");
+            root.innerHTML = "";
+
+            (DATA.suites || []).forEach(function (suite) {
+                let checks = (suite.checks || []).slice();
+                if (failuresOnly) checks = checks.filter(function (c) { return c.status === "fail"; });
+                if (q) {
+                    checks = checks.filter(function (c) {
+                        return (c.message || "").toLowerCase().indexOf(q) >= 0 ||
+                            suiteTitle(suite.name).toLowerCase().indexOf(q) >= 0;
+                    });
+                }
+                if (!checks.length && (failuresOnly || q)) return;
+
+                const openByDefault = (suite.failed || 0) > 0;
+                const el = document.createElement("div");
+                el.className = "suite" + (openByDefault ? " open" : "");
+                el.innerHTML =
+                    '<div class="suite-head">' +
+                        "<h2>" + suiteTitle(suite.name) + "</h2>" +
+                        '<div class="suite-meta">' +
+                            '<span class="badge pass">' + (suite.passed || 0) + " pass</span> " +
+                            '<span class="badge fail">' + (suite.failed || 0) + " fail</span>" +
+                        "</div>" +
+                    "</div>" +
+                    '<div class="suite-body"><table><thead><tr><th style="width:5rem">Status</th><th>Check</th></tr></thead><tbody>' +
+                    checks.map(function (c) {
+                        const failed = c.status === "fail";
+                        return "<tr><td><span class=\"badge " + (failed ? "fail" : "pass") + "\">" +
+                            (failed ? "FAIL" : "OK") + "</span></td><td class=\"" +
+                            (failed ? "msg-fail" : "") + "\">" + escapeHtml(c.message) + "</td></tr>";
+                    }).join("") +
+                    "</tbody></table></div>";
+
+                el.querySelector(".suite-head").addEventListener("click", function () {
+                    el.classList.toggle("open");
+                });
+                root.appendChild(el);
+            });
+
+            if (!root.children.length) {
+                root.innerHTML = '<p class="meta">No checks match the filter.</p>';
+            }
+        }
+
+        function escapeHtml(s) {
+            return String(s || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        function loadReport() {
+            return fetch("smoke-test-status.json?t=" + Date.now(), { cache: "no-store" })
+                .then(function (r) {
+                    if (!r.ok) throw new Error("HTTP " + r.status + " loading smoke-test-status.json");
+                    return r.json();
+                })
+                .then(function (data) {
+                    applyReportData(data);
+                    return data;
+                });
+        }
+
+        function setUpdateMessage(text, isError) {
+            const el = document.getElementById("updateStatusMsg");
+            el.textContent = text || "";
+            el.style.color = isError ? "#721c24" : "#555";
+        }
+
+        function rerunSmoke() {
+            const btn = document.getElementById("rerunBtn");
+            btn.disabled = true;
+            setUpdateMessage("Running static smoke checks…");
+            fetch("/api/run-smoke-test", { method: "POST", cache: "no-store" })
+                .then(function (r) {
+                    return r.json().then(function (body) {
+                        return { ok: r.ok, status: r.status, body: body };
+                    }).catch(function () {
+                        return { ok: false, status: r.status, body: null };
+                    });
+                })
+                .then(function (res) {
+                    if (!res.ok || !res.body || !res.body.ok) {
+                        const err = (res.body && res.body.error) ||
+                            ("HTTP " + res.status + " — Re-run only works with python3 scripts/server.py (not GitHub Pages).");
+                        // Still reload report if JSON was written on failure
+                        return loadReport().then(function () {
+                            throw new Error(err);
+                        });
+                    }
+                    return loadReport().then(function () {
+                        const body = res.body;
+                        setUpdateMessage(
+                            "Finished " + (body.generatedAt || "just now") +
+                            " · " + ((body.totals && body.totals.passed) || 0) + "/" +
+                            ((body.totals && body.totals.checks) || 0) + " passed"
+                        );
+                    });
+                })
+                .catch(function (err) {
+                    setUpdateMessage(err.message || String(err), true);
+                })
+                .finally(function () {
+                    btn.disabled = false;
+                });
+        }
+
+        document.getElementById("filter").addEventListener("input", renderSuites);
+        document.getElementById("failuresOnly").addEventListener("change", renderSuites);
+        document.getElementById("expandAll").addEventListener("click", function () {
+            document.querySelectorAll(".suite").forEach(function (el) { el.classList.add("open"); });
+        });
+        document.getElementById("collapseAll").addEventListener("click", function () {
+            document.querySelectorAll(".suite").forEach(function (el) { el.classList.remove("open"); });
+        });
+        document.getElementById("rerunBtn").addEventListener("click", rerunSmoke);
+
+        loadReport().catch(function (err) {
+            document.getElementById("generatedMeta").textContent = "";
+            const box = document.getElementById("errorBox");
+            box.style.display = "block";
+            box.textContent =
+                "Could not load smoke-test-status.json. Run: python3 scripts/smoke_test.py — then serve the repo (python3 scripts/server.py) and open /smoke-test-status.html. (" +
+                err.message + ")";
+        });
+    </script>
+</body>
+</html>

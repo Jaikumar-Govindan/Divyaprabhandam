@@ -269,70 +269,6 @@
             margin-top: 0;
         }
 
-        .repeat-stepper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0;
-            height: 34px;
-            min-height: 34px;
-            padding: 0;
-            background: #fff;
-            border: 1px solid #ccd0d5;
-            border-radius: 8px;
-            box-sizing: border-box;
-            min-width: 0;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .repeat-stepper .repeat-count {
-            font-size: 14px;
-            font-weight: 500;
-            color: #1c1e21;
-            line-height: 1;
-            min-width: 1.5ch;
-            text-align: left;
-            flex: 1 1 auto;
-            padding: 0 8px;
-        }
-
-        .stepper-rail {
-            display: flex;
-            flex-direction: column;
-            width: 22px;
-            height: 100%;
-            background: #f0f2f5;
-            border-left: 1px solid #ccd0d5;
-            border-radius: 0;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .stepper-rail button {
-            flex: 1 1 50%;
-            height: 50%;
-            min-height: 0;
-            padding: 0;
-            margin: 0;
-            border: none;
-            border-radius: 0;
-            background: transparent;
-            color: #4b4f56;
-            font-size: 0.5rem;
-            line-height: 1;
-            cursor: pointer;
-        }
-
-        .stepper-rail button + button {
-            border-top: 1px solid #ccd0d5;
-        }
-
-        .stepper-rail button:active {
-            background: #e4e6eb;
-            transform: none;
-        }
-
         @media (min-width: 901px) and (min-height: 701px) {
             .card {
                 max-width: 720px;
@@ -643,21 +579,6 @@
                 border-radius: 6px;
             }
 
-            .stepper-rail {
-                width: 20px;
-            }
-
-            .repeat-stepper {
-                height: 28px;
-                min-height: 28px;
-                border-radius: 6px;
-            }
-
-            .repeat-stepper .repeat-count {
-                font-size: 12px;
-                padding: 0 6px;
-            }
-
             /* Remaining viewport = lyrics; never force a min that overflows */
             .pasuram-text-panel {
                 flex: 1 1 0;
@@ -722,10 +643,6 @@
                 height: 26px;
                 min-height: 26px;
                 font-size: 0.85rem;
-            }
-
-            .stepper-rail {
-                width: 18px;
             }
 
             .transport-row {
@@ -853,17 +770,10 @@
                         <input type="hidden" id="autoNext" value="true">
                     </div>
                     <div class="input-group">
-                        <label id="repeatLabel" for="repeatDisplay">Repeat</label>
-                        <div class="repeat-stepper" title="Repeat count" role="group" aria-labelledby="repeatLabel">
-                            <span class="repeat-count" id="repeatDisplay">3</span>
-                            <div class="stepper-rail">
-                                <button type="button" onclick="nudgeRepeat(1)" title="Increase repeat"
-                                    aria-label="Increase repeat">▲</button>
-                                <button type="button" onclick="nudgeRepeat(-1)" title="Decrease repeat"
-                                    aria-label="Decrease repeat">▼</button>
-                            </div>
-                            <input type="hidden" id="repeatLimit" value="3" min="1">
-                        </div>
+                        <label for="repeatLimit">Repeat</label>
+                        <input id="repeatLimit" type="number" min="1" max="99" step="1" inputmode="numeric"
+                            aria-label="Repeat count" placeholder="3" value="3"
+                            onchange="syncRepeatDisplay()" enterkeyhint="done">
                     </div>
                 </div>
             </div>

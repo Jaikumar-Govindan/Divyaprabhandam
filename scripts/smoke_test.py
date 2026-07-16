@@ -5,12 +5,16 @@ Smoke tests for Divya Prabandham Anusandhanam (Sandhai).
 Static checks (syntax, config, HTML markers, asset layout) plus HTTP checks
 against a short-lived local server. Adapted for the aruLicheyal/ asset root.
 
+Writes smoke-test-status.json for smoke-test-status.html after every run.
+
 Usage:
     python3 scripts/smoke_test.py
+    python3 scripts/smoke_test.py --no-http   # static only (status page Re-run)
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import socket
@@ -19,10 +23,13 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ASSET_ROOT = ROOT / "aruLicheyal"
+STATUS_JSON = ROOT / "smoke-test-status.json"
+STATUS_HTML = ROOT / "smoke-test-status.html"
 
 RUNTIME_JS = [
     "sync_engine.js",
@@ -53,6 +60,8 @@ HTTP_PATHS = [
     "/splitter.html",
     "/content-status.html",
     "/content-status.json",
+    "/smoke-test-status.html",
+    "/smoke-test-status.json",
 ]
 
 INDEX_MARKERS = [
@@ -67,6 +76,8 @@ INDEX_MARKERS = [
     'id="pasuramDisplay"',
     'id="toggleBtn"',
     'id="copyLinkBtn"',
+    'id="prevPhraseBtn"',
+    'id="nextPhraseBtn"',
     'src="config.js"',
     'src="playerEngine.js"',
     'src="learningEngine.js"',
@@ -79,10 +90,70 @@ PASURAM_PICKER_HELPERS = (
     "setPasuramValue",
     "onPasuramPickerChange",
     "initPasuramPickers",
+    "ensureMarkersForCurrentSelection",
+    "updatePhraseNavButtons",
 )
 
 # Books that should exist under aruLicheyal/ with at least markers or audio
 SAMPLE_BOOKS = ("PMT", "NAT", "TPL", "RN", "TVM")
+
+# Chapter pasuram counts that must stay aligned with marker files (adivaravu).
+# Format: (book, chapter, expected_count)
+ADIVARAVU_LIMIT_CASES = (
+    ("NAT", 0, 2),
+    ("NAT", 1, 11),
+    ("NAT", 3, 11),
+    ("NAT", 4, 12),
+    ("NAT", 5, 12),
+    ("NAT", 6, 12),
+    ("NAT", 14, 11),
+    ("PMT", 0, 2),
+    ("PMT", 1, 12),
+    ("PMT", 2, 10),
+    ("PMT", 3, 10),
+    ("PMT", 5, 11),
+    ("PMT", 6, 11),
+    ("PMT", 7, 12),
+    ("KCT", 0, 2),
+    ("KCT", 1, 11),
+)
+
+# Auto-next rolls used by navigate() + picker sync for chapter_pasuram books
+AUTO_NEXT_ROLL_CASES = (
+    # (book, from_value, expected_next)
+    ("NAT", "3.10", "3.11"),
+    ("NAT", "3.11", "4.1"),
+    ("NAT", "4.12", "5.1"),
+    ("NAT", "6.12", "7.1"),
+    ("NAT", "14.11", "0.1"),  # wrap to taniyans when maxCh reached
+    ("PMT", "2.10", "3.1"),
+    ("PMT", "1.12", "2.1"),
+    ("PMT", "5.11", "6.1"),
+    ("PMT", "3.10", "4.1"),
+    ("KCT", "1.11", "0.1"),
+)
+
+# ---------------------------------------------------------------------------
+# Result collection → smoke-test-status.json
+# ---------------------------------------------------------------------------
+
+_CURRENT_SUITE = "general"
+_CHECK_RESULTS: list[dict] = []
+
+
+def set_suite(name: str) -> None:
+    global _CURRENT_SUITE
+    _CURRENT_SUITE = name
+
+
+def _record(status: str, message: str) -> None:
+    _CHECK_RESULTS.append(
+        {
+            "suite": _CURRENT_SUITE,
+            "status": status,
+            "message": message,
+        }
+    )
 
 
 def free_port() -> int:
@@ -92,11 +163,61 @@ def free_port() -> int:
 
 
 def ok(msg: str) -> None:
+    _record("pass", msg)
     print(f"  OK  {msg}")
 
 
 def fail(msg: str) -> None:
     print(f"FAIL  {msg}", file=sys.stderr)
+
+
+class ErrorList(list):
+    """errors.append() also records a failed check for the status report."""
+
+    def append(self, message: object) -> None:  # type: ignore[override]
+        msg = str(message)
+        super().append(msg)
+        _record("fail", msg)
+
+
+def write_status_report(errors: list[str], elapsed_ms: int, mode: str) -> Path:
+    """Persist machine-readable results for smoke-test-status.html."""
+    passed = sum(1 for r in _CHECK_RESULTS if r["status"] == "pass")
+    failed = sum(1 for r in _CHECK_RESULTS if r["status"] == "fail")
+    suites: dict[str, dict] = {}
+    for row in _CHECK_RESULTS:
+        suite = row["suite"]
+        bucket = suites.setdefault(
+            suite,
+            {"name": suite, "passed": 0, "failed": 0, "checks": []},
+        )
+        bucket["checks"].append(
+            {"status": row["status"], "message": row["message"]}
+        )
+        if row["status"] == "pass":
+            bucket["passed"] += 1
+        else:
+            bucket["failed"] += 1
+
+    payload = {
+        "generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "ok": failed == 0 and len(errors) == 0,
+        "mode": mode,
+        "elapsedMs": elapsed_ms,
+        "totals": {
+            "checks": len(_CHECK_RESULTS),
+            "passed": passed,
+            "failed": failed,
+            "suites": len(suites),
+        },
+        "suites": list(suites.values()),
+        "errors": list(errors),
+    }
+    STATUS_JSON.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    return STATUS_JSON
 
 
 def check_js_syntax(errors: list[str]) -> None:
@@ -188,6 +309,23 @@ def check_pasuram_pickers(errors: list[str]) -> None:
         else:
             ok(f"pasuram picker: {name}")
 
+    # Phrase nav must preload markers on selection change (not only on Play)
+    for name in ("onPasuramPickerChange", "resetToStart", "initPasuramPickers"):
+        needle = f"function {name}"
+        idx = text.find(needle)
+        if idx < 0:
+            continue
+        # Bound the body by the next top-level function (or EOF)
+        next_fn = text.find("\nfunction ", idx + len(needle))
+        chunk = text[idx : next_fn if next_fn > 0 else idx + 4000]
+        if "ensureMarkersForCurrentSelection" not in chunk:
+            errors.append(
+                f"{name} must call ensureMarkersForCurrentSelection "
+                "(phrase ◂ ▸ before Play)"
+            )
+        else:
+            ok(f"{name} preloads markers for phrase nav")
+
     sync = ROOT / "sync_engine.js"
     if not sync.is_file():
         errors.append("Missing sync_engine.js")
@@ -197,6 +335,153 @@ def check_pasuram_pickers(errors: list[str]) -> None:
         errors.append("sync_engine.js does not re-init pasuram pickers after hot-swap")
     else:
         ok("sync_engine.js re-inits pasuram pickers after hot-swap")
+
+
+def check_navigation_limits(errors: list[str]) -> None:
+    """
+    CONFIG + marker-aware sectionPasuramCount / getLimit, auto-next rolls,
+    picker clamp parity, and on-disk NAT/PMT marker length alignment.
+    """
+    config_path = ROOT / "config.js"
+    nav_path = ROOT / "navigation.js"
+    if not config_path.is_file() or not nav_path.is_file():
+        errors.append("Missing config.js or navigation.js for navigation limit checks")
+        return
+
+    nav_text = nav_path.read_text(encoding="utf-8")
+    # Pickers and navigate must share sectionPasuramCount; markers may extend it
+    # after load (old-main getLimit behavior) so auto-next cannot diverge from UI.
+    for name in (
+        "sectionPasuramCount",
+        "configPasuramCount",
+        "markerSectionArray",
+        "getLimit",
+    ):
+        if f"{name}:" not in nav_text and f"{name} :" not in nav_text:
+            # methods are "name: function"
+            if f"{name}: function" not in nav_text:
+                errors.append(f"navigation.js missing {name}")
+                return
+    if "markerSectionArray" not in nav_text or "configPasuramCount" not in nav_text:
+        errors.append("navigation.js must resolve markers then CONFIG for section length")
+        return
+    # getLimit must delegate to sectionPasuramCount (single source with pickers)
+    get_limit_idx = nav_text.find("getLimit:")
+    if get_limit_idx < 0:
+        errors.append("navigation.js missing getLimit")
+        return
+    get_limit_body = nav_text[get_limit_idx : get_limit_idx + 800]
+    if "sectionPasuramCount" not in get_limit_body:
+        errors.append("getLimit must call sectionPasuramCount (shared with pickers)")
+        return
+    ok("getLimit shares sectionPasuramCount with pickers (markers when loaded)")
+
+    checker = ROOT / "scripts" / "check_navigation_limits.js"
+    if not checker.is_file():
+        errors.append("Missing scripts/check_navigation_limits.js")
+        return
+
+    result = subprocess.run(
+        [
+            "node",
+            str(checker),
+            json.dumps([[b, c, n] for b, c, n in ADIVARAVU_LIMIT_CASES]),
+            json.dumps([[b, f, t] for b, f, t in AUTO_NEXT_ROLL_CASES]),
+        ],
+        cwd=str(ROOT),
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout or "").strip()
+        errors.append(f"navigation limit / auto-next checks failed: {detail}")
+        return
+    for book, ch, expected in ADIVARAVU_LIMIT_CASES:
+        ok(f"limit {book}.{ch} = {expected}")
+    for book, from_val, to_val in AUTO_NEXT_ROLL_CASES:
+        ok(f"auto-next {book} {from_val} → {to_val}")
+    ok("listPasuramOptions includes NAT adivaravu (3.11, 4.12)")
+    ok("on-disk NAT/PMT marker lengths match getLimit + last-verse chapter roll")
+    ok("navigate+picker sync cannot recreate the 3.10 auto-next loop")
+
+
+def check_navigate_picker_contract(errors: list[str]) -> None:
+    """
+    Structural contracts that prevented the post-picker regression:
+    navigate clamps via shared sectionPasuramCount; markers preload refreshes pickers.
+    """
+    engine = ROOT / "playerEngine.js"
+    if not engine.is_file():
+        errors.append("Missing playerEngine.js")
+        return
+    text = engine.read_text(encoding="utf-8")
+
+    nav_idx = text.find("function navigate(")
+    if nav_idx < 0:
+        errors.append("playerEngine.js missing navigate()")
+        return
+    next_fn = text.find("\nfunction ", nav_idx + 10)
+    nav_body = text[nav_idx : next_fn if next_fn > 0 else nav_idx + 2500]
+    if "syncPickersFromNumber" not in nav_body:
+        errors.append("navigate() must call syncPickersFromNumber after advancing")
+    else:
+        ok("navigate() syncs pickers after advance")
+    if "getLimit" not in nav_body:
+        errors.append("navigate() must use Navigation.getLimit for chapter bounds")
+    else:
+        ok("navigate() uses getLimit for chapter bounds")
+
+    safe_idx = text.find("function sectionPasuramCountSafe")
+    if safe_idx < 0:
+        errors.append("playerEngine.js missing sectionPasuramCountSafe")
+        return
+    safe_body = text[safe_idx : safe_idx + 500]
+    if "Navigation.sectionPasuramCount" not in safe_body:
+        errors.append(
+            "sectionPasuramCountSafe must call Navigation.sectionPasuramCount "
+            "(CONFIG-only clamp recreates the 3.10 loop when markers are longer)"
+        )
+    else:
+        ok("sectionPasuramCountSafe delegates to Navigation.sectionPasuramCount")
+
+    ensure_idx = text.find("function ensureMarkersForCurrentSelection")
+    if ensure_idx < 0:
+        errors.append("playerEngine.js missing ensureMarkersForCurrentSelection")
+        return
+    ensure_body = text[ensure_idx : ensure_idx + 1200]
+    if "rebuildPasuramPickers" not in ensure_body:
+        errors.append(
+            "ensureMarkersForCurrentSelection must rebuildPasuramPickers after load "
+            "(so No. max tracks marker length)"
+        )
+    else:
+        ok("ensureMarkers rebuilds pickers after marker load")
+    if "updatePhraseNavButtons" not in ensure_body:
+        errors.append("ensureMarkersForCurrentSelection must updatePhraseNavButtons")
+    else:
+        ok("ensureMarkers updates phrase nav buttons after load")
+
+    phrase_idx = text.find("function updatePhraseNavButtons")
+    if phrase_idx < 0:
+        errors.append("playerEngine.js missing updatePhraseNavButtons")
+        return
+    phrase_body = text[phrase_idx : phrase_idx + 600]
+    if "step4" not in phrase_body:
+        errors.append("updatePhraseNavButtons must disable phrase nav in Full (step4) mode")
+    else:
+        ok("phrase nav disabled for step4 (Full)")
+    if "prevPhraseBtn" not in phrase_body or "nextPhraseBtn" not in phrase_body:
+        errors.append("updatePhraseNavButtons must toggle prevPhraseBtn/nextPhraseBtn")
+    else:
+        ok("phrase nav toggles prevPhraseBtn/nextPhraseBtn")
+
+    # learning-track-ended must call navigate(1) when auto-next is on
+    if "learning-track-ended" not in text:
+        errors.append("playerEngine.js missing learning-track-ended handler")
+    elif "navigate(1)" not in text:
+        errors.append("auto-next path must call navigate(1)")
+    else:
+        ok("learning-track-ended can auto-next via navigate(1)")
 
 
 def check_index_html(errors: list[str]) -> None:
@@ -462,53 +747,97 @@ def check_http(port: int, errors: list[str]) -> None:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description="Sandhai smoke tests")
+    parser.add_argument(
+        "--no-http",
+        action="store_true",
+        help="Skip local-server HTTP checks (used by smoke-test-status.html Re-run)",
+    )
+    args = parser.parse_args()
+    mode = "static" if args.no_http else "full"
+
+    started = time.time()
+    global _CHECK_RESULTS, _CURRENT_SUITE
+    _CHECK_RESULTS = []
+    _CURRENT_SUITE = "general"
+
     print("Sandhai smoke test (aruLicheyal layout)\n")
-    errors: list[str] = []
+    errors: ErrorList = ErrorList()
 
     print("Static checks:")
+    set_suite("js_syntax")
     check_js_syntax(errors)
+    set_suite("sync_check")
     check_sync_check(errors)
+    set_suite("config")
     check_config(errors)
+    set_suite("deep_links")
     check_deep_links(errors)
+    set_suite("pasuram_pickers")
     check_pasuram_pickers(errors)
+    set_suite("navigation_limits")
+    check_navigation_limits(errors)
+    set_suite("navigate_picker_contract")
+    check_navigate_picker_contract(errors)
+    set_suite("index_html")
     check_index_html(errors)
+    set_suite("arulicheyal_layout")
     check_arulicheyal_layout(errors)
+    set_suite("offline_manifest")
     check_offline_manifest_tool(errors)
+    set_suite("content_status")
     check_content_status_tool(errors)
+    set_suite("smoke_status_page")
+    if not STATUS_HTML.is_file():
+        errors.append("Missing smoke-test-status.html")
+    else:
+        ok("smoke-test-status.html exists")
 
-    port = free_port()
-    print(f"\nHTTP checks (server on port {port}):")
-    env = os.environ.copy()
-    env["PORT"] = str(port)
-    server = subprocess.Popen(
-        [sys.executable, str(ROOT / "scripts" / "server.py")],
-        cwd=str(ROOT),
-        env=env,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-    try:
-        if not wait_for_server(port):
-            stderr = server.stderr.read() if server.stderr else ""
-            errors.append(f"Server did not start on port {port}. {stderr}".strip())
-        else:
-            check_http(port, errors)
-    finally:
-        server.terminate()
+    if not args.no_http:
+        # Ensure status JSON exists so HTTP_PATHS check can fetch it on first run
+        if not STATUS_JSON.is_file():
+            write_status_report(errors, 0, mode)
+        port = free_port()
+        print(f"\nHTTP checks (server on port {port}):")
+        set_suite("http")
+        env = os.environ.copy()
+        env["PORT"] = str(port)
+        server = subprocess.Popen(
+            [sys.executable, str(ROOT / "scripts" / "server.py")],
+            cwd=str(ROOT),
+            env=env,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
         try:
-            server.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            server.kill()
+            if not wait_for_server(port):
+                stderr = server.stderr.read() if server.stderr else ""
+                errors.append(f"Server did not start on port {port}. {stderr}".strip())
+            else:
+                check_http(port, errors)
+        finally:
+            server.terminate()
+            try:
+                server.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                server.kill()
+    else:
+        print("\nHTTP checks: skipped (--no-http)")
+
+    elapsed_ms = int((time.time() - started) * 1000)
+    out = write_status_report(errors, elapsed_ms, mode)
 
     print()
     if errors:
         print(f"Smoke test failed ({len(errors)} issue(s)):", file=sys.stderr)
         for err in errors:
             fail(err)
+        print(f"Status report: {out.relative_to(ROOT)}", file=sys.stderr)
         return 1
 
     print("All smoke checks passed.")
+    print(f"Status report: {out.relative_to(ROOT)}")
     return 0
 
 

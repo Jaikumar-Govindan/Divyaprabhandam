@@ -47,19 +47,25 @@
       "/aruLicheyal/3TA/audiofiles/3TA_31_40.ogg",
       "/aruLicheyal/3TA/audiofiles/3TA_41_50.ogg",
       "/aruLicheyal/3TA/audiofiles/3TA_51_60.ogg",
+      "/aruLicheyal/3TA/audiofiles/3TA_61_70.ogg",
+      "/aruLicheyal/3TA/audiofiles/3TA_71_80.ogg",
+      "/aruLicheyal/3TA/audiofiles/3TA_81_90.ogg",
+      "/aruLicheyal/3TA/audiofiles/3TA_91_100.ogg",
       "/aruLicheyal/3TA/markers/marker_3ta_timelines.js",
       "/aruLicheyal/3TA/text/marker_3ta_ta.js"
     ],
-    "sizeBytes": 1493714
+    "sizeBytes": 2449397
   },
   "4TA": {
-    "fullyLocal": false,
+    "fullyLocal": true,
     "assets": [
+      "/aruLicheyal/4TA/audiofiles/4TA_0.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_11_20.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_1_10.ogg",
       "/aruLicheyal/4TA/markers/marker_4ta_timelines.js",
       "/aruLicheyal/4TA/text/marker_4ta_ta.js"
     ],
-    "sizeBytes": 40996,
-    "note": "Markers/text only \u2014 no local audio files"
+    "sizeBytes": 566829
   },
   "AAP": {
     "fullyLocal": true,
@@ -165,7 +171,7 @@
       "/aruLicheyal/PAT/text/4_ta.js",
       "/aruLicheyal/PAT/text/5_ta.js"
     ],
-    "sizeBytes": 16156041,
+    "sizeBytes": 16167905,
     "note": "Partial \u2014 only hosted audio and markers included"
   },
   "PMT": {
@@ -201,7 +207,9 @@
     "fullyLocal": false,
     "assets": [
       "/aruLicheyal/PTM/audiofiles/PTM_0.ogg",
+      "/aruLicheyal/PTM/audiofiles/PTM_11.8.ogg",
       "/aruLicheyal/PTM/audiofiles/PTM_5.1.ogg",
+      "/aruLicheyal/PTM/audiofiles/PTM_5.10.ogg",
       "/aruLicheyal/PTM/audiofiles/PTM_5.2.ogg",
       "/aruLicheyal/PTM/audiofiles/PTM_5.3.ogg",
       "/aruLicheyal/PTM/audiofiles/PTM_5.4.ogg",
@@ -209,6 +217,8 @@
       "/aruLicheyal/PTM/audiofiles/PTM_5.6.ogg",
       "/aruLicheyal/PTM/audiofiles/PTM_5.7.ogg",
       "/aruLicheyal/PTM/audiofiles/PTM_5.8.ogg",
+      "/aruLicheyal/PTM/audiofiles/PTM_5.9.ogg",
+      "/aruLicheyal/PTM/markers/timelines_11.js",
       "/aruLicheyal/PTM/markers/timelines_5.js",
       "/aruLicheyal/PTM/text/10_ta.js",
       "/aruLicheyal/PTM/text/11_ta.js",
@@ -222,7 +232,7 @@
       "/aruLicheyal/PTM/text/8_ta.js",
       "/aruLicheyal/PTM/text/9_ta.js"
     ],
-    "sizeBytes": 3875708,
+    "sizeBytes": 4939692,
     "note": "Partial \u2014 only hosted audio and markers included"
   },
   "RN": {

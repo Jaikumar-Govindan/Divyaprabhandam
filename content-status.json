@@ -1,26 +1,26 @@
 {
-  "generatedAt": "2026-07-11T22:21:16Z",
+  "generatedAt": "2026-07-15T19:32:07Z",
   "totals": {
     "books": 24,
-    "expected": 4467,
-    "marked": 1094,
-    "ta": 3873,
-    "en": 575,
-    "audioLocal": 101,
-    "audioRemote": 251,
-    "audioMissing": 10,
-    "audioLocalFiles": 152,
-    "audioRemoteFiles": 251,
-    "audioMissingFiles": 51,
+    "expected": 4098,
+    "marked": 1295,
+    "ta": 3984,
+    "en": 596,
+    "audioLocal": 106,
+    "audioRemote": 208,
+    "audioMissing": 8,
+    "audioLocalFiles": 162,
+    "audioRemoteFiles": 208,
+    "audioMissingFiles": 44,
     "integrityFail": 10,
-    "phraseMismatch": 46,
+    "phraseMismatch": 53,
     "evenScaffoldSuspect": 2,
     "reviewed": 0,
     "unreviewed": 0,
-    "reviewUnknown": 1094,
-    "qualityBroken": 54,
+    "reviewUnknown": 1295,
+    "qualityBroken": 61,
     "qualitySuspect": 2,
-    "qualityOk": 1038
+    "qualityOk": 1232
   },
   "books": [
     {
@@ -332,27 +332,27 @@
       "structure": "chapter_sub_pasuram",
       "factory": "sub",
       "summary": {
-        "expected": 1015,
-        "marked": 245,
+        "expected": 515,
+        "marked": 285,
         "lyricsTa": 445,
         "lyricsEn": 10,
         "audioLocalSections": 36,
-        "audioRemoteSections": 64,
+        "audioRemoteSections": 14,
         "audioMissingSections": 0,
         "audioPartialSections": 0,
         "audioLocalFiles": 36,
-        "audioRemoteFiles": 64,
+        "audioRemoteFiles": 14,
         "audioMissingFiles": 0,
-        "sections": 100,
+        "sections": 50,
         "integrityFail": 10,
         "phraseMismatch": 8,
         "evenScaffoldSuspect": 1,
         "reviewed": 0,
         "unreviewed": 0,
-        "reviewUnknown": 245,
+        "reviewUnknown": 285,
         "qualityBroken": 16,
         "qualitySuspect": 1,
-        "qualityOk": 228
+        "qualityOk": 268
       },
       "sections": [
         {
@@ -5156,8 +5156,7 @@
         {
           "id": "4.4",
           "expected": 10,
-          "marked": [],
-          "missingMarked": [
+          "marked": [
             1,
             2,
             3,
@@ -5169,6 +5168,7 @@
             9,
             10
           ],
+          "missingMarked": [],
           "lyricsTa": [
             1,
             2,
@@ -5209,14 +5209,7 @@
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "4.5",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
+          "reviewUnknown": [
             1,
             2,
             3,
@@ -5228,6 +5221,125 @@
             9,
             10
           ],
+          "qualityByPasuram": {
+            "1": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1212,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "2": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1707,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "3": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2568,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "4": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1334,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "5": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1535,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "6": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2057,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "7": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1183,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "8": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0841,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "9": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1997,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "10": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1893,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            }
+          }
+        },
+        {
+          "id": "4.5",
+          "expected": 10,
+          "marked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingMarked": [],
           "lyricsTa": [
             1,
             2,
@@ -5268,14 +5380,7 @@
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "4.6",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
+          "reviewUnknown": [
             1,
             2,
             3,
@@ -5287,6 +5392,125 @@
             9,
             10
           ],
+          "qualityByPasuram": {
+            "1": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1212,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "2": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1707,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "3": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2568,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "4": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1334,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "5": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1535,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "6": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2057,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "7": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1183,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "8": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0841,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "9": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1997,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "10": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1893,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            }
+          }
+        },
+        {
+          "id": "4.6",
+          "expected": 10,
+          "marked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingMarked": [],
           "lyricsTa": [
             1,
             2,
@@ -5327,14 +5551,7 @@
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "4.7",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
+          "reviewUnknown": [
             1,
             2,
             3,
@@ -5346,6 +5563,125 @@
             9,
             10
           ],
+          "qualityByPasuram": {
+            "1": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1593,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "2": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.186,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "3": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2206,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "4": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2075,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "5": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1648,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "6": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2286,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "7": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.194,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "8": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1295,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "9": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1854,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "10": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2514,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            }
+          }
+        },
+        {
+          "id": "4.7",
+          "expected": 10,
+          "marked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingMarked": [],
           "lyricsTa": [
             1,
             2,
@@ -5386,8 +5722,120 @@
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
+          "reviewUnknown": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "qualityByPasuram": {
+            "1": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1727,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "2": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.088,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "3": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0663,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "4": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0693,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "5": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1053,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "6": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1222,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "7": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1536,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "8": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1245,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "9": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0494,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "10": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2264,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            }
+          }
         },
         {
           "id": "4.8",
@@ -6155,2956 +6603,6 @@
           "unreviewed": [],
           "reviewUnknown": [],
           "qualityByPasuram": {}
-        },
-        {
-          "id": "6.1",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.1.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.1.mp3",
-              "status": "remote",
-              "label": "6.1"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "6.2",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.2.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.2.mp3",
-              "status": "remote",
-              "label": "6.2"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "6.3",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.3.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.3.mp3",
-              "status": "remote",
-              "label": "6.3"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "6.4",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.4.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.4.mp3",
-              "status": "remote",
-              "label": "6.4"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "6.5",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.5.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.5.mp3",
-              "status": "remote",
-              "label": "6.5"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "6.6",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.6.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.6.mp3",
-              "status": "remote",
-              "label": "6.6"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "6.7",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.7.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.7.mp3",
-              "status": "remote",
-              "label": "6.7"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "6.8",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.8.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.8.mp3",
-              "status": "remote",
-              "label": "6.8"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "6.9",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.9.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.9.mp3",
-              "status": "remote",
-              "label": "6.9"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "6.10",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.6.10.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.6.10.mp3",
-              "status": "remote",
-              "label": "6.10"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.1",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.1.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.1.mp3",
-              "status": "remote",
-              "label": "7.1"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.2",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.2.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.2.mp3",
-              "status": "remote",
-              "label": "7.2"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.3",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.3.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.3.mp3",
-              "status": "remote",
-              "label": "7.3"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.4",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.4.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.4.mp3",
-              "status": "remote",
-              "label": "7.4"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.5",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.5.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.5.mp3",
-              "status": "remote",
-              "label": "7.5"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.6",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.6.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.6.mp3",
-              "status": "remote",
-              "label": "7.6"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.7",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.7.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.7.mp3",
-              "status": "remote",
-              "label": "7.7"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.8",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.8.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.8.mp3",
-              "status": "remote",
-              "label": "7.8"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.9",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.9.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.9.mp3",
-              "status": "remote",
-              "label": "7.9"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "7.10",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.7.10.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.7.10.mp3",
-              "status": "remote",
-              "label": "7.10"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.1",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.1.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.1.mp3",
-              "status": "remote",
-              "label": "8.1"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.2",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.2.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.2.mp3",
-              "status": "remote",
-              "label": "8.2"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.3",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.3.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.3.mp3",
-              "status": "remote",
-              "label": "8.3"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.4",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.4.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.4.mp3",
-              "status": "remote",
-              "label": "8.4"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.5",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.5.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.5.mp3",
-              "status": "remote",
-              "label": "8.5"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.6",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.6.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.6.mp3",
-              "status": "remote",
-              "label": "8.6"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.7",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.7.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.7.mp3",
-              "status": "remote",
-              "label": "8.7"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.8",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.8.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.8.mp3",
-              "status": "remote",
-              "label": "8.8"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.9",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.9.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.9.mp3",
-              "status": "remote",
-              "label": "8.9"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "8.10",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.8.10.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.8.10.mp3",
-              "status": "remote",
-              "label": "8.10"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.1",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.1.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.1.mp3",
-              "status": "remote",
-              "label": "9.1"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.2",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.2.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.2.mp3",
-              "status": "remote",
-              "label": "9.2"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.3",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.3.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.3.mp3",
-              "status": "remote",
-              "label": "9.3"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.4",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.4.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.4.mp3",
-              "status": "remote",
-              "label": "9.4"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.5",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.5.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.5.mp3",
-              "status": "remote",
-              "label": "9.5"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.6",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.6.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.6.mp3",
-              "status": "remote",
-              "label": "9.6"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.7",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.7.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.7.mp3",
-              "status": "remote",
-              "label": "9.7"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.8",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.8.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.8.mp3",
-              "status": "remote",
-              "label": "9.8"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.9",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.9.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.9.mp3",
-              "status": "remote",
-              "label": "9.9"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "9.10",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.9.10.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.9.10.mp3",
-              "status": "remote",
-              "label": "9.10"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.1",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.1.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.1.mp3",
-              "status": "remote",
-              "label": "10.1"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.2",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.2.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.2.mp3",
-              "status": "remote",
-              "label": "10.2"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.3",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.3.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.3.mp3",
-              "status": "remote",
-              "label": "10.3"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.4",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.4.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.4.mp3",
-              "status": "remote",
-              "label": "10.4"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.5",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.5.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.5.mp3",
-              "status": "remote",
-              "label": "10.5"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.6",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.6.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.6.mp3",
-              "status": "remote",
-              "label": "10.6"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.7",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.7.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.7.mp3",
-              "status": "remote",
-              "label": "10.7"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.8",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.8.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.8.mp3",
-              "status": "remote",
-              "label": "10.8"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.9",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.9.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.9.mp3",
-              "status": "remote",
-              "label": "10.9"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "10.10",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsTa": [],
-          "missingLyricsTa": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "lyricsEn": [],
-          "missingLyricsEn": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10
-          ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.10.10.mp3",
-          "audioFiles": [
-            {
-              "path": "https://www.uveda.org/media/recitation/PT.10.10.mp3",
-              "status": "remote",
-              "label": "10.10"
-            }
-          ],
-          "integrityFail": [],
-          "phraseMismatch": [],
-          "evenScaffoldSuspect": [],
-          "reviewed": [],
-          "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
         }
       ]
     },
@@ -9683,10 +7181,10 @@
       "structure": "chapter_pasuram",
       "factory": "simple",
       "summary": {
-        "expected": 142,
-        "marked": 142,
-        "lyricsTa": 142,
-        "lyricsEn": 52,
+        "expected": 159,
+        "marked": 159,
+        "lyricsTa": 159,
+        "lyricsEn": 59,
         "audioLocalSections": 15,
         "audioRemoteSections": 0,
         "audioMissingSections": 0,
@@ -9696,14 +7194,14 @@
         "audioMissingFiles": 0,
         "sections": 15,
         "integrityFail": 0,
-        "phraseMismatch": 1,
+        "phraseMismatch": 3,
         "evenScaffoldSuspect": 0,
         "reviewed": 0,
         "unreviewed": 0,
-        "reviewUnknown": 142,
-        "qualityBroken": 1,
+        "reviewUnknown": 159,
+        "qualityBroken": 3,
         "qualitySuspect": 0,
-        "qualityOk": 141
+        "qualityOk": 156
       },
       "sections": [
         {
@@ -9767,7 +7265,7 @@
         },
         {
           "id": "1",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -9778,7 +7276,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -9791,7 +7290,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -9804,7 +7304,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -9831,7 +7332,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -9933,12 +7435,22 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1792,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "2",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -9949,7 +7461,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -9962,7 +7475,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -9975,7 +7489,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -9988,7 +7503,9 @@
             }
           ],
           "integrityFail": [],
-          "phraseMismatch": [],
+          "phraseMismatch": [
+            11
+          ],
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
@@ -10002,7 +7519,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -10104,12 +7622,24 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": false,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0505,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "broken",
+              "issues": [
+                "phraseMismatch"
+              ]
             }
           }
         },
         {
           "id": "3",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -10120,7 +7650,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -10133,7 +7664,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -10146,7 +7678,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -10160,7 +7693,8 @@
           ],
           "integrityFail": [],
           "phraseMismatch": [
-            9
+            9,
+            11
           ],
           "evenScaffoldSuspect": [],
           "reviewed": [],
@@ -10175,7 +7709,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -10279,12 +7814,24 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": false,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1568,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "broken",
+              "issues": [
+                "phraseMismatch"
+              ]
             }
           }
         },
         {
           "id": "4",
-          "expected": 10,
+          "expected": 12,
           "marked": [
             1,
             2,
@@ -10295,7 +7842,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -10308,7 +7857,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -10321,7 +7872,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -10348,7 +7901,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "qualityByPasuram": {
             "1": {
@@ -10450,12 +8005,32 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1731,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2997,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "5",
-          "expected": 10,
+          "expected": 12,
           "marked": [
             1,
             2,
@@ -10466,7 +8041,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -10479,7 +8056,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsTa": [],
           "lyricsEn": [],
@@ -10493,7 +8072,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "audio": "local",
           "audioPath": "aruLicheyal/NAT/audiofiles/NAT_5.ogg",
@@ -10519,7 +8100,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "qualityByPasuram": {
             "1": {
@@ -10621,12 +8204,32 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1257,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1983,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "6",
-          "expected": 10,
+          "expected": 12,
           "marked": [
             1,
             2,
@@ -10637,7 +8240,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -10650,7 +8255,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -10663,7 +8270,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -10690,7 +8299,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "qualityByPasuram": {
             "1": {
@@ -10792,12 +8403,32 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2017,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2968,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "7",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -10808,7 +8439,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -10821,7 +8453,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [],
@@ -10835,7 +8468,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "audio": "local",
           "audioPath": "aruLicheyal/NAT/audiofiles/NAT_7.ogg",
@@ -10861,7 +8495,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -10963,12 +8598,22 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.488,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "8",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -10979,7 +8624,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -10992,7 +8638,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [],
@@ -11006,7 +8653,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "audio": "local",
           "audioPath": "aruLicheyal/NAT/audiofiles/NAT_8.ogg",
@@ -11032,7 +8680,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -11134,12 +8783,22 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.4276,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "9",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -11150,7 +8809,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -11163,7 +8823,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [],
@@ -11177,7 +8838,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "audio": "local",
           "audioPath": "aruLicheyal/NAT/audiofiles/NAT_9.ogg",
@@ -11203,7 +8865,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -11305,12 +8968,22 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2997,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "10",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -11321,7 +8994,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -11334,7 +9008,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [],
@@ -11348,7 +9023,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "audio": "local",
           "audioPath": "aruLicheyal/NAT/audiofiles/NAT_10.ogg",
@@ -11374,7 +9050,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -11476,12 +9153,22 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.219,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "11",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -11492,7 +9179,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -11505,7 +9193,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [],
@@ -11519,7 +9208,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "audio": "local",
           "audioPath": "aruLicheyal/NAT/audiofiles/NAT_11.ogg",
@@ -11545,7 +9235,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -11647,12 +9338,22 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3732,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "12",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -11663,7 +9364,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -11676,7 +9378,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [],
@@ -11690,7 +9393,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "audio": "local",
           "audioPath": "aruLicheyal/NAT/audiofiles/NAT_12.ogg",
@@ -11716,7 +9420,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -11818,12 +9523,22 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.4053,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "13",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -11834,7 +9549,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -11847,7 +9563,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [],
@@ -11861,7 +9578,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "audio": "local",
           "audioPath": "aruLicheyal/NAT/audiofiles/NAT_13.ogg",
@@ -11887,7 +9605,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -11989,12 +9708,22 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3069,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "14",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -12005,7 +9734,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -12018,7 +9748,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [],
@@ -12032,7 +9763,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "audio": "local",
           "audioPath": "aruLicheyal/NAT/audiofiles/NAT_14.ogg",
@@ -12058,7 +9790,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -12160,6 +9893,16 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2096,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         }
@@ -12171,10 +9914,10 @@
       "structure": "chapter_pasuram",
       "factory": "simple",
       "summary": {
-        "expected": 102,
-        "marked": 102,
-        "lyricsTa": 102,
-        "lyricsEn": 102,
+        "expected": 116,
+        "marked": 115,
+        "lyricsTa": 116,
+        "lyricsEn": 116,
         "audioLocalSections": 11,
         "audioRemoteSections": 0,
         "audioMissingSections": 0,
@@ -12184,14 +9927,14 @@
         "audioMissingFiles": 0,
         "sections": 11,
         "integrityFail": 0,
-        "phraseMismatch": 9,
+        "phraseMismatch": 12,
         "evenScaffoldSuspect": 1,
         "reviewed": 0,
         "unreviewed": 0,
-        "reviewUnknown": 102,
-        "qualityBroken": 9,
+        "reviewUnknown": 115,
+        "qualityBroken": 12,
         "qualitySuspect": 1,
-        "qualityOk": 92
+        "qualityOk": 102
       },
       "sections": [
         {
@@ -12255,7 +9998,7 @@
         },
         {
           "id": "1",
-          "expected": 10,
+          "expected": 12,
           "marked": [
             1,
             2,
@@ -12266,7 +10009,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -12279,7 +10024,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -12292,7 +10039,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -12321,7 +10070,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "qualityByPasuram": {
             "1": {
@@ -12421,6 +10172,26 @@
               "phraseAligned": true,
               "evenScaffoldSuspect": false,
               "durationCv": 0.1298,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1186,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2643,
               "reviewStatus": "unknown",
               "source": null,
               "badge": "ok",
@@ -12786,7 +10557,7 @@
         },
         {
           "id": "4",
-          "expected": 10,
+          "expected": 12,
           "marked": [
             1,
             2,
@@ -12797,7 +10568,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -12810,7 +10583,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -12823,7 +10598,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -12852,7 +10629,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "qualityByPasuram": {
             "1": {
@@ -12956,12 +10735,32 @@
               "issues": [
                 "phraseMismatch"
               ]
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.104,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3797,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "5",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -12974,7 +10773,9 @@
             9,
             10
           ],
-          "missingMarked": [],
+          "missingMarked": [
+            11
+          ],
           "lyricsTa": [
             1,
             2,
@@ -12985,7 +10786,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -12998,7 +10800,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -13136,7 +10939,7 @@
         },
         {
           "id": "6",
-          "expected": 10,
+          "expected": 11,
           "marked": [
             1,
             2,
@@ -13147,7 +10950,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -13160,7 +10964,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -13173,7 +10978,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -13186,7 +10992,9 @@
             }
           ],
           "integrityFail": [],
-          "phraseMismatch": [],
+          "phraseMismatch": [
+            11
+          ],
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
@@ -13200,7 +11008,8 @@
             7,
             8,
             9,
-            10
+            10,
+            11
           ],
           "qualityByPasuram": {
             "1": {
@@ -13302,12 +11111,24 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": false,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "broken",
+              "issues": [
+                "phraseMismatch"
+              ]
             }
           }
         },
         {
           "id": "7",
-          "expected": 10,
+          "expected": 12,
           "marked": [
             1,
             2,
@@ -13318,7 +11139,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -13331,7 +11154,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -13344,7 +11169,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -13357,7 +11184,9 @@
             }
           ],
           "integrityFail": [],
-          "phraseMismatch": [],
+          "phraseMismatch": [
+            12
+          ],
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
@@ -13371,7 +11200,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "qualityByPasuram": {
             "1": {
@@ -13473,12 +11304,34 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.102,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": false,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2187,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "broken",
+              "issues": [
+                "phraseMismatch"
+              ]
             }
           }
         },
         {
           "id": "8",
-          "expected": 10,
+          "expected": 12,
           "marked": [
             1,
             2,
@@ -13489,7 +11342,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -13502,7 +11357,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -13515,7 +11372,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -13542,7 +11401,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "qualityByPasuram": {
             "1": {
@@ -13644,12 +11505,32 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.151,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.306,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "9",
-          "expected": 10,
+          "expected": 12,
           "marked": [
             1,
             2,
@@ -13660,7 +11541,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -13673,7 +11556,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -13686,7 +11571,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -13713,7 +11600,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "qualityByPasuram": {
             "1": {
@@ -13815,12 +11704,32 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1941,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.347,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
             }
           }
         },
         {
           "id": "10",
-          "expected": 10,
+          "expected": 12,
           "marked": [
             1,
             2,
@@ -13831,7 +11740,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingMarked": [],
           "lyricsTa": [
@@ -13844,7 +11755,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsTa": [],
           "lyricsEn": [
@@ -13857,7 +11770,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "missingLyricsEn": [],
           "audio": "local",
@@ -13873,7 +11788,8 @@
           "phraseMismatch": [
             4,
             8,
-            9
+            9,
+            12
           ],
           "evenScaffoldSuspect": [],
           "reviewed": [],
@@ -13888,7 +11804,9 @@
             7,
             8,
             9,
-            10
+            10,
+            11,
+            12
           ],
           "qualityByPasuram": {
             "1": {
@@ -13996,6 +11914,28 @@
               "source": null,
               "badge": "ok",
               "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.181,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": false,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.4539,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "broken",
+              "issues": [
+                "phraseMismatch"
+              ]
             }
           }
         }
@@ -16104,27 +14044,27 @@
       "structure": "chapter_sub_pasuram",
       "factory": "sub",
       "summary": {
-        "expected": 1003,
-        "marked": 80,
-        "lyricsTa": 1000,
+        "expected": 1103,
+        "marked": 110,
+        "lyricsTa": 1080,
         "lyricsEn": 0,
-        "audioLocalSections": 8,
-        "audioRemoteSections": 92,
+        "audioLocalSections": 11,
+        "audioRemoteSections": 99,
         "audioMissingSections": 0,
         "audioPartialSections": 0,
-        "audioLocalFiles": 8,
-        "audioRemoteFiles": 92,
+        "audioLocalFiles": 11,
+        "audioRemoteFiles": 99,
         "audioMissingFiles": 0,
-        "sections": 100,
+        "sections": 110,
         "integrityFail": 0,
         "phraseMismatch": 2,
         "evenScaffoldSuspect": 0,
         "reviewed": 0,
         "unreviewed": 0,
-        "reviewUnknown": 80,
+        "reviewUnknown": 110,
         "qualityBroken": 2,
         "qualitySuspect": 0,
-        "qualityOk": 78
+        "qualityOk": 108
       },
       "sections": [
         {
@@ -19876,8 +17816,7 @@
         {
           "id": "5.9",
           "expected": 10,
-          "marked": [],
-          "missingMarked": [
+          "marked": [
             1,
             2,
             3,
@@ -19889,6 +17828,7 @@
             9,
             10
           ],
+          "missingMarked": [],
           "lyricsTa": [
             1,
             2,
@@ -19915,12 +17855,12 @@
             9,
             10
           ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.5.9.mp3",
+          "audio": "local",
+          "audioPath": "aruLicheyal/PTM/audiofiles/PTM_5.9.ogg",
           "audioFiles": [
             {
-              "path": "https://www.uveda.org/media/recitation/PT.5.9.mp3",
-              "status": "remote",
+              "path": "aruLicheyal/PTM/audiofiles/PTM_5.9.ogg",
+              "status": "local",
               "label": "5.9"
             }
           ],
@@ -19929,14 +17869,7 @@
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
-        },
-        {
-          "id": "5.10",
-          "expected": 10,
-          "marked": [],
-          "missingMarked": [
+          "reviewUnknown": [
             1,
             2,
             3,
@@ -19948,6 +17881,125 @@
             9,
             10
           ],
+          "qualityByPasuram": {
+            "1": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0688,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "2": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0563,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "3": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0455,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "4": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1302,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "5": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0991,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "6": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1583,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "7": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1018,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "8": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0982,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "9": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1274,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "10": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1244,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            }
+          }
+        },
+        {
+          "id": "5.10",
+          "expected": 10,
+          "marked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingMarked": [],
           "lyricsTa": [
             1,
             2,
@@ -19974,12 +18026,12 @@
             9,
             10
           ],
-          "audio": "remote",
-          "audioPath": "https://www.uveda.org/media/recitation/PT.5.10.mp3",
+          "audio": "local",
+          "audioPath": "aruLicheyal/PTM/audiofiles/PTM_5.10.ogg",
           "audioFiles": [
             {
-              "path": "https://www.uveda.org/media/recitation/PT.5.10.mp3",
-              "status": "remote",
+              "path": "aruLicheyal/PTM/audiofiles/PTM_5.10.ogg",
+              "status": "local",
               "label": "5.10"
             }
           ],
@@ -19988,8 +18040,120 @@
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
+          "reviewUnknown": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "qualityByPasuram": {
+            "1": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.219,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "2": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1784,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "3": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2554,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "4": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3181,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "5": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2437,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "6": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2314,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "7": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3034,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "8": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2457,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "9": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2708,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "10": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1879,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            }
+          }
         },
         {
           "id": "6.1",
@@ -22940,6 +21104,708 @@
           "unreviewed": [],
           "reviewUnknown": [],
           "qualityByPasuram": {}
+        },
+        {
+          "id": "11.1",
+          "expected": 10,
+          "marked": [],
+          "missingMarked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingLyricsTa": [],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "remote",
+          "audioPath": "https://www.uveda.org/media/recitation/PT.11.1.mp3",
+          "audioFiles": [
+            {
+              "path": "https://www.uveda.org/media/recitation/PT.11.1.mp3",
+              "status": "remote",
+              "label": "11.1"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [],
+          "qualityByPasuram": {}
+        },
+        {
+          "id": "11.2",
+          "expected": 10,
+          "marked": [],
+          "missingMarked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingLyricsTa": [],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "remote",
+          "audioPath": "https://www.uveda.org/media/recitation/PT.11.2.mp3",
+          "audioFiles": [
+            {
+              "path": "https://www.uveda.org/media/recitation/PT.11.2.mp3",
+              "status": "remote",
+              "label": "11.2"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [],
+          "qualityByPasuram": {}
+        },
+        {
+          "id": "11.3",
+          "expected": 10,
+          "marked": [],
+          "missingMarked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingLyricsTa": [],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "remote",
+          "audioPath": "https://www.uveda.org/media/recitation/PT.11.3.mp3",
+          "audioFiles": [
+            {
+              "path": "https://www.uveda.org/media/recitation/PT.11.3.mp3",
+              "status": "remote",
+              "label": "11.3"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [],
+          "qualityByPasuram": {}
+        },
+        {
+          "id": "11.4",
+          "expected": 10,
+          "marked": [],
+          "missingMarked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingLyricsTa": [],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "remote",
+          "audioPath": "https://www.uveda.org/media/recitation/PT.11.4.mp3",
+          "audioFiles": [
+            {
+              "path": "https://www.uveda.org/media/recitation/PT.11.4.mp3",
+              "status": "remote",
+              "label": "11.4"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [],
+          "qualityByPasuram": {}
+        },
+        {
+          "id": "11.5",
+          "expected": 10,
+          "marked": [],
+          "missingMarked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingLyricsTa": [],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "remote",
+          "audioPath": "https://www.uveda.org/media/recitation/PT.11.5.mp3",
+          "audioFiles": [
+            {
+              "path": "https://www.uveda.org/media/recitation/PT.11.5.mp3",
+              "status": "remote",
+              "label": "11.5"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [],
+          "qualityByPasuram": {}
+        },
+        {
+          "id": "11.6",
+          "expected": 10,
+          "marked": [],
+          "missingMarked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingLyricsTa": [],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "remote",
+          "audioPath": "https://www.uveda.org/media/recitation/PT.11.6.mp3",
+          "audioFiles": [
+            {
+              "path": "https://www.uveda.org/media/recitation/PT.11.6.mp3",
+              "status": "remote",
+              "label": "11.6"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [],
+          "qualityByPasuram": {}
+        },
+        {
+          "id": "11.7",
+          "expected": 10,
+          "marked": [],
+          "missingMarked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingLyricsTa": [],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "remote",
+          "audioPath": "https://www.uveda.org/media/recitation/PT.11.7.mp3",
+          "audioFiles": [
+            {
+              "path": "https://www.uveda.org/media/recitation/PT.11.7.mp3",
+              "status": "remote",
+              "label": "11.7"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [],
+          "qualityByPasuram": {}
+        },
+        {
+          "id": "11.8",
+          "expected": 10,
+          "marked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingMarked": [],
+          "lyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "missingLyricsTa": [],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "local",
+          "audioPath": "aruLicheyal/PTM/audiofiles/PTM_11.8.ogg",
+          "audioFiles": [
+            {
+              "path": "aruLicheyal/PTM/audiofiles/PTM_11.8.ogg",
+              "status": "local",
+              "label": "11.8"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "qualityByPasuram": {
+            "1": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2688,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "2": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1601,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "3": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1081,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "4": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.119,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "5": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1035,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "6": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1658,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "7": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1572,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "8": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1543,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "9": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2345,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "10": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1473,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            }
+          }
+        },
+        {
+          "id": "11.9",
+          "expected": 10,
+          "marked": [],
+          "missingMarked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsTa": [],
+          "missingLyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "remote",
+          "audioPath": "https://www.uveda.org/media/recitation/PT.11.9.mp3",
+          "audioFiles": [
+            {
+              "path": "https://www.uveda.org/media/recitation/PT.11.9.mp3",
+              "status": "remote",
+              "label": "11.9"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [],
+          "qualityByPasuram": {}
+        },
+        {
+          "id": "11.10",
+          "expected": 10,
+          "marked": [],
+          "missingMarked": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsTa": [],
+          "missingLyricsTa": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "lyricsEn": [],
+          "missingLyricsEn": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "audio": "remote",
+          "audioPath": "https://www.uveda.org/media/recitation/PT.11.10.mp3",
+          "audioFiles": [
+            {
+              "path": "https://www.uveda.org/media/recitation/PT.11.10.mp3",
+              "status": "remote",
+              "label": "11.10"
+            }
+          ],
+          "integrityFail": [],
+          "phraseMismatch": [],
+          "evenScaffoldSuspect": [],
+          "reviewed": [],
+          "unreviewed": [],
+          "reviewUnknown": [],
+          "qualityByPasuram": {}
         }
       ]
     },
@@ -25861,35 +24727,35 @@
       "factory": "grouped",
       "summary": {
         "expected": 101,
-        "marked": 0,
+        "marked": 101,
         "lyricsTa": 101,
         "lyricsEn": 0,
-        "audioLocalSections": 1,
+        "audioLocalSections": 2,
         "audioRemoteSections": 0,
         "audioMissingSections": 0,
-        "audioPartialSections": 1,
-        "audioLocalFiles": 7,
+        "audioPartialSections": 0,
+        "audioLocalFiles": 11,
         "audioRemoteFiles": 0,
-        "audioMissingFiles": 4,
+        "audioMissingFiles": 0,
         "sections": 2,
         "integrityFail": 0,
-        "phraseMismatch": 0,
+        "phraseMismatch": 2,
         "evenScaffoldSuspect": 0,
         "reviewed": 0,
         "unreviewed": 0,
-        "reviewUnknown": 0,
-        "qualityBroken": 0,
+        "reviewUnknown": 101,
+        "qualityBroken": 2,
         "qualitySuspect": 0,
-        "qualityOk": 0
+        "qualityOk": 99
       },
       "sections": [
         {
           "id": "0",
           "expected": 1,
-          "marked": [],
-          "missingMarked": [
+          "marked": [
             1
           ],
+          "missingMarked": [],
           "lyricsTa": [
             1
           ],
@@ -25912,14 +24778,26 @@
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
+          "reviewUnknown": [
+            1
+          ],
+          "qualityByPasuram": {
+            "1": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.174,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            }
+          }
         },
         {
           "id": "1",
           "expected": 100,
-          "marked": [],
-          "missingMarked": [
+          "marked": [
             1,
             2,
             3,
@@ -26021,6 +24899,7 @@
             99,
             100
           ],
+          "missingMarked": [],
           "lyricsTa": [
             1,
             2,
@@ -26227,7 +25106,7 @@
             99,
             100
           ],
-          "audio": "partial",
+          "audio": "local",
           "audioPath": "aruLicheyal/3TA/audiofiles/3TA_1_10.ogg",
           "audioFiles": [
             {
@@ -26262,32 +25141,1141 @@
             },
             {
               "path": "aruLicheyal/3TA/audiofiles/3TA_61_70.ogg",
-              "status": "missing",
+              "status": "local",
               "label": "61–70"
             },
             {
               "path": "aruLicheyal/3TA/audiofiles/3TA_71_80.ogg",
-              "status": "missing",
+              "status": "local",
               "label": "71–80"
             },
             {
               "path": "aruLicheyal/3TA/audiofiles/3TA_81_90.ogg",
-              "status": "missing",
+              "status": "local",
               "label": "81–90"
             },
             {
               "path": "aruLicheyal/3TA/audiofiles/3TA_91_100.ogg",
-              "status": "missing",
+              "status": "local",
               "label": "91–100"
             }
           ],
           "integrityFail": [],
-          "phraseMismatch": [],
+          "phraseMismatch": [
+            26,
+            35
+          ],
           "evenScaffoldSuspect": [],
           "reviewed": [],
           "unreviewed": [],
-          "reviewUnknown": [],
-          "qualityByPasuram": {}
+          "reviewUnknown": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100
+          ],
+          "qualityByPasuram": {
+            "1": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2487,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "2": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2534,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "3": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2281,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "4": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2076,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "5": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2284,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "6": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1627,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "7": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1144,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "8": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2476,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "9": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2046,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "10": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.266,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "11": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3499,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "12": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1848,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "13": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1782,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "14": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1644,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "15": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2882,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "16": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2039,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "17": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0977,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "18": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2882,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "19": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2794,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "20": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.238,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "21": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3142,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "22": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3198,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "23": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2013,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "24": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1288,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "25": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2816,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "26": {
+              "integrityOk": true,
+              "phraseAligned": false,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2414,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "broken",
+              "issues": [
+                "phraseMismatch"
+              ]
+            },
+            "27": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1753,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "28": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2875,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "29": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1708,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "30": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2062,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "31": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2939,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "32": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1712,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "33": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2845,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "34": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3319,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "35": {
+              "integrityOk": true,
+              "phraseAligned": false,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2485,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "broken",
+              "issues": [
+                "phraseMismatch"
+              ]
+            },
+            "36": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2084,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "37": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.176,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "38": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2397,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "39": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1371,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "40": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.0954,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "41": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1551,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "42": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2212,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "43": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1691,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "44": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1973,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "45": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1506,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "46": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2045,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "47": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2808,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "48": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2159,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "49": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2129,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "50": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1599,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "51": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1398,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "52": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3147,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "53": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2713,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "54": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1614,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "55": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2027,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "56": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2128,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "57": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1193,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "58": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3041,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "59": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2228,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "60": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3193,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "61": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2229,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "62": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2398,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "63": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1157,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "64": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2219,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "65": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2438,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "66": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.213,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "67": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2957,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "68": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3205,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "69": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3033,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "70": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1888,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "71": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.3868,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "72": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2501,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "73": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1402,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "74": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2462,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "75": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2735,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "76": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2681,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "77": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1627,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "78": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2598,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "79": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2127,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "80": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.246,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "81": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2651,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "82": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1745,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "83": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1788,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "84": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1672,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "85": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2926,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "86": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1801,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "87": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2021,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "88": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2546,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "89": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.24,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "90": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2897,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "91": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2213,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "92": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2088,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "93": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.242,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "94": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1343,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "95": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2263,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "96": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1179,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "97": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1948,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "98": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.1714,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "99": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2025,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            },
+            "100": {
+              "integrityOk": true,
+              "phraseAligned": true,
+              "evenScaffoldSuspect": false,
+              "durationCv": 0.2145,
+              "reviewStatus": "unknown",
+              "source": null,
+              "badge": "ok",
+              "issues": []
+            }
+          }
         }
       ]
     },
@@ -26301,13 +26289,13 @@
         "marked": 0,
         "lyricsTa": 97,
         "lyricsEn": 0,
-        "audioLocalSections": 0,
+        "audioLocalSections": 1,
         "audioRemoteSections": 0,
-        "audioMissingSections": 2,
-        "audioPartialSections": 0,
-        "audioLocalFiles": 0,
+        "audioMissingSections": 0,
+        "audioPartialSections": 1,
+        "audioLocalFiles": 3,
         "audioRemoteFiles": 0,
-        "audioMissingFiles": 11,
+        "audioMissingFiles": 8,
         "sections": 2,
         "integrityFail": 0,
         "phraseMismatch": 0,
@@ -26335,12 +26323,12 @@
           "missingLyricsEn": [
             1
           ],
-          "audio": "missing",
+          "audio": "local",
           "audioPath": "aruLicheyal/4TA/audiofiles/4TA_0.ogg",
           "audioFiles": [
             {
               "path": "aruLicheyal/4TA/audiofiles/4TA_0.ogg",
-              "status": "missing",
+              "status": "local",
               "label": "thaniyan"
             }
           ],
@@ -26656,17 +26644,17 @@
             96,
             97
           ],
-          "audio": "missing",
+          "audio": "partial",
           "audioPath": "aruLicheyal/4TA/audiofiles/4TA_1_10.ogg",
           "audioFiles": [
             {
               "path": "aruLicheyal/4TA/audiofiles/4TA_1_10.ogg",
-              "status": "missing",
+              "status": "local",
               "label": "1–10"
             },
             {
               "path": "aruLicheyal/4TA/audiofiles/4TA_11_20.ogg",
-              "status": "missing",
+              "status": "local",
               "label": "11–20"
             },
             {
