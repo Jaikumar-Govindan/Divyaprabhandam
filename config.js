@@ -117,8 +117,8 @@ const CONFIG = {
             "1_1", "1_2", "1_3", "1_4", "1_5", "1_6", "1_7", "1_8", "1_9",
             "2_1", "2_2", "2_3", "2_4", "2_5", "2_6", "2_7", "2_8", "2_9", "2_10",
             "3_1", "3_2", "3_3", "3_4", "3_5", "3_6", "3_7", "3_8", "3_9", "3_10",
-            "4_1", "4_2", "4_3", "4_4", "4_5", "4_6", "4_7","4_8","4_9","4_10",
-            "5_1","5_2","5_3","5_4"
+            "4_1", "4_2", "4_3", "4_4", "4_5", "4_6", "4_7", "4_8", "4_9", "4_10",
+            "5_1", "5_2", "5_3", "5_4"
         ]
     }),
     'TPV': makeGroupedBook({ key: 'TPV', defPas: 30, ex: { '0': 3 } }),
@@ -147,11 +147,13 @@ const CONFIG = {
     '1TA': makeGroupedBook({ key: '1TA', defPas: 100, ex: { '0': 1 } }),
     '2TA': makeGroupedBook({ key: '2TA', defPas: 100, ex: { '0': 1 } }),
     '3TA': makeGroupedBook({ key: '3TA', defPas: 100, ex: { '0': 1 } }),
-    '4TA': makeGroupedBook({ key: '4TA', defPas: 97, ex: { '0': 1 } }),
+    '4TA': makeGroupedBook({ key: '4TA', defPas: 97,  ex: { '0': 1 } }),
+    'PTA': makeGroupedBook({ key: 'PTA', defPas: 87,  ex: { '0': 1 } }),
     'TVT': makeGroupedBook({ key: 'TVT', defPas: 100, ex: { '0': 1 } }),
-    'TVS': makeGroupedBook({ key: 'TVS', defPas: 7, ex: { '0': 1 } }),
-    'PTA': makeGroupedBook({ key: 'PTA', defPas: 87, ex: { '0': 1 } }),
-    'TVK': makeGroupedBook({ key: 'TVK', defPas: 8, ex: { '0': 1 } }),
+
+   
+    'TVS': makeSimpleBook({ key: 'TVS', defPas: 7, ex: { '0': 1 } }),
+    'TVK': makeSimpleBook({ key: 'TVK', defPas: 8, ex: { '0': 1 } }),
     //'STM': makeGroupedBook({ key: 'STM', defPas: 8, ex: { '0': 1 } }),
     // PTM - periya thiru madal - name conflict :(
 
