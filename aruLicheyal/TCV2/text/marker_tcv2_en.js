@@ -3,12 +3,12 @@ window.MARKER_DATABASE = window.MARKER_DATABASE || {};
 window.mergeLanguageTexts = function () {
     const text_bundle_en = {
 
-        'TCV.0.steps': {
+        'TCV2.0.steps': {
             1: "tharuchchandhap pozhil thazhuvu thAraNiyin thuyar thIra * thiruchchandha viruththamsey thirumazhisaip paran varumUr * karuchchandhum kAragilum kamazh kOngum maNanARum * thiruchchandhaththudan maruvu thirumazhisai vaLam padhiyE",
             2: "ulagum mazhisaiyum uLLuNarndhu * thammil pulavar pugazhkkOlAl thUkka * ulagu thannai vaiththeduththa pakkaththum * mAnIr mazhisaiyE vaiththeduththa pakkam validhu.",
         },
 
-        'TCV.1.steps': {
+        'TCV2.1.steps': {
             1: "🙏 pUnilAya aindhumAyp * punaRkaN ninRa nAngumAy * theenilAya mUnRumAych * chiRandha kAliraNdumAy * meenilAyadhu onRumAgi * vERuvERu thanmaiyAy * neenilAya vaNNam ninnai * yAr ninaikka vallarE?",
             2: "ARum ARum ARumAy * Or aindhum aindhum aindhumAy * ERu sIr iraNdu mUnRum * EzhumARum ettumAy * vERu vERu gyAnamAgi * meyyinOdu poyyumAy * URodOsaiyAya aindhum * Aya Aya mAyanE!",
             3: "aindhum aindhum aindhumAgi * allavaRRuL AyumAy * aindhu mUnRum onRum Agi * ninRa Adhi dEvanE * aindhum aindhum aindhum Agi * andharaththu aNaindhu ninRu * aindhum aindhum Aya ninnai * yAvar kANa vallarE?",
@@ -57,7 +57,7 @@ window.mergeLanguageTexts = function () {
             46: "thOdu peRRa thaN thuzhAy * alangalAdu senniyAy * kOdu paRRi Azhi Endhi * anjiRaip puL UrdhiyAl * nAdu peRRa nanmai * naNNamillaiyEnum nAyinEn * vIdu peRRu iRappodum * piRappaRukkumA solE",
             47: "kArodoththa mEni nangaL kaNNa! * viNNin nAdhanE ! * nIridaththarAvaNaik * kidaththi enbar, anRiyum * Oridaththaiyallai ellai * illai enbar AdhalAl * sErvidaththai nAyinEn * therindhiRainjumA solE",
             48: "kunRil ninRu vAn irundhu * nIL kadal kidandhu * maN onRu senRadhonRai uNdu * adhonRidandhu panRiyAy * nanRu senRa nAL avaRRuL * nalluyir padaiththu avarkku * anRu thEvamaiththaLiththa * Adhi dhEvan allaiyE?",
-            49: "* koNdai koNda kOdhai mIdhu * thEnulAvu kUni kUn * uNdai koNdu arangavOtti * uL magizhndha nAdhan Ur * naNdai uNdu nArai pEra * vALai pAya nIlamE * aNdai koNdu keNdai mEyum * andhaNIr arangamE",
+            49: "🙏 koNdai koNda kOdhai mIdhu * thEnulAvu kUni kUn * uNdai koNdu arangavOtti * uL magizhndha nAdhan Ur * naNdai uNdu nArai pEra * vALai pAya nIlamE * aNdai koNdu keNdai mEyum * andhaNIr arangamE",
             50: "veN thiraik karungadal * sivandhu vEva munnor nAL * thiN thiRal silaik kai vALi * vitta vIrar sErum Ur * eN thisaik kaNangaLum * iRainjiyAdu thIrththa nIr * vaNdu iraiththa sOlai vEli * mannu sIr arangamE",
             51: "sarangaLaith thurandhu * vil vaLaiththu ilangai mannavan * sirangaL paththaRuththu udhirththa * selvar mannu ponnidam * parandhu ponnirandhu nundhi * vandhalaikkum vAr punal * arangam enbar nAnmugaththu * ayan paNindha kOyilE",
             52: "poRRaiyuRRa muRRal yAnai * pOr ethirndhu vandhadhai * paRRi uRRu maRRadhan * marupposiththa pAgan Ur * siRReyiRRu muRRal mUngil * mUnRu thaNdar onRinar * aRRa paRRar suRRi vAzhum * andhaNIr arangamE",

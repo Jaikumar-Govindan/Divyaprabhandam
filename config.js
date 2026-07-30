@@ -49,10 +49,9 @@ function makeSubChapterBook(opts) {
         getAudioSrc(num) {
             if (!num) return '';
             const [chapter, subChapter] = num.split('.');
-   //         if (this.availableContent.includes(`${chapter}_${subChapter}`)) {
-                return `${ROOT}/${key}/audiofiles/${key}_${chapter}.${subChapter}.ogg`;
-     //       }
-     //       return `https://www.uveda.org/media/recitation/${remotePrefix}.${num}.mp3`;
+
+            return `${ROOT}/${key}/audiofiles/${key}_${chapter}.${subChapter}.ogg`;
+
         },
 
         getLanguagePath(num, langCode) {
@@ -119,7 +118,8 @@ const CONFIG = {
     'TPV': makeGroupedBook({ key: 'TPV', defPas: 30, ex: { '0': 3 } }),
     'NAT': makeSimpleBook({ key: 'NAT', defPas: 11, ex: { '0': 2, '4': 12, '5': 12, '6': 12 }, minCh: 0, maxCh: 14 }),
     'PMT': makeSimpleBook({ key: 'PMT', defPas: 12, ex: { '0': 2, '2': 10, '3': 10, '5': 11, '6': 11 }, minCh: 0, maxCh: 10 }),
-    'TCV': makeGroupedBook({ key: 'TCV', defPas: 120, ex: { '0': 3 } }),
+    'TCV': makeGroupedBook({ key: 'TCV', defPas: 120, ex: { '0': 2 } }),
+    'TCV2': makeGroupedBook({ key: 'TCV2', defPas: 120, ex: { '0': 2 } }),
     'TML': makeGroupedBook({ key: 'TML', defPas: 45, ex: { '0': 1 } }),
     'TPE': makeGroupedBook({ key: 'TPE', defPas: 10, ex: { '0': 2 } }),
     'AAP': makeSimpleBook({ key: 'AAP', defPas: 10, ex: { '0': 2 } }),
@@ -130,8 +130,8 @@ const CONFIG = {
     'PTM': makeSubChapterBook({
         key: 'PTM', remotePrefix: 'PT',
         structure: 'chapter_sub_pasuram',
-        hasSub: true, maxCh: 11, maxSub: 10, defPas: 11, ex: { '2.7': 13 },
-        availableContent: ["5_1", "5_2", "5_3", "5_4", "5_5", "5_6", "5_7", "5_8", "5_9", "5_10", "11_8"]
+        hasSub: true, maxCh: 11, maxSub: 10, defPas: 11,
+
     }),
 
     'TKT': makeGroupedBook({ key: 'TKT', defPas: 20, ex: { '0': 3 } }),
@@ -158,7 +158,7 @@ const CONFIG = {
         key: 'TVM', remotePrefix: 'TVM',
         structure: 'chapter_sub_pasuram',
         hasSub: true, maxCh: 10, maxSub: 10, defPas: 11, ex: { '2.7': 13 },
-        availableContent: ["3_1", "3_2", "3_3", "3_4", "3_5", "3_6", "3_7"]
+
     }),
 
     'RN': makeGroupedBook({ key: 'RN', defPas: 108, ex: { '0': 3 } }),

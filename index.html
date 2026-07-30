@@ -244,15 +244,15 @@
             transition: transform 0.15s;
         }
 
-        .switch-control input:checked + .switch-ui {
+        .switch-control input:checked+.switch-ui {
             background: #0070ba;
         }
 
-        .switch-control input:checked + .switch-ui::after {
+        .switch-control input:checked+.switch-ui::after {
             transform: translateX(16px);
         }
 
-        .switch-control input:focus-visible + .switch-ui {
+        .switch-control input:focus-visible+.switch-ui {
             box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.25);
         }
 
@@ -425,7 +425,9 @@
         }
 
         /* Zero-scroll: phones + landscape (width OR short height) */
-        @media (max-width: 900px), (max-height: 700px) {
+        @media (max-width: 900px),
+        (max-height: 700px) {
+
             html,
             body {
                 height: 100%;
@@ -558,7 +560,7 @@
                 height: 18px;
             }
 
-            .switch-control input:checked + .switch-ui::after {
+            .switch-control input:checked+.switch-ui::after {
                 transform: translateX(14px);
             }
 
@@ -594,7 +596,7 @@
 
         /* Short landscape: compress chrome further so lyrics stays on-screen */
         @media ((max-width: 900px) and (max-height: 480px)),
-               ((orientation: landscape) and (max-height: 500px)) {
+        ((orientation: landscape) and (max-height: 500px)) {
             .card {
                 padding: 4px 6px calc(4px + env(safe-area-inset-bottom, 0px));
             }
@@ -683,6 +685,7 @@
                                 <option value="NAT">Naachiyaar Thirumozhi</option>
                                 <option value="PMT">PerumaaL Thirumozhi</option>
                                 <option value="TCV">Thiruchchandha Viruththam</option>
+                                <option value="TCV2">Thiruchchandha Viruththam - w. Chandas</option>
                                 <option value="TML">Thirumaalai</option>
                                 <option value="TPE">ThiruppaLLiyezhuchchi</option>
                                 <option value="AAP">Amalanaadhipiraan</option>
@@ -698,6 +701,7 @@
                                 <option value="2TA">Irandaam Thiruvandhaadhi</option>
                                 <option value="3TA">Moondraam Thiruvandhaadhi</option>
                                 <option value="4TA">Naanmugan Thiruvandhaadhi</option>
+                                <option value="TVT">Thiruvirutham</option>
                                 <option value="TVS">Thiruvaasiriyam</option>
                             </optgroup>
                             <optgroup label="4000 - Thiruvaaimozhi">
@@ -715,7 +719,8 @@
                         <div class="pasuram-pickers" id="pasuramPickers" role="group" aria-labelledby="numLabel">
                             <div class="picker-field" id="pasPartField">
                                 <label for="pasPart">Ch.</label>
-                                <select id="pasPart" aria-label="Chapter or taniyans" onchange="onPasuramPickerChange()">
+                                <select id="pasPart" aria-label="Chapter or taniyans"
+                                    onchange="onPasuramPickerChange()">
                                     <option value="0">Taniyan</option>
                                     <option value="1">1</option>
                                 </select>
@@ -766,8 +771,8 @@
                     <div class="switch-field">
                         <span class="switch-label" id="autoLabel">Auto-Next</span>
                         <label class="switch-control" title="Auto-advance to next paasuram">
-                            <input type="checkbox" id="autoNextToggle" checked
-                                aria-labelledby="autoLabel" onchange="onAutoToggleChange()">
+                            <input type="checkbox" id="autoNextToggle" checked aria-labelledby="autoLabel"
+                                onchange="onAutoToggleChange()">
                             <span class="switch-ui" aria-hidden="true"></span>
                         </label>
                         <input type="hidden" id="autoNext" value="true">
@@ -775,8 +780,8 @@
                     <div class="input-group">
                         <label for="repeatLimit">Repeat</label>
                         <input id="repeatLimit" type="number" min="1" max="99" step="1" inputmode="numeric"
-                            aria-label="Repeat count" placeholder="3" value="3"
-                            onchange="syncRepeatDisplay()" enterkeyhint="done">
+                            aria-label="Repeat count" placeholder="3" value="3" onchange="syncRepeatDisplay()"
+                            enterkeyhint="done">
                     </div>
                 </div>
             </div>
