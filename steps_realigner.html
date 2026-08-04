@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasuram Marker & Text Segment Re-aligner (`langcode = 'ta'`)</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --accent-s1: #38bdf8;
+            --accent-s2: #3b82f6;
+            --accent-s3: #10b981;
+            --accent-s4: #a855f7;
+            --text: #f8fafc;
+            --border: #334155;
+            --highlight: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        select, button, textarea, input[type="number"], input[type="text"] {
+            background: #0f172a;
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button.action-btn {
+            background: var(--highlight);
+            color: #000;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 4px;
+        }
+
+        button.action-btn:hover { opacity: 0.9; }
+
+        .input-label {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .pasuram-text-box {
+            font-size: 14px;
+            line-height: 1.6;
+            background: #0f172a;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            margin-top: 6px;
+            width: 100%;
+            box-sizing: border-box;
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .step-section {
+            margin-top: 20px;
+            border-left: 3px solid var(--border);
+            padding-left: 15px;
+        }
+
+        .step-section.s1 { border-color: var(--accent-s1); }
+        .step-section.s2 { border-color: var(--accent-s2); }
+        .step-section.s3 { border-color: var(--accent-s3); }
+        .step-section.s4 { border-color: var(--accent-s4); }
+
+        .step-header {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .badge-s1 { color: var(--accent-s1); }
+        .badge-s2 { color: var(--accent-s2); }
+        .badge-s3 { color: var(--accent-s3); }
+        .badge-s4 { color: var(--accent-s4); }
+
+        .segment-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .segment-card {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 340px;
+        }
+
+        .time-inputs {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .time-inputs input {
+            width: 65px;
+            font-size: 13px;
+            padding: 4px;
+            text-align: center;
+            border-radius: 3px;
+        }
+
+        .chunk-text-preview {
+            background: #1e293b;
+            border-left: 3px solid var(--highlight);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #f8fafc;
+            white-space: pre-line;
+            min-height: 38px;
+        }
+
+        .line-selector {
+            background: #1e293b;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 8px;
+            max-height: 130px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .line-selector label {
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        textarea.segment-text {
+            width: 100%;
+            height: 45px;
+            font-size: 12px;
+            padding: 6px;
+            background: #1e293b;
+            color: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .btn-sm {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 3px;
+        }
+
+        .btn-delete { background: #ef4444; color: white; border: none; }
+
+        textarea.json-preview {
+            width: 100%;
+            height: 80px;
+            font-family: monospace;
+            color: #10b981;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        #statusMessage {
+            font-size: 13px;
+            margin-top: 8px;
+            white-space: pre-line;
+        }
+        .status-error { color: #ef4444; }
+        .status-info { color: #38bdf8; }
+        .status-success { color: #10b981; }
+    </style>
+    <!-- Config script -->
+    <script src="config.js" onerror="console.warn('config.js script not available at root path.')"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Pasuram Marker & Text Segment Re-aligner</h2>
+
+    <!-- Input Form -->
+    <div class="card">
+        <div class="form-group">
+            <label>1. Verse Reference Notation (e.g. TPV 1.23, PAT 4.2.8, pat.4.2.8, or RN 11):</label>
+            <input type="text" id="verseNotationInput" placeholder="e.g. TPV 1.23, PAT 4.2.8, pat.4.2.8, RN 11, or RN_11_20" style="width: 100%; box-sizing: border-box;" oninput="autoFillCompanionPaths(this.value)">
+        </div>
+
+        <div class="form-group">
+            <label>2. Text Companion Script File <span style="font-weight:normal; color:#94a3b8;">(auto-filled)</span></label>
+            <input type="file" accept=".js" onchange="injectLocalScriptAsset(this)" style="margin-bottom:6px; display:block; font-size:12px;">
+            <input type="text" id="textUrlInput" placeholder="Auto-filled from verse reference or paste path..." style="width: 100%; box-sizing: border-box;">
+        </div>
+
+        <div class="form-group">
+            <label>3. Timeline File <span style="font-weight:normal; color:#94a3b8;">(auto-filled)</span></label>
+            <input type="file" accept=".js" onchange="injectLocalScriptAsset(this)" style="margin-bottom:6px; display:block; font-size:12px;">
+            <input type="text" id="stepsUrlInput" placeholder="Auto-filled from verse reference or paste path..." style="width: 100%; box-sizing: border-box;">
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button class="action-btn" style="flex: 1;" onclick="triggerUnifiedNetworkPipelineFetch()">⚡ Fetch & Load Files</button>
+            <button onclick="processManualData()" style="flex: 1;">📄 Parse Manual Input</button>
+        </div>
+
+        <div id="pipelineKeySelectorContainer" style="display:none; margin-top: 15px; padding: 12px; background:#064e3b; border:1px solid #10b981; border-radius:6px;"></div>
+
+        <div id="statusMessage"></div>
+
+        <label class="input-label">1. Tamil Text Content (Separated by *):</label>
+        <textarea id="textDisplay" class="pasuram-text-box" rows="3" placeholder="Tamil text will auto-load here..."></textarea>
+
+        <label class="input-label">2. Step Data JSON:</label>
+        <textarea id="stepsInput" class="pasuram-text-box" rows="4" placeholder="Marker step JSON will auto-load here..."></textarea>
+    </div>
+
+    <!-- Marker & Segment Editor -->
+    <div class="card" id="editorCard" style="display: none;">
+        <h3>Marker & Alignment Editor</h3>
+
+        <!-- Step 1 -->
+        <div class="step-section s1">
+            <div class="step-header badge-s1">
+                <span>Step 1 (Base Line-by-Line `*` Segments)</span>
+                <button onclick="addSegment('step1')" class="btn-sm">+ Add Line</button>
+            </div>
+            <div id="step1Grid" class="segment-grid"></div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-section s2">
+            <div class="step-header badge-s2">
+                <span>Step 2 (Grouped Chunks)</span>
+                <button onclick="addChunk('step2')" class="btn-sm">+ Add Step 2 Chunk</button>
+            </div>
+            <div id="step2Grid" class="segment-grid"></div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-section s3">
+            <div class="step-header badge-s3">
+                <span>Step 3 (Broader Groups)</span>
+                <button onclick="addChunk('step3')" class="btn-sm">+ Add Step 3 Chunk</button>
+            </div>
+            <div id="step3Grid" class="segment-grid"></div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-section s4">
+            <div class="step-header badge-s4">
+                <span>Step 4 Full Duration</span>
+            </div>
+            <div id="step4Grid" class="segment-grid"></div>
+        </div>
+    </div>
+
+    <!-- Export Section -->
+    <div class="card" id="exportCard" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h3>Updated Marker Object (Single-Line JS Output)</h3>
+            <button class="action-btn" onclick="exportFullDatabase()">Export Timeline File</button>
+        </div>
+        <textarea id="jsonOutput" class="json-preview" readonly></textarea>
+    </div>
+</div>
+
+<script>
+window.MARKER_DATABASE = window.MARKER_DATABASE || {};
+
+let currentPasuramRef = null;
+let step1TextSegments = [];
+let loadedDbKey = '';
+let currentVerseNotation = "";
+let currentTextLang = "ta";
+
+function setStatus(msg, classType = 'status-info') {
+    const el = document.getElementById('statusMessage');
+    el.className = classType;
+    el.textContent = msg;
+}
+
+// Extract language code from a text companion filename
+function detectLangFromFilename(filename) {
+    const base = filename.replace(/\.[^.]+$/, '');
+    const m = base.match(/_([a-z]{2})$/i);
+    return m ? m[1].toLowerCase() : 'ta';
+}
+
+/**
+ * Enhanced Notation Parser with dot, space, and underscore separator support:
+ *   - "PAT 4.2.8", "PAT_4.2.8", or "pat.4.2.8" -> { book: 'PAT', chapter: 4, subChapter: 2, pasuram: 8, type: 'subchapter' }
+ *   - "TPV 1.23", "TPV_1.23", or "tpv.1.23" -> { book: 'TPV', chapter: 1, subChapter: null, pasuram: 23, type: 'chapter_pasuram' }
+ *   - "RN 11 20", "RN_11_20", or "rn.11.20" -> { book: 'RN', startRange: 11, endRange: 20, type: 'grouped' }
+ *   - "AAP 1", "AAP_1", or "aap.1" -> { book: 'AAP', chapter: 1, pasuram: 1, type: 'simple' }
+ */
+function parseVerseNotation(inputStr) {
+    if (!inputStr) return null;
+    const clean = inputStr.trim().replace(/\.(js|json|html|txt)$/i, '');
+
+    // 3-tier sub-chapter notation: PAT 4.2.8, PAT_4.2.8, or pat.4.2.8
+    const subMatch = clean.match(/^([A-Za-z0-9]+)[\s_.]+(\d+)\.(\d+)\.(\d+)$/);
+    if (subMatch) {
+        return { 
+            book: subMatch[1], 
+            chapter: parseInt(subMatch[2], 10), 
+            subChapter: parseInt(subMatch[3], 10), 
+            pasuram: parseInt(subMatch[4], 10),
+            type: 'subchapter' 
+        };
+    }
+
+    // 2-tier chapter + pasuram notation: TPV 1.23, TPV_1.23, or tpv.1.23
+    const chapPasuramMatch = clean.match(/^([A-Za-z0-9]+)[\s_.]+(\d+)\.(\d+)$/);
+    if (chapPasuramMatch) {
+        return { 
+            book: chapPasuramMatch[1], 
+            chapter: parseInt(chapPasuramMatch[2], 10), 
+            subChapter: null, 
+            pasuram: parseInt(chapPasuramMatch[3], 10),
+            type: 'chapter_pasuram' 
+        };
+    }
+
+    // Grouped range: BOOK 11 20, BOOK_11_20, or book.11.20
+    const groupMatch = clean.match(/^([A-Za-z0-9]+)[\s_.]+(\d+)[\s_.]+(\d+)$/);
+    if (groupMatch) {
+        return { 
+            book: groupMatch[1], 
+            chapter: null, 
+            subChapter: null, 
+            startRange: parseInt(groupMatch[2], 10), 
+            endRange: parseInt(groupMatch[3], 10), 
+            type: 'grouped' 
+        };
+    }
+
+    // Simple single chapter or single index: BOOK 1, BOOK_1, or book.1
+    const simpleMatch = clean.match(/^([A-Za-z0-9]+)[\s_.]+(\d+)$/);
+    if (simpleMatch) {
+        return { 
+            book: simpleMatch[1], 
+            chapter: parseInt(simpleMatch[2], 10), 
+            subChapter: null, 
+            pasuram: parseInt(simpleMatch[2], 10), 
+            type: 'simple' 
+        };
+    }
+
+    return null;
+}
+
+function autoFillCompanionPaths(notationStr) {
+    if (!notationStr) return;
+    currentVerseNotation = notationStr.trim();
+
+    const parsed = parseVerseNotation(currentVerseNotation);
+    if (!parsed) return;
+
+    const { book, chapter, type } = parsed;
+    const bLow = book.toLowerCase();
+    const root = 'aruLicheyal';
+
+    let textPath, timelinePath;
+
+    if (type === 'subchapter') {
+        textPath     = `${root}/${book}/text/${chapter}_ta.js`;
+        timelinePath = `${root}/${book}/markers/timelines_${chapter}.js`;
+    } else {
+        textPath     = `${root}/${book}/text/marker_${bLow}_ta.js`;
+        timelinePath = `${root}/${book}/markers/marker_${bLow}_timelines.js`;
+    }
+
+    const textEl  = document.getElementById('textUrlInput');
+    const stepsEl = document.getElementById('stepsUrlInput');
+
+    if (textEl)  textEl.value  = textPath;
+    if (stepsEl) stepsEl.value = timelinePath;
+}
+
+function pickBestMarkerKey(keys, notationStr) {
+    if (!notationStr) return keys.length === 1 ? keys[0] : null;
+
+    const parsed = parseVerseNotation(notationStr);
+    if (!parsed) return keys.length === 1 ? keys[0] : null;
+
+    const { book, chapter, subChapter, type } = parsed;
+    const bLow = book.toLowerCase();
+
+    if (type === 'subchapter' && chapter !== null) {
+        const fullPrefix = `${bLow}.${chapter}.${subChapter}`;
+        let matching = keys.filter(k => k.toLowerCase().includes(fullPrefix));
+        if (matching.length >= 1) return matching[0];
+    }
+
+    if ((type === 'chapter_pasuram' || type === 'simple') && chapter !== null) {
+        const prefix = `${bLow}.${chapter}.`;
+        let matching = keys.filter(k => k.toLowerCase().includes(prefix));
+        if (matching.length >= 1) return matching[0];
+
+        const directPrefix = `${bLow}.${chapter}`;
+        matching = keys.filter(k => k.toLowerCase().startsWith(directPrefix));
+        if (matching.length >= 1) return matching[0];
+    }
+
+    const matching = keys.filter(k => k.toLowerCase().includes(bLow));
+    if (matching.length === 1) return matching[0];
+    if (keys.length === 1) return keys[0];
+    return null;
+}
+
+function renderPipelineSelectorDropdownPanel(keys, selectedKey = null) {
+    const container = document.getElementById('pipelineKeySelectorContainer');
+    container.innerHTML = `
+        <label style="color:#10b981; font-size:13px; font-weight:bold; display:block; margin-bottom:5px;">
+            🎯 Select Marker Key
+        </label>
+        <div style="display:flex; gap:10px; align-items:center;">
+            <select id="selectedPipelineTargetNamespace" style="flex:1; padding:6px; font-size:12px; height:32px;">
+                ${keys.map(k => `<option value="${k}" ${k === selectedKey ? 'selected' : ''}>${k}</option>`).join('')}
+            </select>
+            <button class="action-btn" style="padding:6px 14px;" onclick="buildActiveWorkspaceCanvasTimeline()">Load</button>
+        </div>
+    `;
+    container.style.display = 'block';
+}
+
+function injectLocalScriptAsset(input) {
+    if (!input || !input.files || input.files.length === 0) return;
+    const file = input.files[0];
+    const lang = detectLangFromFilename(file.name);
+    if (lang) currentTextLang = lang;
+    const scriptUrl = URL.createObjectURL(file);
+    appendScriptNodeToDOM(scriptUrl, () => {
+        if (typeof window.mergeLanguageTexts === 'function') {
+            window.mergeLanguageTexts();
+        }
+        evaluateIncomingPipelineAssets();
+    });
+}
+
+function appendScriptNodeToDOM(srcUrl, callback) {
+    const script = document.createElement('script');
+    script.src = srcUrl;
+    script.async = false;
+    script.onload = () => { if (callback) callback(); };
+    script.onerror = () => setStatus("Error loading script resource: " + srcUrl, "status-error");
+    document.head.appendChild(script);
+}
+
+async function triggerUnifiedNetworkPipelineFetch() {
+    const notation = document.getElementById('verseNotationInput').value.trim();
+    const textUrl = document.getElementById('textUrlInput').value.trim();
+    const stepsUrl = document.getElementById('stepsUrlInput').value.trim();
+
+    if (notation) autoFillCompanionPaths(notation);
+
+    const parseCleanUrl = (u) => u.includes('github.com') && u.includes('/blob/') ? u.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/') : u;
+
+    let tracksLoaded = 0;
+    const targets = [textUrl, stepsUrl].filter(Boolean);
+
+    if (targets.length === 0) {
+        setStatus("Please specify file links or select local script files.", "status-error");
+        return;
+    }
+
+    const checkSyncStatus = () => {
+        tracksLoaded++;
+        if (tracksLoaded >= targets.length) {
+            if (typeof window.mergeLanguageTexts === 'function') window.mergeLanguageTexts();
+            evaluateIncomingPipelineAssets();
+        }
+    };
+
+    if (textUrl) {
+        currentTextLang = detectLangFromFilename(textUrl.split('/').pop());
+        appendScriptNodeToDOM(parseCleanUrl(textUrl), checkSyncStatus);
+    }
+    if (stepsUrl) {
+        appendScriptNodeToDOM(parseCleanUrl(stepsUrl), checkSyncStatus);
+    }
+}
+
+function evaluateIncomingPipelineAssets() {
+    const targetKeys = Object.keys(window.MARKER_DATABASE || {});
+    if (targetKeys.length === 0) {
+        setStatus("No valid MARKER_DATABASE structures loaded.", "status-error");
+        return;
+    }
+
+    const bestKey = pickBestMarkerKey(targetKeys, currentVerseNotation);
+
+    if (bestKey) {
+        renderPipelineSelectorDropdownPanel(targetKeys, bestKey);
+        buildActiveWorkspaceCanvasTimeline(bestKey);
+    } else {
+        renderPipelineSelectorDropdownPanel(targetKeys);
+        setStatus("Multiple marker targets found. Please choose from dropdown above.", "status-info");
+    }
+}
+
+function buildActiveWorkspaceCanvasTimeline(overrideKey = null) {
+    const sel = document.getElementById('selectedPipelineTargetNamespace');
+    const targetNamespaceKey = overrideKey || (sel ? sel.value : null);
+    if (!targetNamespaceKey) return;
+
+    loadedDbKey = targetNamespaceKey;
+
+    const parsedVerse = parseVerseNotation(currentVerseNotation);
+    const lang = currentTextLang || 'ta';
+    const bundleKey = `text_bundle_${lang}`;
+
+    let textSourceMap = {};
+    if (window[bundleKey] && window[bundleKey][targetNamespaceKey]) {
+        textSourceMap = window[bundleKey][targetNamespaceKey];
+    } else if (window.MARKER_DATABASE[targetNamespaceKey] && window.MARKER_DATABASE[targetNamespaceKey]._textSourceMap) {
+        textSourceMap = window.MARKER_DATABASE[targetNamespaceKey]._textSourceMap;
+    } else if (Array.isArray(window.MARKER_DATABASE[targetNamespaceKey])) {
+        window.MARKER_DATABASE[targetNamespaceKey].forEach(block => {
+            if (block && block.p && block.text) {
+                const txt = typeof block.text === 'string' ? block.text : (block.text[lang] || '');
+                if (txt) textSourceMap[block.p] = txt;
+            }
+        });
+    }
+
+    const allSteps = window.MARKER_DATABASE[targetNamespaceKey] || [];
+
+    // Exact Pasuram matching logic
+    let stepsSourceTimelineArray = allSteps;
+    if (parsedVerse) {
+        if (parsedVerse.pasuram !== null && parsedVerse.pasuram !== undefined) {
+            stepsSourceTimelineArray = allSteps.filter(b => b.p === parsedVerse.pasuram);
+        } else if (parsedVerse.type === 'grouped' && parsedVerse.startRange && parsedVerse.endRange) {
+            stepsSourceTimelineArray = allSteps.filter(b => b.p >= parsedVerse.startRange && b.p <= parsedVerse.endRange);
+        }
+    }
+
+    if (stepsSourceTimelineArray.length > 0) {
+        currentPasuramRef = stepsSourceTimelineArray[0];
+        document.getElementById('stepsInput').value = JSON.stringify(currentPasuramRef, null, 2);
+
+        const pIndex = currentPasuramRef.p;
+        const inlineText = currentPasuramRef.text
+            ? (typeof currentPasuramRef.text === 'string' ? currentPasuramRef.text : (currentPasuramRef.text[lang] || ''))
+            : '';
+
+        const matchingRawTextLineString = inlineText || textSourceMap[pIndex] || "";
+        document.getElementById('textDisplay').value = matchingRawTextLineString;
+
+        setStatus(`Loaded target namespace '${targetNamespaceKey}' (Pasuram ${pIndex})`, "status-success");
+        processManualData();
+    } else {
+        const targetP = parsedVerse && parsedVerse.pasuram ? parsedVerse.pasuram : 'N/A';
+        setStatus(`No timing record found for Pasuram ${targetP} in namespace '${targetNamespaceKey}'`, "status-error");
+    }
+}
+
+function processManualData() {
+    const rawText = document.getElementById('textDisplay').value;
+    step1TextSegments = rawText.split('*').map(s => s.trim()).filter(s => s.length > 0);
+
+    const stepsRaw = document.getElementById('stepsInput').value.trim();
+    if (!stepsRaw) {
+        setStatus('Please provide or load step JSON data.', 'status-error');
+        return;
+    }
+
+    try {
+        let parsed = JSON.parse(stepsRaw);
+        
+        if (Array.isArray(parsed)) {
+            currentPasuramRef = parsed[0];
+        } else if (typeof parsed === 'object') {
+            currentPasuramRef = parsed;
+        }
+
+        if (!currentPasuramRef) {
+            throw new Error("Could not extract valid step structure.");
+        }
+
+        renderAllSteps();
+        document.getElementById('editorCard').style.display = 'block';
+        document.getElementById('exportCard').style.display = 'block';
+
+    } catch (err) {
+        setStatus('JSON Parsing Error: ' + err.message, 'status-error');
+    }
+}
+
+function renderAllSteps() {
+    if (!currentPasuramRef) return;
+
+    // Step 1
+    const s1Grid = document.getElementById('step1Grid');
+    s1Grid.innerHTML = '';
+    (currentPasuramRef.step1 || []).forEach((interval, idx) => {
+        s1Grid.appendChild(createStep1Card(idx, interval));
+    });
+
+    // Step 2 & 3
+    ['step2', 'step3'].forEach(stepKey => {
+        const grid = document.getElementById(`${stepKey}Grid`);
+        grid.innerHTML = '';
+        (currentPasuramRef[stepKey] || []).forEach((interval, chunkIdx) => {
+            grid.appendChild(createChunkCard(stepKey, chunkIdx, interval));
+        });
+    });
+
+    // Step 4
+    const s4Grid = document.getElementById('step4Grid');
+    s4Grid.innerHTML = '';
+    if (currentPasuramRef.step4) {
+        const bounds = Array.isArray(currentPasuramRef.step4[0]) ? currentPasuramRef.step4[0] : currentPasuramRef.step4;
+        s4Grid.appendChild(createStep4Card(bounds));
+    }
+
+    document.getElementById('jsonOutput').value = JSON.stringify(currentPasuramRef);
+}
+
+function createStep1Card(index, interval) {
+    const card = document.createElement('div');
+    card.className = 'segment-card';
+
+    const title = document.createElement('div');
+    title.style.fontSize = '12px';
+    title.style.fontWeight = 'bold';
+    title.style.color = 'var(--accent-s1)';
+    title.textContent = `Line ${index + 1}`;
+
+    const timeRow = document.createElement('div');
+    timeRow.className = 'time-inputs';
+
+    const startInput = document.createElement('input');
+    startInput.type = 'number';
+    startInput.step = '0.1';
+    startInput.value = interval[0];
+    startInput.onchange = (e) => {
+        currentPasuramRef.step1[index][0] = parseFloat(e.target.value);
+        renderAllSteps();
+    };
+
+    const endInput = document.createElement('input');
+    endInput.type = 'number';
+    endInput.step = '0.1';
+    endInput.value = interval[1];
+    endInput.onchange = (e) => {
+        currentPasuramRef.step1[index][1] = parseFloat(e.target.value);
+        renderAllSteps();
+    };
+
+    timeRow.appendChild(startInput);
+    timeRow.appendChild(document.createTextNode('s to '));
+    timeRow.appendChild(endInput);
+    timeRow.appendChild(document.createTextNode('s'));
+
+    const textVal = step1TextSegments[index] ? step1TextSegments[index] + ' *' : '';
+    const txtArea = document.createElement('textarea');
+    txtArea.className = 'segment-text';
+    txtArea.value = textVal;
+    txtArea.onchange = (e) => { 
+        step1TextSegments[index] = e.target.value.replace('*', '').trim();
+        renderAllSteps();
+    };
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'btn-sm btn-delete';
+    delBtn.textContent = 'Remove Line';
+    delBtn.onclick = () => {
+        currentPasuramRef.step1.splice(index, 1);
+        step1TextSegments.splice(index, 1);
+        renderAllSteps();
+    };
+
+    card.appendChild(title);
+    card.appendChild(timeRow);
+    card.appendChild(txtArea);
+    card.appendChild(delBtn);
+    return card;
+}
+
+function createChunkCard(stepKey, chunkIdx, interval) {
+    const card = document.createElement('div');
+    card.className = 'segment-card';
+
+    const title = document.createElement('div');
+    title.style.fontSize = '12px';
+    title.style.fontWeight = 'bold';
+    title.style.color = `var(--accent-${stepKey})`;
+    title.textContent = `${stepKey.toUpperCase()} Chunk #${chunkIdx + 1}`;
+
+    const textPreview = document.createElement('div');
+    textPreview.className = 'chunk-text-preview';
+
+    let matchingLines = [];
+    (currentPasuramRef.step1 || []).forEach((s1Interval, s1Idx) => {
+        if (s1Interval[0] >= interval[0] && s1Interval[1] <= interval[1]) {
+            matchingLines.push(step1TextSegments[s1Idx] ? step1TextSegments[s1Idx] + ' *' : `[Line ${s1Idx + 1}]`);
+        }
+    });
+
+    textPreview.textContent = matchingLines.length > 0 ? matchingLines.join('\n') : '(No lines selected for this chunk)';
+
+    const timeRow = document.createElement('div');
+    timeRow.className = 'time-inputs';
+
+    const startInput = document.createElement('input');
+    startInput.type = 'number';
+    startInput.step = '0.1';
+    startInput.value = interval[0];
+    startInput.onchange = (e) => {
+        currentPasuramRef[stepKey][chunkIdx][0] = parseFloat(e.target.value);
+        renderAllSteps();
+    };
+
+    const endInput = document.createElement('input');
+    endInput.type = 'number';
+    endInput.step = '0.1';
+    endInput.value = interval[1];
+    endInput.onchange = (e) => {
+        currentPasuramRef[stepKey][chunkIdx][1] = parseFloat(e.target.value);
+        renderAllSteps();
+    };
+
+    timeRow.appendChild(startInput);
+    timeRow.appendChild(document.createTextNode('s to '));
+    timeRow.appendChild(endInput);
+    timeRow.appendChild(document.createTextNode('s'));
+
+    const selectorBox = document.createElement('div');
+    selectorBox.className = 'line-selector';
+
+    (currentPasuramRef.step1 || []).forEach((s1Interval, s1Idx) => {
+        const lbl = document.createElement('label');
+        const chk = document.createElement('input');
+        chk.type = 'checkbox';
+        
+        const isIncluded = (s1Interval[0] >= interval[0] && s1Interval[1] <= interval[1]);
+        chk.checked = isIncluded;
+        chk.onchange = () => toggleLineInChunk(stepKey, chunkIdx);
+
+        const lineTxt = step1TextSegments[s1Idx] || `Line ${s1Idx + 1}`;
+        lbl.appendChild(chk);
+        lbl.appendChild(document.createTextNode(` L${s1Idx + 1}: ${lineTxt}`));
+        selectorBox.appendChild(lbl);
+    });
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'btn-sm btn-delete';
+    delBtn.textContent = 'Delete Chunk';
+    delBtn.onclick = () => {
+        currentPasuramRef[stepKey].splice(chunkIdx, 1);
+        renderAllSteps();
+    };
+
+    card.appendChild(title);
+    card.appendChild(textPreview);
+    card.appendChild(timeRow);
+    card.appendChild(selectorBox);
+    card.appendChild(delBtn);
+    return card;
+}
+
+function createStep4Card(bounds) {
+    const card = document.createElement('div');
+    card.className = 'segment-card';
+
+    const title = document.createElement('div');
+    title.style.fontSize = '12px';
+    title.style.fontWeight = 'bold';
+    title.style.color = 'var(--accent-s4)';
+    title.textContent = 'Overall Pasuram Duration';
+
+    const timeRow = document.createElement('div');
+    timeRow.className = 'time-inputs';
+
+    const startInput = document.createElement('input');
+    startInput.type = 'number';
+    startInput.step = '0.1';
+    startInput.value = bounds[0];
+    startInput.onchange = (e) => {
+        if (Array.isArray(currentPasuramRef.step4[0])) {
+            currentPasuramRef.step4[0][0] = parseFloat(e.target.value);
+        } else {
+            currentPasuramRef.step4[0] = parseFloat(e.target.value);
+        }
+        renderAllSteps();
+    };
+
+    const endInput = document.createElement('input');
+    endInput.type = 'number';
+    endInput.step = '0.1';
+    endInput.value = bounds[1];
+    endInput.onchange = (e) => {
+        if (Array.isArray(currentPasuramRef.step4[0])) {
+            currentPasuramRef.step4[0][1] = parseFloat(e.target.value);
+        } else {
+            currentPasuramRef.step4[1] = parseFloat(e.target.value);
+        }
+        renderAllSteps();
+    };
+
+    timeRow.appendChild(startInput);
+    timeRow.appendChild(document.createTextNode('s to '));
+    timeRow.appendChild(endInput);
+    timeRow.appendChild(document.createTextNode('s'));
+
+    card.appendChild(title);
+    card.appendChild(timeRow);
+    return card;
+}
+
+function toggleLineInChunk(stepKey, chunkIdx) {
+    const chunkGrid = document.getElementById(`${stepKey}Grid`);
+    const card = chunkGrid.children[chunkIdx];
+    const checkboxes = card.querySelectorAll('input[type="checkbox"]');
+
+    let selectedS1Indices = [];
+    checkboxes.forEach((chk, idx) => {
+        if (chk.checked) selectedS1Indices.push(idx);
+    });
+
+    if (selectedS1Indices.length > 0) {
+        const firstS1 = currentPasuramRef.step1[selectedS1Indices[0]];
+        const lastS1 = currentPasuramRef.step1[selectedS1Indices[selectedS1Indices.length - 1]];
+        currentPasuramRef[stepKey][chunkIdx] = [firstS1[0], lastS1[1]];
+    }
+
+    renderAllSteps();
+}
+
+function addSegment(stepKey) {
+    if (!currentPasuramRef[stepKey]) currentPasuramRef[stepKey] = [];
+    currentPasuramRef[stepKey].push([0.0, 5.0]);
+    step1TextSegments.push("");
+    renderAllSteps();
+}
+
+function addChunk(stepKey) {
+    if (!currentPasuramRef[stepKey]) currentPasuramRef[stepKey] = [];
+    const step1List = currentPasuramRef.step1 || [];
+    
+    let startVal = 0;
+    let endVal = 10;
+
+    if (step1List.length > 0) {
+        startVal = step1List[0][0];
+        endVal = step1List[step1List.length - 1][1];
+    }
+
+    currentPasuramRef[stepKey].push([startVal, endVal]);
+    renderAllSteps();
+}
+
+function exportFullDatabase() {
+    const fullDbStr = `window.MARKER_DATABASE = window.MARKER_DATABASE || {}; window.MARKER_DATABASE['${loadedDbKey}'] = [${JSON.stringify(currentPasuramRef)}];`;
+
+    const blob = new Blob([fullDbStr], { type: 'application/javascript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `marker_${loadedDbKey}_updated.js`;
+    a.click();
+}
+</script>
+</body>
+</html>

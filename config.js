@@ -162,7 +162,11 @@ const CONFIG = {
     }),
 
     'RN': makeGroupedBook({ key: 'RN', defPas: 108, ex: { '0': 3 } }),
+
+    // --- Others ---
+
     'URM': makeGroupedBook({ key: 'URM', defPas: 74, ex: { '0': 1 } }),
+    'VTN': makeSimpleBook({ key: 'VTN', defPas: 13, ex: { '0': 2, '2': 28 } }),
 };
 
 // ---------------------------------------------------------------------------
