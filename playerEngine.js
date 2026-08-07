@@ -93,11 +93,14 @@ function rebuildPasuramPickers(preferredValue) {
     if (bookUsesSubchapters(c)) {
         const maxCh = c.maxCh || 10;
         const parts = [];
-        for (let ch = 1; ch <= maxCh; ch++) {
-            parts.push({ value: ch, label: String(ch) });
+        for (let ch = 0; ch <= maxCh; ch++) {
+            parts.push({
+                value: ch,
+                label: ch === 0 ? 'Taniyan' : String(ch)
+            });
         }
         fillSelectOptions(partEl, parts);
-        partEl.value = String(Math.min(Math.max(coords.ch || 1, 1), maxCh));
+        partEl.value = String(Math.min(Math.max(coords.ch || 0, 0), maxCh));
 
         const maxSub = (typeof Navigation !== 'undefined' && Navigation.getSubLimit)
             ? (Navigation.getSubLimit(pre, parseInt(partEl.value, 10)) || c.maxSub || 10)
@@ -168,7 +171,7 @@ function syncNumberFromPickers() {
     let hint;
 
     if (bookUsesSubchapters(c)) {
-        const ch = parseInt(partEl.value, 10) || 1;
+        const ch = parseInt(partEl.value, 10) || 0;
         const sub = parseInt(subEl.value, 10) || 1;
         const n = sectionPasuramCountSafe(prefixEl.value, `${ch}.${sub}`);
         if (pas > n) pas = n;
@@ -614,8 +617,8 @@ function syncTextToAudioTimeline() {
     const step1Timeline = targetPasuram["step1"] || [];
 
     // Smooth Normalization: Round playhead down to 1 decimal point to avoid floating-point race flickers
-  //  const currentTime = Math.round((playerEl.currentTime || 0) * 10) / 10;
-   // Use overrideTime if specified (e.g. during manual/auto transitions) to bypass playhead latency
+    //  const currentTime = Math.round((playerEl.currentTime || 0) * 10) / 10;
+    // Use overrideTime if specified (e.g. during manual/auto transitions) to bypass playhead latency
     let currentTime;
     if (typeof overrideTime === 'number') {
         currentTime = Math.round(overrideTime * 10) / 10;
@@ -942,7 +945,7 @@ function navigate(dir) {
             if (coords.pas > subPasuramLimit) {
                 coords.pas = 1;
                 coords.sub++;
-                
+
                 // FIX: Get the dynamic subchapter limit for this specific chapter instead of static c.maxSub
                 let activeSubLimit = Navigation.getSubLimit(pre, coords.ch);
                 if (coords.sub > activeSubLimit) {
@@ -954,7 +957,7 @@ function navigate(dir) {
                 if (coords.sub < 1) {
                     // Navigate to the previous chapter
                     coords.ch = (coords.ch <= 1) ? c.maxCh : coords.ch - 1;
-                    
+
                     // FIX: Set the subchapter index to the previous chapter's dynamic maximum
                     coords.sub = Navigation.getSubLimit(pre, coords.ch);
                 }
@@ -998,7 +1001,7 @@ function resetToStart() {
                 break;
 
             default:
-                initialValue = c.hasSub ? "1.1.1" : "1.1";
+                initialValue = c.hasSub ? "0.1.1" : "1.1";
                 break;
         }
     }

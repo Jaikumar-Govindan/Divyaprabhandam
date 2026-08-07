@@ -34,6 +34,7 @@ function makeSubChapterBook(opts) {
     return {
         structure: opts.structure,
         hasSub: opts.hasSub,
+        minCh: 0,
         maxCh: opts.maxCh,
         maxSub: opts.maxSub,
         defPas: opts.defPas,
@@ -50,7 +51,10 @@ function makeSubChapterBook(opts) {
             if (!num) return '';
             const [chapter, subChapter] = num.split('.');
 
-            return `${ROOT}/${key}/audiofiles/${key}_${chapter}.${subChapter}.ogg`;
+            if (chapter === "0")
+                return `${ROOT}/${key}/audiofiles/${key}_0.ogg`;
+            else
+                return `${ROOT}/${key}/audiofiles/${key}_${chapter}.${subChapter}.ogg`;
 
         },
 
@@ -116,8 +120,8 @@ const CONFIG = {
 
     }),
     'TPV': makeGroupedBook({ key: 'TPV', defPas: 30, ex: { '0': 3 } }),
-    'NAT': makeSimpleBook({ key: 'NAT', defPas: 11, ex: { '0': 2, '4': 12, '5': 12, '6': 12 }, minCh: 0, maxCh: 14 }),
-    'PMT': makeSimpleBook({ key: 'PMT', defPas: 12, ex: { '0': 2, '2': 10, '3': 10, '5': 11, '6': 11 }, minCh: 0, maxCh: 10 }),
+    'NAT': makeSimpleBook({ key: 'NAT', defPas: 11, ex: { '0': 2, '4': 12, '5': 12, '6': 12 }, maxCh: 14 }),
+    'PMT': makeSimpleBook({ key: 'PMT', defPas: 12, ex: { '0': 2, '2': 10, '3': 10, '5': 11, '6': 11 }, maxCh: 10 }),
     'TCV': makeGroupedBook({ key: 'TCV', defPas: 120, ex: { '0': 2 } }),
     'TCV2': makeGroupedBook({ key: 'TCV2', defPas: 120, ex: { '0': 2 } }),
     'TML': makeGroupedBook({ key: 'TML', defPas: 45, ex: { '0': 1 } }),
@@ -157,7 +161,7 @@ const CONFIG = {
     'TVM': makeSubChapterBook({
         key: 'TVM', remotePrefix: 'TVM',
         structure: 'chapter_sub_pasuram',
-        hasSub: true, maxCh: 10, maxSub: 10, defPas: 11, ex: { '2.7': 13 },
+        hasSub: true, maxCh: 10, maxSub: 10, defPas: 11, ex: { '0': 6, '2.7': 13 },
 
     }),
 
@@ -166,7 +170,7 @@ const CONFIG = {
     // --- Others ---
 
     'URM': makeGroupedBook({ key: 'URM', defPas: 74, ex: { '0': 1 } }),
-    'VTN': makeSimpleBook({ key: 'VTN', defPas: 13, ex: { '0': 2, '2': 28 } }),
+    'VTN': makeSimpleBook({ key: 'VTN', defPas: 13, ex: { '0': 2, '2': 28 }, maxCh: 2 }),
 };
 
 // ---------------------------------------------------------------------------
