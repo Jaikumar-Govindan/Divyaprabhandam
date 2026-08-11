@@ -14,9 +14,10 @@
       "/aruLicheyal/1TA/audiofiles/1TA_81_90.ogg",
       "/aruLicheyal/1TA/audiofiles/1TA_91_100.ogg",
       "/aruLicheyal/1TA/markers/marker_1ta_timelines.js",
+      "/aruLicheyal/1TA/text/marker_1ta_en.js",
       "/aruLicheyal/1TA/text/marker_1ta_ta.js"
     ],
-    "sizeBytes": 2617678
+    "sizeBytes": 2636634
   },
   "2TA": {
     "fullyLocal": true,
@@ -35,7 +36,7 @@
       "/aruLicheyal/2TA/markers/marker_2ta_timelines.js",
       "/aruLicheyal/2TA/text/marker_2ta_ta.js"
     ],
-    "sizeBytes": 2439671
+    "sizeBytes": 2436218
   },
   "3TA": {
     "fullyLocal": true,
@@ -52,9 +53,10 @@
       "/aruLicheyal/3TA/audiofiles/3TA_81_90.ogg",
       "/aruLicheyal/3TA/audiofiles/3TA_91_100.ogg",
       "/aruLicheyal/3TA/markers/marker_3ta_timelines.js",
+      "/aruLicheyal/3TA/text/marker_3ta_en.js",
       "/aruLicheyal/3TA/text/marker_3ta_ta.js"
     ],
-    "sizeBytes": 2449397
+    "sizeBytes": 2465980
   },
   "4TA": {
     "fullyLocal": true,
@@ -62,10 +64,19 @@
       "/aruLicheyal/4TA/audiofiles/4TA_0.ogg",
       "/aruLicheyal/4TA/audiofiles/4TA_11_20.ogg",
       "/aruLicheyal/4TA/audiofiles/4TA_1_10.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_21_30.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_31_40.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_41_50.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_51_60.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_61_70.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_71_80.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_81_90.ogg",
+      "/aruLicheyal/4TA/audiofiles/4TA_91_96.ogg",
       "/aruLicheyal/4TA/markers/marker_4ta_timelines.js",
+      "/aruLicheyal/4TA/text/marker_4ta_en.js",
       "/aruLicheyal/4TA/text/marker_4ta_ta.js"
     ],
-    "sizeBytes": 566829
+    "sizeBytes": 2376247
   },
   "AAP": {
     "fullyLocal": true,
@@ -76,7 +87,7 @@
       "/aruLicheyal/AAP/text/marker_aap_en.js",
       "/aruLicheyal/AAP/text/marker_aap_ta.js"
     ],
-    "sizeBytes": 635305
+    "sizeBytes": 635404
   },
   "KCT": {
     "fullyLocal": true,
@@ -87,7 +98,7 @@
       "/aruLicheyal/KCT/text/marker_kct_en.js",
       "/aruLicheyal/KCT/text/marker_kct_ta.js"
     ],
-    "sizeBytes": 495641
+    "sizeBytes": 495741
   },
   "NAT": {
     "fullyLocal": true,
@@ -111,7 +122,7 @@
       "/aruLicheyal/NAT/text/marker_nat_en.js",
       "/aruLicheyal/NAT/text/marker_nat_ta.js"
     ],
-    "sizeBytes": 6020075
+    "sizeBytes": 6036200
   },
   "PAT": {
     "fullyLocal": false,
@@ -166,12 +177,16 @@
       "/aruLicheyal/PAT/markers/timelines_5.js",
       "/aruLicheyal/PAT/text/1_en.js",
       "/aruLicheyal/PAT/text/1_ta.js",
+      "/aruLicheyal/PAT/text/2_en.js",
       "/aruLicheyal/PAT/text/2_ta.js",
+      "/aruLicheyal/PAT/text/3_en.js",
       "/aruLicheyal/PAT/text/3_ta.js",
+      "/aruLicheyal/PAT/text/4_en.js",
       "/aruLicheyal/PAT/text/4_ta.js",
+      "/aruLicheyal/PAT/text/5_en.js",
       "/aruLicheyal/PAT/text/5_ta.js"
     ],
-    "sizeBytes": 16167905,
+    "sizeBytes": 16302620,
     "note": "Partial \u2014 only hosted audio and markers included"
   },
   "PMT": {
@@ -192,7 +207,7 @@
       "/aruLicheyal/PMT/text/marker_pmt_en.js",
       "/aruLicheyal/PMT/text/marker_pmt_ta.js"
     ],
-    "sizeBytes": 4697321
+    "sizeBytes": 4434565
   },
   "PTA": {
     "fullyLocal": false,
@@ -200,7 +215,7 @@
       "/aruLicheyal/PTA/markers/marker_pta_timelines.js",
       "/aruLicheyal/PTA/text/marker_pta_ta.js"
     ],
-    "sizeBytes": 38182,
+    "sizeBytes": 38302,
     "note": "Markers/text only \u2014 no local audio files"
   },
   "PTM": {
@@ -218,22 +233,49 @@
       "/aruLicheyal/PTM/audiofiles/PTM_5.7.ogg",
       "/aruLicheyal/PTM/audiofiles/PTM_5.8.ogg",
       "/aruLicheyal/PTM/audiofiles/PTM_5.9.ogg",
+      "/aruLicheyal/PTM/audiofiles/PTM_6.1.ogg",
+      "/aruLicheyal/PTM/audiofiles/PTM_6.2.ogg",
+      "/aruLicheyal/PTM/audiofiles/PTM_6.3.ogg",
+      "/aruLicheyal/PTM/markers/timelines_0.js",
+      "/aruLicheyal/PTM/markers/timelines_1.js",
+      "/aruLicheyal/PTM/markers/timelines_10.js",
       "/aruLicheyal/PTM/markers/timelines_11.js",
+      "/aruLicheyal/PTM/markers/timelines_2.js",
+      "/aruLicheyal/PTM/markers/timelines_3.js",
+      "/aruLicheyal/PTM/markers/timelines_4.js",
       "/aruLicheyal/PTM/markers/timelines_5.js",
+      "/aruLicheyal/PTM/markers/timelines_6.js",
+      "/aruLicheyal/PTM/markers/timelines_7.js",
+      "/aruLicheyal/PTM/markers/timelines_8.js",
+      "/aruLicheyal/PTM/markers/timelines_9.js",
+      "/aruLicheyal/PTM/text/0_ta.js",
       "/aruLicheyal/PTM/text/10_ta.js",
       "/aruLicheyal/PTM/text/11_ta.js",
       "/aruLicheyal/PTM/text/1_ta.js",
       "/aruLicheyal/PTM/text/2_ta.js",
       "/aruLicheyal/PTM/text/3_ta.js",
       "/aruLicheyal/PTM/text/4_ta.js",
+      "/aruLicheyal/PTM/text/5_en.js",
       "/aruLicheyal/PTM/text/5_ta.js",
+      "/aruLicheyal/PTM/text/6_en.js",
       "/aruLicheyal/PTM/text/6_ta.js",
       "/aruLicheyal/PTM/text/7_ta.js",
       "/aruLicheyal/PTM/text/8_ta.js",
       "/aruLicheyal/PTM/text/9_ta.js"
     ],
-    "sizeBytes": 4939692,
+    "sizeBytes": 5996784,
     "note": "Partial \u2014 only hosted audio and markers included"
+  },
+  "PTN": {
+    "fullyLocal": true,
+    "assets": [
+      "/aruLicheyal/PTN/audiofiles/PTN_0.ogg",
+      "/aruLicheyal/PTN/audiofiles/PTN_1.ogg",
+      "/aruLicheyal/PTN/audiofiles/PTN_2.ogg",
+      "/aruLicheyal/PTN/markers/marker_ptn_timelines.js",
+      "/aruLicheyal/PTN/text/marker_ptn_ta.js"
+    ],
+    "sizeBytes": 351609
   },
   "RN": {
     "fullyLocal": true,
@@ -254,18 +296,51 @@
       "/aruLicheyal/RN/text/marker_rn_en.js",
       "/aruLicheyal/RN/text/marker_rn_ta.js"
     ],
-    "sizeBytes": 4320503
+    "sizeBytes": 4335861
   },
   "TCV": {
     "fullyLocal": true,
     "assets": [
       "/aruLicheyal/TCV/audiofiles/TCV_0.ogg",
-      "/aruLicheyal/TCV/audiofiles/TCV_01_10.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_101_110.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_111_120.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_11_20.ogg",
       "/aruLicheyal/TCV/audiofiles/TCV_1_10.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_21_30.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_31_40.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_41_50.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_51_60.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_61_70.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_71_80.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_81_90.ogg",
+      "/aruLicheyal/TCV/audiofiles/TCV_91_100.ogg",
       "/aruLicheyal/TCV/markers/marker_tcv_timelines.js",
+      "/aruLicheyal/TCV/text/marker_tcv_en.js",
       "/aruLicheyal/TCV/text/marker_tcv_ta.js"
     ],
-    "sizeBytes": 714596
+    "sizeBytes": 3856915
+  },
+  "TCV2": {
+    "fullyLocal": true,
+    "assets": [
+      "/aruLicheyal/TCV2/audiofiles/TCV2_0.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_101_110.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_111_120.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_11_20.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_1_10.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_21_30.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_31_40.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_41_50.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_51_60.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_61_70.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_71_80.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_81_90.ogg",
+      "/aruLicheyal/TCV2/audiofiles/TCV2_91_100.ogg",
+      "/aruLicheyal/TCV2/markers/marker_tcv2_timelines.js",
+      "/aruLicheyal/TCV2/text/marker_tcv2_en.js",
+      "/aruLicheyal/TCV2/text/marker_tcv2_ta.js"
+    ],
+    "sizeBytes": 3141228
   },
   "TKT": {
     "fullyLocal": true,
@@ -277,7 +352,7 @@
       "/aruLicheyal/TKT/text/marker_tkt_en.js",
       "/aruLicheyal/TKT/text/marker_tkt_ta.js"
     ],
-    "sizeBytes": 893420
+    "sizeBytes": 896132
   },
   "TML": {
     "fullyLocal": true,
@@ -291,7 +366,7 @@
       "/aruLicheyal/TML/markers/marker_tml_timelines.js",
       "/aruLicheyal/TML/text/marker_tml_ta.js"
     ],
-    "sizeBytes": 1669459
+    "sizeBytes": 1669610
   },
   "TNT": {
     "fullyLocal": true,
@@ -304,7 +379,7 @@
       "/aruLicheyal/TNT/text/marker_tnt_en.js",
       "/aruLicheyal/TNT/text/marker_tnt_ta.js"
     ],
-    "sizeBytes": 1772801
+    "sizeBytes": 1733788
   },
   "TPE": {
     "fullyLocal": true,
@@ -315,7 +390,7 @@
       "/aruLicheyal/TPE/text/marker_tpe_en.js",
       "/aruLicheyal/TPE/text/marker_tpe_ta.js"
     ],
-    "sizeBytes": 770095
+    "sizeBytes": 770269
   },
   "TPL": {
     "fullyLocal": true,
@@ -326,7 +401,7 @@
       "/aruLicheyal/TPL/text/marker_tpl_en.js",
       "/aruLicheyal/TPL/text/marker_tpl_ta.js"
     ],
-    "sizeBytes": 810343
+    "sizeBytes": 810548
   },
   "TPV": {
     "fullyLocal": true,
@@ -339,7 +414,7 @@
       "/aruLicheyal/TPV/text/marker_tpv_en.js",
       "/aruLicheyal/TPV/text/marker_tpv_ta.js"
     ],
-    "sizeBytes": 2652054
+    "sizeBytes": 2652436
   },
   "TVK": {
     "fullyLocal": false,
@@ -347,17 +422,41 @@
       "/aruLicheyal/TVK/markers/marker_tvk_timelines.js",
       "/aruLicheyal/TVK/text/marker_tvk_ta.js"
     ],
-    "sizeBytes": 6733,
+    "sizeBytes": 6766,
     "note": "Markers/text only \u2014 no local audio files"
   },
   "TVM": {
     "fullyLocal": false,
     "assets": [
+      "/aruLicheyal/TVM/audiofiles/TVM_0.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.1.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.10.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.2.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.3.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.4.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.5.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.6.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.7.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.8.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_1.9.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.1.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.10.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.2.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.3.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.4.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.5.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.6.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.7.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.8.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_2.9.ogg",
       "/aruLicheyal/TVM/audiofiles/TVM_3.1.ogg",
       "/aruLicheyal/TVM/audiofiles/TVM_3.2.ogg",
       "/aruLicheyal/TVM/audiofiles/TVM_3.3.ogg",
       "/aruLicheyal/TVM/audiofiles/TVM_3.4.ogg",
       "/aruLicheyal/TVM/audiofiles/TVM_3.5.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_3.6.ogg",
+      "/aruLicheyal/TVM/audiofiles/TVM_3.7.ogg",
+      "/aruLicheyal/TVM/markers/timelines_0.js",
       "/aruLicheyal/TVM/markers/timelines_1.js",
       "/aruLicheyal/TVM/markers/timelines_10.js",
       "/aruLicheyal/TVM/markers/timelines_2.js",
@@ -368,6 +467,7 @@
       "/aruLicheyal/TVM/markers/timelines_7.js",
       "/aruLicheyal/TVM/markers/timelines_8.js",
       "/aruLicheyal/TVM/markers/timelines_9.js",
+      "/aruLicheyal/TVM/text/0_ta.js",
       "/aruLicheyal/TVM/text/10_en.js",
       "/aruLicheyal/TVM/text/10_ta.js",
       "/aruLicheyal/TVM/text/1_en.js",
@@ -389,26 +489,32 @@
       "/aruLicheyal/TVM/text/9_en.js",
       "/aruLicheyal/TVM/text/9_ta.js"
     ],
-    "sizeBytes": 2570121,
+    "sizeBytes": 8785603,
     "note": "Partial \u2014 only hosted audio and markers included"
   },
   "TVS": {
-    "fullyLocal": false,
+    "fullyLocal": true,
     "assets": [
+      "/aruLicheyal/TVS/audiofiles/TVS_0.ogg",
+      "/aruLicheyal/TVS/audiofiles/TVS_1.ogg",
       "/aruLicheyal/TVS/markers/marker_tvs_timelines.js",
       "/aruLicheyal/TVS/text/marker_tvs_ta.js"
     ],
-    "sizeBytes": 7865,
-    "note": "Markers/text only \u2014 no local audio files"
+    "sizeBytes": 466382
   },
   "TVT": {
-    "fullyLocal": false,
+    "fullyLocal": true,
     "assets": [
+      "/aruLicheyal/TVT/audiofiles/TVT_0.ogg",
+      "/aruLicheyal/TVT/audiofiles/TVT_11_20.ogg",
+      "/aruLicheyal/TVT/audiofiles/TVT_1_10.ogg",
+      "/aruLicheyal/TVT/audiofiles/TVT_21_30.ogg",
+      "/aruLicheyal/TVT/audiofiles/TVT_31_40.ogg",
+      "/aruLicheyal/TVT/audiofiles/TVT_41_50.ogg",
       "/aruLicheyal/TVT/markers/marker_tvt_timelines.js",
       "/aruLicheyal/TVT/text/marker_tvt_ta.js"
     ],
-    "sizeBytes": 56091,
-    "note": "Markers/text only \u2014 no local audio files"
+    "sizeBytes": 1766780
   },
   "URM": {
     "fullyLocal": true,
@@ -426,7 +532,18 @@
       "/aruLicheyal/URM/text/marker_urm_en.js",
       "/aruLicheyal/URM/text/marker_urm_ta.js"
     ],
-    "sizeBytes": 2690320
+    "sizeBytes": 2690692
+  },
+  "VTN": {
+    "fullyLocal": true,
+    "assets": [
+      "/aruLicheyal/VTN/audiofiles/VTN_0.ogg",
+      "/aruLicheyal/VTN/audiofiles/VTN_1.ogg",
+      "/aruLicheyal/VTN/audiofiles/VTN_2.ogg",
+      "/aruLicheyal/VTN/markers/marker_vtn_timelines.js",
+      "/aruLicheyal/VTN/text/marker_vtn_ta.js"
+    ],
+    "sizeBytes": 1789354
   },
   "YRV": {
     "fullyLocal": false,

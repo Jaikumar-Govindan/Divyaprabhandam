@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-15T19:32:07Z",
-  "ok": true,
+  "generatedAt": "2026-08-09T16:23:01Z",
+  "ok": false,
   "mode": "full",
-  "elapsedMs": 1672,
+  "elapsedMs": 1489,
   "totals": {
     "checks": 115,
-    "passed": 115,
-    "failed": 0,
+    "passed": 114,
+    "failed": 1,
     "suites": 13
   },
   "suites": [
@@ -474,8 +474,8 @@
     },
     {
       "name": "content_status",
-      "passed": 3,
-      "failed": 0,
+      "passed": 2,
+      "failed": 1,
       "checks": [
         {
           "status": "pass",
@@ -486,8 +486,8 @@
           "message": "build_content_status.py ran"
         },
         {
-          "status": "pass",
-          "message": "content-status.json has 24 books (marked 1295/4098; broken 61, suspect 2)"
+          "status": "fail",
+          "message": "content-status.json missing book: PMT"
         }
       ]
     },
@@ -562,5 +562,7 @@
       ]
     }
   ],
-  "errors": []
+  "errors": [
+    "content-status.json missing book: PMT"
+  ]
 }
