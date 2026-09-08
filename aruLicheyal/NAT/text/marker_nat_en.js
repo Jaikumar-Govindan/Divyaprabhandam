@@ -103,7 +103,7 @@ window.mergeLanguageTexts = function () {
       7: "sengamala nANmalar mEl * thEnugarum annam pOl *sengat karumEni * vAsudhEvanudaiya  *** angaith thalam ERi * anna vasam seyyum *sangaraiyA! un selvam * sAla azhagiyadhE ",
       8: "uNbadhu sollil * ulagaLandhAn vAy amudham *kaNpadai koLLil * kadalvaNNan kaiththalaththE  *** peNpadaiyAr un mEl * perum pUsal sARRuginRAr *paNpala seyginRAy * pAnjasanniyamE! ",
       9: "padhinARAm Ayiravar * dhEvimAr pArththiruppa *madhuvAyil koNdAR pOl * mAdhavan than vAy amudham  *** podhuvAga uNbadhanaip * pukku nI uNdakkAl *sidhaiyArO unnOdu? * selvap perum sangE! ",
-      10: "* pAnjasanniyaththaip * paRpanAbanOdum *vAyndha perum suRRam * Akkiya vaNpudhuvai  *** Eyndha pugazhp pattarpirAn * kOdhai thamizh Iraindhum *AyndhEththa vallAr * avarum aNukkarE",
+      10: "* pAnjasanniyaththaip * paRpanAbanodum *vAyndha perum suRRam * Akkiya vaNpudhuvai  *** Eyndha pugazhp pattarpirAn * kOdhai thamizh Iraindhum *AyndhEththa vallAr * avarum aNukkarE",
       11: "adivaravu: karuppUram kadalil thadavarai chandhira unnOdu pOy sengamalam uNbadhu padhinARu pAnjasanniyaththai viN",
     },
     'NAT.8.steps': {

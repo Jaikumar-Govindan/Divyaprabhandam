@@ -1,0 +1,1 @@
+window.MARKER_DATABASE = window.MARKER_DATABASE || {};

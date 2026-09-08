@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasuram Browser & Tamil Editor</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; background-color: #f4f6f9; }
+        header { background-color: #2c3e50; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .container { display: flex; flex: 1; overflow: hidden; }
+        .sidebar { width: 300px; background: #ffffff; border-right: 1px solid #ccc; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 10px; background: #e9ecef; font-weight: bold; border-bottom: 1px solid #ccc; }
+        .list-group { overflow-y: auto; flex: 1; list-style: none; margin: 0; padding: 0; }
+        .list-group-item { padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s; }
+        .list-group-item:hover { background-color: #f0f4f8; }
+        .list-group-item.active { background-color: #007bff; color: white; }
+        .main-content { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .editor-container { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+        textarea { width: 100%; height: 180px; font-size: 18px; padding: 12px; font-family: 'Latha', 'Tamil Sangam MN', 'Segoe UI', sans-serif; border: 1px solid #ccc; border-radius: 4px; resize: vertical; line-height: 1.5; }
+        .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .btn-primary { background-color: #28a745; color: white; }
+        .btn-primary:hover { background-color: #218838; }
+        .btn-secondary { background-color: #007bff; color: white; }
+        .btn-secondary:hover { background-color: #0069d9; }
+        .btn-nav { background-color: #6c757d; color: white; }
+        .btn-nav:hover { background-color: #5a6268; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .editor-header { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Tamil Keyboard Styling */
+        .keyboard-container { background: #e9ecef; border: 1px solid #ccc; border-radius: 4px; padding: 10px; margin-top: 10px; }
+        .keyboard-title { font-size: 12px; font-weight: bold; margin-bottom: 8px; color: #495057; text-transform: uppercase; }
+        .keyboard-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 5px; }
+        .key { background: white; border: 1px solid #ced4da; border-radius: 3px; padding: 6px 10px; font-size: 16px; cursor: pointer; user-select: none; }
+        .key:hover { background: #007bff; color: white; border-color: #007bff; }
+        .key-action { background: #6c757d; color: white; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Pasuram Browser & Editor</h2>
+    <div>
+        <button class="btn btn-secondary" onclick="openFile()">Open Pasuram File</button>
+        <button class="btn btn-primary" id="saveBtn" onclick="saveFile()" disabled>Save File Back to Folder</button>
+    </div>
+</header>
+
+<div class="container">
+    <div class="sidebar">
+        <div class="sidebar-header">Pasuram Sections</div>
+        <ul class="list-group" id="pasuramList">
+            <li class="list-group-item">Please open a .js file...</li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <div class="editor-container">
+            <div class="editor-header">
+                <label for="pasuramEditor"><strong id="currentEditingLabel">Select a Pasuram step to edit:</strong></label>
+                <div>
+                    <button class="btn btn-nav" id="prevBtn" onclick="navigate(-1)" disabled>Previous</button>
+                    <button class="btn btn-nav" id="nextBtn" onclick="navigate(1)" disabled>Next</button>
+                </div>
+            </div>
+            <textarea id="pasuramEditor" placeholder="Loaded text will appear here..."></textarea>
+            
+            <!-- Tamil On-Screen Keyboard -->
+            <div class="keyboard-container">
+                <div class="keyboard-title">Tamil Virtual Keyboard (click to insert text)</div>
+                <div class="keyboard-row" id="vowelsRow"></div>
+                <div class="keyboard-row" id="consonantsRow"></div>
+                <div class="keyboard-row" id="modifiersRow"></div>
+                <div class="keyboard-row">
+                    <button class="key key-action" onclick="insertAtCursor(' * ')"> * (Asterisk)</button>
+                    <button class="key key-action" onclick="insertAtCursor(' *** ')"> *** (Triple Asterisk)</button>
+                    <button class="key key-action" onclick="insertAtCursor('🙏 ')">🙏 (Prayer)</button>
+                    <button class="key key-action" onclick="insertAtCursor(' ')">Space</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let fileHandle = null;
+    let originalFileContent = '';
+    let parsedData = {};
+    let selectedKey = null;
+    let selectedStep = null;
+    let pasuramItemsList = [];
+    let currentIndex = -1;
+
+    // Tamil Keyboard Characters
+    const vowels = ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ', 'ஓ', 'ஔ', 'ஃ'];
+    const consonants = ['க', 'ங', 'ச', 'ஞ', 'ட', 'ண', 'த', 'ந', 'ப', 'ம', 'ய', 'ர', 'ல', 'வ', 'ழ', 'ள', 'ற', 'ன', 'ஶ', 'ஜ', 'ஷ', 'ஸ', 'ஹ'];
+    const modifiers = ['்', 'ா', 'ி', 'ீ', 'ு', 'ூ', 'ெ', 'ே', 'ை', 'ொ', 'ோ', 'ௌ'];
+
+    function initKeyboard() {
+        const vRow = document.getElementById('vowelsRow');
+        const cRow = document.getElementById('consonantsRow');
+        const mRow = document.getElementById('modifiersRow');
+
+        vowels.forEach(char => vRow.appendChild(createKeyBtn(char)));
+        consonants.forEach(char => cRow.appendChild(createKeyBtn(char)));
+        modifiers.forEach(char => mRow.appendChild(createKeyBtn(char)));
+    }
+
+    function createKeyBtn(char) {
+        const btn = document.createElement('button');
+        btn.className = 'key';
+        btn.innerText = char;
+        btn.onclick = () => insertAtCursor(char);
+        return btn;
+    }
+
+    function insertAtCursor(text) {
+        const textarea = document.getElementById('pasuramEditor');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const val = textarea.value;
+        
+        textarea.value = val.substring(0, start) + text + val.substring(end);
+        textarea.selectionStart = textarea.selectionEnd = start + text.length;
+        textarea.focus();
+        
+        updateMemory();
+    }
+
+    async function openFile() {
+        try {
+            [fileHandle] = await window.showOpenFilePicker({
+                types: [{
+                    description: 'JavaScript Files',
+                    accept: { 'text/javascript': ['.js'] }
+                }]
+            });
+            
+            const file = await fileHandle.getFile();
+            originalFileContent = await file.text();
+            
+            parsePasuramContent(originalFileContent);
+            document.getElementById('saveBtn').disabled = false;
+        } catch (err) {
+            if (err.name !== 'AbortError') {
+                alert('Error opening file: ' + err.message);
+            }
+        }
+    }
+
+    function parsePasuramContent(content) {
+        // Extract JSON-like object from text_bundle_ta
+        const match = content.match(/const\s+text_bundle_ta\s*=\s*(\{[\s\S]*?\});/);
+        if (!match) {
+            alert('Could not find "text_bundle_ta" dictionary inside the selected JavaScript file.');
+            return;
+        }
+
+        try {
+            // Function evaluation safely inside scoped context
+            const evalObj = new Function(`return ${match[1]};`)();
+            parsedData = evalObj;
+            renderSidebar();
+        } catch (e) {
+            alert('Failed to parse text_bundle_ta: ' + e.message);
+        }
+    }
+
+    function renderSidebar() {
+        const list = document.getElementById('pasuramList');
+        list.innerHTML = '';
+        pasuramItemsList = [];
+
+        for (const key in parsedData) {
+            for (const step in parsedData[key]) {
+                const itemIndex = pasuramItemsList.length;
+                pasuramItemsList.push({ key, step });
+
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerText = `${key} - Step ${step}`;
+                li.onclick = () => selectPasuramByIndex(itemIndex);
+                list.appendChild(li);
+            }
+        }
+    }
+
+    function selectPasuramByIndex(index) {
+        if (index < 0 || index >= pasuramItemsList.length) return;
+
+        currentIndex = index;
+        const { key, step } = pasuramItemsList[index];
+
+        const listItems = document.querySelectorAll('.list-group-item');
+        listItems.forEach(el => el.classList.remove('active'));
+        if (listItems[index]) {
+            listItems[index].classList.add('active');
+            listItems[index].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+
+        selectedKey = key;
+        selectedStep = step;
+        
+        document.getElementById('currentEditingLabel').innerText = `Editing: ${key} (Step ${step})`;
+        document.getElementById('pasuramEditor').value = parsedData[key][step];
+
+        updateNavButtons();
+    }
+
+    function navigate(direction) {
+        const newIndex = currentIndex + direction;
+        if (newIndex >= 0 && newIndex < pasuramItemsList.length) {
+            selectPasuramByIndex(newIndex);
+        }
+    }
+
+    function updateNavButtons() {
+        document.getElementById('prevBtn').disabled = currentIndex <= 0;
+        document.getElementById('nextBtn').disabled = currentIndex >= pasuramItemsList.length - 1;
+    }
+
+    document.getElementById('pasuramEditor').addEventListener('input', updateMemory);
+
+    function updateMemory() {
+        if (selectedKey && selectedStep) {
+            parsedData[selectedKey][selectedStep] = document.getElementById('pasuramEditor').value;
+        }
+    }
+
+    async function saveFile() {
+        if (!fileHandle) return;
+
+        try {
+            // Reconstruct JavaScript contents
+            const newFormattedJson = JSON.stringify(parsedData, null, 12);
+            const updatedContent = originalFileContent.replace(
+                /const\s+text_bundle_ta\s*=\s*\{[\s\S]*?\};/,
+                `const text_bundle_ta = ${newFormattedJson};`
+            );
+
+            const writable = await fileHandle.createWritable();
+            await writable.write(updatedContent);
+            await writable.close();
+
+            alert('File saved successfully back to its original location!');
+        } catch (err) {
+            alert('Failed to save file: ' + err.message);
+        }
+    }
+
+    // Initialize keyboard on page load
+    window.onload = initKeyboard;
+</script>
+
+</body>
+</html>

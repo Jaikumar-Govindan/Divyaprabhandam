@@ -153,7 +153,7 @@ const CONFIG = {
 
     'TVS': makeSimpleBook({ key: 'TVS', defPas: 7, ex: { '0': 1 } }),
     'TVK': makeSimpleBook({ key: 'TVK', defPas: 8, ex: { '0': 1 } }),
-    //'STM': makeGroupedBook({ key: 'STM', defPas: 8, ex: { '0': 1 } }),
+    'STM': makeGroupedBook({ key: 'STM', defPas: 40, ex: { '0': 1 } }),
     // PTM - periya thiru madal - name conflict :(
 
     // --- 4000 ---
