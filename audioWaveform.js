@@ -25,6 +25,14 @@
     let decodePromise = null;
     let currentSrc = null;
     let rawPeaks = null;
+    
+    // Web Audio playback state
+    let decodedAudioBuffer = null;
+    let activeSourceNode = null;
+    let isPlayingSegmentFlag = false;
+    let segmentPlaybackStartCtxTime = 0;
+    let segmentPlaybackStartOffset = 0;
+    let segmentPlaybackEndOffset = 0;
 
     let overviewMount = null;
     const segmentBars = new Map();
@@ -76,17 +84,21 @@
                 const response = await fetch(src);
                 const arrayBuffer = await response.arrayBuffer();
                 const buffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
+                
+                // Store raw buffer for Web Audio segment playback
+                decodedAudioBuffer = buffer;
                 duration = buffer.duration;
                 peakSampleRate = buffer.sampleRate;
                 rawPeaks = computePeaks(buffer, Math.max(64, Math.floor(buffer.length / 2000)));
                 peaks = rawPeaks;
-                if (overviewMount) redrawOverview();
-                segmentBars.forEach((bar) => bar.redraw());
+                
+                refreshAll();
                 return true;
             } catch (err) {
                 console.warn('[AudioWaveform] decode failed:', err);
                 peaks = null;
                 rawPeaks = null;
+                decodedAudioBuffer = null;
                 duration = 0;
                 return false;
             } finally {
@@ -94,6 +106,65 @@
             }
         })();
         return decodePromise;
+    }
+
+    function playSegment(startTime, endTime) {
+        if (!decodedAudioBuffer) return;
+
+        const ctx = getAudioContext();
+        if (ctx.state === 'suspended') {
+            ctx.resume();
+        }
+
+        stopSegment();
+
+        const start = Math.max(0, startTime);
+        const segDuration = Math.max(0.05, endTime - start);
+
+        activeSourceNode = ctx.createBufferSource();
+        activeSourceNode.buffer = decodedAudioBuffer;
+        activeSourceNode.connect(ctx.destination);
+
+        // Track wall-clock (AudioContext clock) start so getSegmentPlayheadTime()
+        // can compute the current position — Web Audio playback has no
+        // equivalent of <audio>.currentTime to poll, so we derive it ourselves.
+        segmentPlaybackStartCtxTime = ctx.currentTime;
+        segmentPlaybackStartOffset = start;
+        segmentPlaybackEndOffset = start + segDuration;
+        isPlayingSegmentFlag = true;
+
+        const thisNode = activeSourceNode;
+        thisNode.onended = () => {
+            // Guard against a stale callback from a node that was already
+            // superseded by a newer playSegment() call (stopSegment() there
+            // nulls activeSourceNode before this fires for the old node).
+            if (activeSourceNode === thisNode) {
+                isPlayingSegmentFlag = false;
+                activeSourceNode = null;
+            }
+        };
+
+        activeSourceNode.start(0, start, segDuration);
+    }
+
+    function stopSegment() {
+        if (activeSourceNode) {
+            try { activeSourceNode.stop(); } catch (e) {}
+            activeSourceNode.disconnect();
+            activeSourceNode = null;
+        }
+        isPlayingSegmentFlag = false;
+    }
+
+    function isSegmentPlaying() {
+        return isPlayingSegmentFlag;
+    }
+
+    function getSegmentPlayheadTime() {
+        if (!isPlayingSegmentFlag) return playheadTime;
+        const ctx = getAudioContext();
+        const elapsed = ctx.currentTime - segmentPlaybackStartCtxTime;
+        return Math.min(segmentPlaybackEndOffset, segmentPlaybackStartOffset + elapsed);
     }
 
     function resamplePeaksForWidth(width) {
@@ -183,8 +254,11 @@
     function drawOverview(canvas, markers, issues, playhead, activeIdx) {
         const dpr = window.devicePixelRatio || 1;
         const rect = canvas.getBoundingClientRect();
-        const w = Math.max(1, rect.width);
-        const h = Math.max(1, rect.height);
+        
+        // Dimension safeguards to prevent 0px canvas issues
+        const w = Math.max(100, rect.width || canvas.offsetWidth || canvas.clientWidth || 600);
+        const h = Math.max(30, rect.height || canvas.offsetHeight || canvas.clientHeight || 60);
+
         if (canvas.width !== Math.floor(w * dpr) || canvas.height !== Math.floor(h * dpr)) {
             canvas.width = Math.floor(w * dpr);
             canvas.height = Math.floor(h * dpr);
@@ -193,9 +267,15 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, w, h);
 
-        const viewEnd = duration || (markers.length ? markers[markers.length - 1].end : 1);
+        const viewEnd = duration || (markers && markers.length ? markers[markers.length - 1].end : 1);
         const pk = resamplePeaksForWidth(w);
-        drawWaveformPeaks(ctx, pk, 0, 0, w, h, '#b0bec5');
+        
+        if (pk) {
+            drawWaveformPeaks(ctx, pk, 0, 0, w, h, '#b0bec5');
+        } else {
+            ctx.fillStyle = '#cfd8dc';
+            ctx.fillRect(0, h / 2 - 1, w, 2);
+        }
 
         if (markers && markers.length) {
             for (let i = 0; i < markers.length; i++) {
@@ -243,8 +323,11 @@
         if (!m) return;
         const dpr = window.devicePixelRatio || 1;
         const rect = canvas.getBoundingClientRect();
-        const w = Math.max(1, rect.width);
-        const h = Math.max(1, rect.height);
+
+        // Dimension safeguards for segment canvas elements
+        const w = Math.max(100, rect.width || canvas.clientWidth || canvas.offsetWidth || 300);
+        const h = Math.max(30, rect.height || canvas.clientHeight || canvas.offsetHeight || 70);
+
         if (canvas.width !== Math.floor(w * dpr) || canvas.height !== Math.floor(h * dpr)) {
             canvas.width = Math.floor(w * dpr);
             canvas.height = Math.floor(h * dpr);
@@ -253,7 +336,6 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, w, h);
 
-        // audiotrimmer-style layout: pin markers on top, waveform middle, time badges below
         const pinArea = PIN_AREA;
         const timeArea = TIME_AREA;
         const waveY = pinArea;
@@ -282,14 +364,12 @@
         const x1 = timeToX(m.end, viewStart, viewEnd, w);
         const keepW = Math.max(2, x1 - x0);
 
-        // Soft "keep" selection overlay (audiotrimmer style)
         ctx.fillStyle = KEEP_FILL;
         ctx.fillRect(x0, waveY, keepW, waveH);
         ctx.strokeStyle = 'rgba(76, 175, 80, 0.55)';
         ctx.lineWidth = 1;
         ctx.strokeRect(x0 + 0.5, waveY + 0.5, keepW - 1, waveH - 1);
 
-        // "keep" label centered above selection
         if (keepW > 36) {
             ctx.fillStyle = '#2e7d32';
             ctx.font = 'bold 11px system-ui, sans-serif';
@@ -298,15 +378,12 @@
             ctx.fillText('keep', (x0 + x1) / 2, pinArea / 2);
         }
 
-        // Start / end pin markers
         drawTrimPin(ctx, x0, waveY, waveBottom, activeHandle === 'start');
         drawTrimPin(ctx, x1, waveY, waveBottom, activeHandle === 'end');
 
-        // Time badges under pins
         drawTimeBadge(ctx, x0, waveBottom + 3, formatClock(m.start), activeHandle === 'start', w);
         drawTimeBadge(ctx, x1, waveBottom + 3, formatClock(m.end), activeHandle === 'end', w);
 
-        // View / phrase duration (bottom-right, like audiotrimmer total)
         ctx.fillStyle = '#757575';
         ctx.font = '11px system-ui, sans-serif';
         ctx.textAlign = 'right';
@@ -323,7 +400,6 @@
             ctx.stroke();
         }
 
-        // Wide hit targets around pin stems
         return {
             viewStart,
             viewEnd,
@@ -336,13 +412,11 @@
         };
     }
 
-    /** Inverted teardrop pin + stem — matches audiotrimmer start/end markers */
     function drawTrimPin(ctx, x, waveY, waveBottom, isActive) {
         const r = 8;
         const cy = r + 2;
         const tipY = waveY;
 
-        // Stem through the keep region
         ctx.strokeStyle = isActive ? '#2e7d32' : KEEP_MARKER;
         ctx.lineWidth = isActive ? 2.5 : 2;
         ctx.beginPath();
@@ -350,7 +424,6 @@
         ctx.lineTo(x, waveBottom);
         ctx.stroke();
 
-        // Pin head (circle + point into waveform)
         ctx.beginPath();
         ctx.arc(x, cy, r, Math.PI * 0.85, Math.PI * 0.15, true);
         ctx.lineTo(x, tipY);
@@ -361,7 +434,6 @@
         ctx.lineWidth = isActive ? 2 : 1.5;
         ctx.stroke();
 
-        // Inner highlight
         ctx.beginPath();
         ctx.arc(x - 1.5, cy - 1.5, 2.2, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255,255,255,0.55)';
@@ -445,7 +517,10 @@
         });
 
         overviewMount = { canvas, callbacks };
-        redrawOverview();
+        
+        requestAnimationFrame(() => {
+            redrawOverview();
+        });
     }
 
     function redrawOverview() {
@@ -457,8 +532,6 @@
     }
 
     function createSegmentBar(canvas, segmentIndex, callbacks, expanded) {
-        // Reuse existing bar on the same canvas so we don't stack duplicate listeners
-        // (new_splitter remounts often via refreshWaveformViews).
         const existing = segmentBars.get(segmentIndex);
         if (existing && existing.canvas === canvas) {
             existing.callbacks = callbacks;
@@ -467,7 +540,6 @@
             return existing;
         }
 
-        // Fresh canvas element if replacing an old bar (drop leaked listeners)
         if (existing && existing.canvas !== canvas) {
             if (typeof existing.destroy === 'function') existing.destroy();
             segmentBars.delete(segmentIndex);
@@ -504,7 +576,6 @@
             if (!state.layout) return { zone: 'none' };
             const { viewStart, viewEnd, x0, x1, handleW, pinArea } = state.layout;
             const t = roundTime(xToTime(x, viewStart, viewEnd, w));
-            // Prefer pin heads / stems — especially easy grab in the top pin belt
             const hitPad = y <= (pinArea || PIN_AREA) + 4 ? Math.max(handleW, 26) : Math.max(handleW, 18);
             if (Math.abs(x - x0) <= hitPad) return { zone: 'start', time: t };
             if (Math.abs(x - x1) <= hitPad) return { zone: 'end', time: t };
@@ -554,7 +625,6 @@
             const hit = localHit(e);
             if (hit.zone === 'start' || hit.zone === 'end') {
                 state.drag = hit.zone;
-                // Freeze camera so dragging start/end doesn't re-zoom under the pointer
                 if (state.layout) {
                     state.viewLock = {
                         viewStart: state.layout.viewStart,
@@ -564,19 +634,15 @@
                 if (state.callbacks.onDragStart) state.callbacks.onDragStart(segmentIndex, hit.zone);
             } else if (hit.zone === 'seek' || hit.zone === 'body') {
                 state.drag = 'seek';
-                // Don't seek on mousedown — let click handler decide (set-end vs seek)
             }
         }
 
         function onClickSetEnd(e) {
-            // Only fire if the mouse barely moved (genuine click, not a drag)
             const dx = Math.abs(e.clientX - (state._downX || 0));
             const dy = Math.abs(e.clientY - (state._downY || 0));
             if (dx > 5 || dy > 5) return;
 
             const hit = localHit(e);
-            // Click in body/seek zone → set end of this segment to clicked position
-            // Only accept times ahead of current playhead so audio isn't cut short
             if ((hit.zone === 'body' || hit.zone === 'seek') && state.callbacks.onBoundaryChange) {
                 const minEnd = playheadTime > 0 ? Math.max(hit.time, playheadTime + 0.05) : hit.time;
                 state.callbacks.onBoundaryChange(segmentIndex, 'end', minEnd);
@@ -608,8 +674,13 @@
                 window.removeEventListener('mouseup', onMouseUp);
             }
         };
+
         segmentBars.set(segmentIndex, bar);
-        redraw();
+
+        requestAnimationFrame(() => {
+            redraw();
+        });
+
         return bar;
     }
 
@@ -659,6 +730,10 @@
         clearSegmentBars,
         destroyOverview,
         showUnavailable,
-        redrawOverview
+        redrawOverview,
+        playSegment,
+        stopSegment,
+        isSegmentPlaying,
+        getSegmentPlayheadTime
     };
 })();
