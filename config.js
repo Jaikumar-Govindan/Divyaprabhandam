@@ -149,12 +149,10 @@ const CONFIG = {
     '4TA': makeGroupedBook({ key: '4TA', defPas: 97, ex: { '0': 1 } }),
     'PTA': makeGroupedBook({ key: 'PTA', defPas: 87, ex: { '0': 1 } }),
     'TVT': makeGroupedBook({ key: 'TVT', defPas: 100, ex: { '0': 1 } }),
-
-
     'TVS': makeSimpleBook({ key: 'TVS', defPas: 7, ex: { '0': 1 } }),
     'TVK': makeSimpleBook({ key: 'TVK', defPas: 8, ex: { '0': 1 } }),
-    'STM': makeGroupedBook({ key: 'STM', defPas: 40, ex: { '0': 1 } }),
-    // PTM - periya thiru madal - name conflict :(
+    'STM': makeSimpleBook({ key: 'STM', defPas: 40, ex: { '0': 1 } }),
+    'PTMD': makeGroupedBook({ key: 'PTMD', defPas: 40, ex: { '0': 1 } }),
 
     // --- 4000 ---
 
