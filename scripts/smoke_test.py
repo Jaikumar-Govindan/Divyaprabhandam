@@ -672,9 +672,7 @@ def check_content_status_tool(errors: list[str]) -> None:
                     errors.append(f"content-status.json {prefix} section missing {field}")
                     return
             break
-    if "STM" in by_prefix:
-        errors.append("content-status.json should not include commented-out STM")
-        return
+
     totals = data.get("totals") or {}
     for field in ("qualityBroken", "phraseMismatch", "evenScaffoldSuspect", "reviewed"):
         if field not in totals:

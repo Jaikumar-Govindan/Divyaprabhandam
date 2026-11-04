@@ -1,0 +1,110 @@
+window.MARKER_DATABASE = window.MARKER_DATABASE || {};
+// Global function to trigger the merge ondemand
+window.mergeLanguageTexts = function () {
+  const text_bundle_en = {
+    'PTA.0.steps': {
+      1: "🙏emberumAnAr aruLich seydhadhu: mundhuRRa nenjchE! muyaRRi thariththu uraiththu * vandhiththu vAy Ara vAzhththich *** sandha murugUrum sOlai sUzh moy pUm porunal * kurugUran mARan pEr kURu",
+    },
+    'PTA.1.steps': {
+      1: "🙏 muyaRRi sumandhu ezhundhu * mundhuRRa nenjchE! * iyaRRuvAy emmoDu nI kUDi *** nayappuDaiya nAvIn thoDai kiLavi * uL podhivOm * naRpUvaip pUvInRa vaNNan pugazh",
+      2: "pugazhvOm pazhippOm * pugazhOm pazhiyOm * igazhvOm madhippOm madhiyOm igazhOm *** maRRu enggaL mAl! sengkaN mAl! * sIRal nI thI vinaiyOm * enggaL mAl kaNDAy ivai",
+      3: "ivai anRE nalla * ivai anRE thIya * ivai enRivai aRivanElum *** ivai ellAm ennAl aDaippu nIkku * oNNAdhu iRaiyavanE! * ennAl seyaRpAladhu en?",
+      4: "ennin migu pugazhAr yAvarE? * pinnaiyum maRRu eNNil * migu pugazhEn yAn allAl *** enna karunjchOdhik * kaNNan kaDal puraiyum * sIlap perunjchOdhikku en nenjchu ALpeRRu",
+      5: "peRRa thAy nIyE * piRappiththa thandhai nI * maRRaiyAr AvArum nI pEsil *** eRREyO! mAya! mA mAyavaLai * mAya mulai vAy vaiththa * nI ammA! kATTum neRi",
+      6: "neRi kATTi nIkkudhiyO? * nin pAl karu mA muRi mEni kATTudhiyO? *** mEl nAL aRiyOmai * en seyvAn eNNinAy? kaNNanE! * IdhuraiyAy en seydhAl en paDOm yAm?",
+      7: "yAmE aru vinaiyOm sEyOm * en nenjchinAr thAmE * aNukkarAych sArndhu ozhindhAr *** pU mEya semmAdhai * nin mArvil sErviththu * pAr iDandha ammA! nin pAdhaththu arugu",
+      8: "arugum suvaDum therivuNarOm * anbE perugum miga * idhu en? pEsIr *** parugalAm paNbuDaiyIr! pAr aLandhIr! * pAviyEm kaN kANbariya * nuNbuDaiyIr! nummai numakku",
+      9: "numakkaDiyOm enRenRu * nondhuraiththu en? * mAlAr thamakku avar thAm * sArvariyar AnAl? *** emakku ini yAdhAnum * AgiDu kAN nenjchE! * avar thiRaththE yAdhAnum sindhiththu iru",
+      10: "iru nAlvar * Iraindhin mEl oruvar * eTTODu oru nAlvar * Or iruvar allAl *** thirumARku yAm Ar? vaNakkam Ar? * E pAvam nannenjchE! * nAmA miga uDaiyOm nAzh",
+      11: "nAzhAl amar muyanRa * vallarakkan innuyirai * vAzhA vagai validhal nin valiyE *** AzhAdha pArum nI vAnum nI * kAlum nI thIyum nI * nIrum nIyAy ninRa nI",
+      12: "nI anRE Azh thuyaril * vIzhvippAn ninRu uzhanRAy? * pOy onRu solli en? pO nenjchE! *** nI enRum kAzhththu upadhEsam tharinum * kaik koLLAy * kaNNan thAL vAzhththuvadhE kaNDAy vazhakku",
+      13: "vazhakkoDu mARukoL anRu * aDiyAr vENDa * izhakkavum kANDum iRaiva! * izhappuNDE? *** em ATkoNDAgilum * yAn vENDa en kaNgaL * thammAl kATTu un mEnich chAy",
+      14: "sAyAl kariyAnai * uL aRiyArAy nenjchE! * pEyAr mulai koDuththAr pEyarAy *** nI yAr? pOyth thEmbUN suvaiththu * Un aRindhu aRindhum * thI vinaiyAm pAmbAr vAyk kai nITTal pArththi",
+      15: "pArththOr edhiridhA nenjchE! * paDu thuyaram pErththOdhap * pIDazhivAm pEchchillai *** ArththOdham tham mEni * thAL thaDavath thAm kiDandhu * thammuDaiya semmEnik kaN vaLarvAr sIr",
+      16: "sIrAl piRandhu * siRappAl vaLarAdhu * pEr vAman AgAkkAl pErALA! *** mArbArap pulgi nI uNDu umizhndha * bUmi nIr ERparidhE? * sollu nI yAm aRiyach sUzhndhu",
+      17: "sUzhndhu aDiyAr vENDinakkAl * thOnRAdhu viTTAlum * vAzhndhiDuvar pinnum tham vAy thiRavAr *** sUzhndhu enggum vAL varaigaL pOl arakkan * van thalaigaL thAm iDiya * thAL varai vil EndhinAr thAm",
+      18: "thAmbAl AppuNDAlum * aththazhumbu thAn iLaga * pAmbAl AppuNDu pADuRRAlum *** sOmbAdhu ip pal uruvai ellAm * paDarviththa viththA! * un thol uruvai yAr aRivAr? sollu",
+      19: "sollil kuRai illai * sUdhaRiyA nenjchamE! * elli pagal ennAdhu eppOdhum *** thollaik kaN mAth thAnaikkellAm * Or aivaraiyE mARAga * kAththAnaik kANDu nI kAN",
+      20: "kANap pugil aRivu * kaik koNDa nannenjcham * nANappaDum anRE? nAm pEsil *** mANi uruvAgik koNDu * ulagam nIr ERRa sIrAn * thiruvAgam thINDiRRuch senRu",
+      21: "senRanggu vennaragil * sErAmal kAppadhaRku * inRinggu en nenjchAl iDukkuNDa *** anRanggup pAr uruvum pAr vaLaiththa * nIr uruvum kaN pudhaiya * kAr uruvan thAn nimirththa kAl",
+      22: "kAlE podhath thirindhu * kaththuvarAm inanAL * mAlAr kuDi pugundhAr en manaththE *** mElAl tharukkum iDam pATTinoDum * valvinaiyAr thAm * vIRRu irukkum iDam kANAdhu iLaiththu",
+      23: "iLaippAy iLaiyAppAy * nenjchamE! sonnEn * iLaikka naman thamargaL paRRi *** iLaippeydha *** nAy thandhu mOdhAmal * nalguvAn nalkAppAn * thAy thandhai evvuyirkkum thAn",
+      24: "thAnE thanith thOnRal * than aLappu onRu illAdhAn * thAnE piRargaTkum thaRROnRal *** thAnE iLaikkil pAr kIzh mElAm * mINDu amaippAn AnAl * aLakkiRpAr pArin mEl Ar?",
+      25: "ArAnum AdhAnum seyya * agal iDaththai ArAyndhu * adhu thiruththal AvadhE? *** sIr Ar manaththalai * vanthunbaththai mARRinEn * vAnOr inath thalaivan kaNNanAl yAn",
+      26: "yAnum en nenjchum * isaindhozhindhOm * valvinaiyaik kAnum malaiyum pugak kaDivAn *** thAn Or iruL anna mAmEni * em iRaiyAr thandha * aruL ennum thaNDAl aDiththu",
+      27: "aDiyAl paDi kaDandha muththO? * adhanREl muDiyAl * visumbu aLandha muththO? *** neDiyAy! seRi kazhalgaL thAL nimirththuch * senRu ulagam ellAm * aRigilamAl nI aLandha anRu",
+      28: "anRE nam kaN kANum * AzhiyAn kAr uruvam * inRE nAm kANAdhu iruppadhuvum *** enREnum kaTkaNNAl * kANAdha avvuruvai * nenjchennum uTkaNNEl kANum uNarndhu",
+      29: "uNara oruvarkku * eLiyanE? sevvE * iNarum thuzhAy alanggal endhai *** uNarath thanakku eLiyar evvaLavar * avvaLavan AnAl * enakku eLiyan emperumAn inggu",
+      30: "inggillai * paNDu pOl vIRRu iruththal * ennuDaiya sengkaNmAl * sIrkkum siRidhuLLam *** anggE maDi aDakki niRpadhanil * valvinaiyAr thAm * mINDu aDi eDuppadhu anRO azhagu?",
+      31: "azhagum aRivOmAy * valvinaiyaith thIrppAn * nizhalum aDi thARum AnOm *** suzhalak kuDanggaL * thalai mIdhu eDuththuk koNDADi * anu ath thaDangkaDalai mEyAr thamakku",
+      32: "thamakku aDimai vENDuvAr * thAmOdharanAr thamakku * aDimai sey enRAl seyyAdhu *** emakku enRu thAm seyyum thIvinaikkE * thAzhvuRuvar nenjchinAr * yAn seyvadhu ivviDaththu inggu yAdhu?",
+      33: "yAdhAnum onRaRiyil * than ugakkil en kolO? * yAdhAnum nErndhu aNugAvARu thAn? *** yAdhAnum thERumA seyyA * asurargaLai * nEmiyAl pARu pARAkkinAn pAl",
+      34: "pAl Azhi nI kiDakkum paNbai * yAm kETTEyum * kAl Azhum nenjchazhiyum kaN suzhalum *** nIlAzhich sOdhiyAy! AdhiyAy! * tholvinai empAl kaDiyum * nIdhiyAy! niRsArndhu ninRu",
+      35: "ninRum irundhum * kiDandhum thirithandhum * onRumO ARRAn en nenjchagalAn *** anRu angkai vanpuDaiyAl pon peyarOn * vAy thagarththu mArvu iDandhAn * anbuDaiyan anRE avan?",
+      36: "avanAm ivanAm uvanAm * maRRu umbar avanAm * avan enRu irAdhE *** avanAm avanE enath theLindhu * kaNNanukkE thIrndhAl * avanE evanElumAm",
+      37: "Am ARu aRivuDaiyAr * Avadhu aridhu anRE? * nAmE adhu uDaiyOm nannenjchE! *** pUmEy madhukaramE * thaNthuzhAy mAlArai * vAzhththAm adhu karamE anbAl amai",
+      38: "amaikkum pozhudhu uNDE? * ArAyil nenjchE! * imaikkum pozhudhum iDaichchi kumaith thiRanggaL *** EsiyE Ayinum * InthuzhAy mAyanaiyE * pEsiyE pOkkAy pizhai",
+      39: "pizhaikka muyanROmO? * nenjchamE! pEsAy * thazhaikkum thuzhAy mArvan thannai *** azhaiththu orukAl pOy upakAram * poliyak koLLAdhu * avan pugazhE vAy upakAram koNDa vAyppu",
+      40: "vAyppO idhu oppa * maRRillai vA nenjchE! * pOyp pOoy vennaragil pUviyEl *** thIp pAla pEyth thAy * uyir kalAyp pAl uNDu * avaL uyirai mAyththAnai vAzhththE vali",
+      41: "valiyam ena ninaindhu * vandhu edhirndha mallar * valiya muDi iDiya vAnggi *** valiya nin pon Azhik kaiyAl * puDaiththiDudhi kILAdhE * pannALum niRkum ippAr",
+      42: "pAr uNDAn pAr umizhndhAn * pAr iDanthAn pAr aLandhAn * pAr iDam mun paDaiththAn enbarAl *** pAr iDam AvAnum * thAn AnAl Ar iDamE? * maRRoruvarkku AvAn pugAvAl avai",
+      43: "avayam ena ninaindhu * vandha surar pAlE * navaiyai naLirvippAn thannai *** kavai il manaththuyara vaiththu irundhu * vAzhththAdhArkku uNDO? * manath thuyarai mAykkum vagai",
+      44: "vagai sErndha nannenjchum * nA uDaiya vAyum * miga vAyndhu vIzhA enilum *** miga Ayndhu mAlaith thAm * vAzhththAdhu iruppar idhu anRE? * mElaith thAm seyyum vinai",
+      45: "vinaiyAr thara muyalum * vemmaiyai anjchi * thinaiyAm siRidhaLavum sella ninaiyAdhu *** vAsagaththAl EththinEn * vAnOr thozhudhu iRainjchum * nAyagaththAn pon aDikkaL nAn",
+      46: "nAn kURum * kURRAvadhu iththanaiyE * nANALum thEnggOdha * nIr uruvan sengkaN mAl *** nInggAdha mA kadhi Am vennaragil * sErAmal kAppadhaRku * nI kadhiyA nenjchE! ninai",
+      47: "ninaiththu iRainjchi mAniDavar * onRu irappar enRE * ninaiththiDavum vENDA nI nErE *** ninaiththu iRainjcha evvaLavar * evviDaththOr mAlE! * adhu thAnum evvaLavum uNDO? emakku",
+      48: "emakku yAm viNNATTukku * uchchamadhAm vITTai * amaiththu irundhOm aqdhanRE yAmARu? *** amaippolindha men thOLi kAraNamA * vengkOTTu ERu EzhuDanE * konRAnaiyE manaththuk koNDu",
+      49: "koNDal thAn mAl varai thAn * mA kaDal thAn kUr iruL thAn * vaNDaRAp pUvai thAn maRRuth thAn *** kaNDa nAL kAr uruvam * kAN thORum nenjchu ODum * kaNNanAr pEr uru enRemmaip pirindhu",
+      50: "pirindhu onRu nOkkAdhu * thammuDaiya pinnE * thirindhu uzhalum sindhanaiyAr thammai *** purindhu orukAl AvA! ena iranggAr * andhO! validhE kol? * mA vAy piLandhAr manam",
+      51: "manam ALum Or aivar * vankuRumbar thammai * sina mALviththu Or iDaththE sErththu *** puna mEya thaNthuzhAyAn aDiyaith * thAn kANum aqdhanRE * vaNthuzhAm sIrArkku mANbu",
+      52: "mAN pAviththu anjnjAnRu * maN irandhAn * mAyavaL nanjchu UN pAviththu * uNDAnadhu Or uruvam *** kANbAn nang kaN avA * maRRonRu kAN uRA * sIr paravAdhu uNNa vAy thAn uRumO onRu?",
+      53: "onRuNDu sengkaN mAl! yAn uraippadhu * un aDiyArkku en seyvan enRE iruththi nI *** nin pugazhil vaigum * tham sinthaiyilum maRRu inidhO? * nI avarkku vaikuntham enRu aruLum vAn",
+      54: "vAnO? maRi kaDalO? * mArudhamO? thIyagamO? * kAnO? orunggiRRum kaNDilam Al *** An InRa kanRuyarath thAm eRindhu * kAy udhirththAr thAL paNindhOm * vanthuyarai yAvA! marunggu",
+      55: "marunggOdham mOdhum * maNi nAgaNaiyAr * marunggE vara ariyarElum *** orunggE emakku avaraik kANalAm * eppOdhum uLLAl * manak kavalai thIrppAr varavu",
+      56: "varavARu onRillaiyAl * vAzhvinidhAl * ellE! oru ARu * oruvan pugA ARu *** uru mARum Ayavar thAm sEyavar thAm * anRu ulagam thAyavar thAm * mAyavar thAm kATTum vazhi",
+      57: "vazhith thanggu valvinaiyai * mARRAnO? nenjchE! * thazhIik koNDu pOr avuNan thannai *** suzhiththu enggum thAzhviDanggaL paRRip * pulAl veLLam thAn ugaLa * vAzhvu aDangga mArvu iDandha mAl?",
+      58: "mAlE! paDich sOdhi mARREl * ini unadhu * pAlE pOl sIril pazhuththu ozhindhEn *** mElAl piRappinmai peRRu * aDik kIzhk kuRREval anRu * maRappinmai yAn vENDum mADu",
+      59: "mADE varap peRuvarAm enRE * valvinaiyAr kADAnum * AdhAnum kaik koLLAr *** UDE pOyp pEr Odham sindhu * thiraik kaNvaLarum * pErALan pEr Odhach sindhikkap pErndhu",
+      60: "pErndhonRu nOkkAdhu * pin niRpAy nillAppAy * InthuzhAy mAyanaiyE en nenjchE! *** pErndhenggum thollai mA vennaragil * sErAmal kAppadhaRku * illai kAN maRROr iRai",
+      61: "iRai muRaiyAn sEvaDi mEl * maN aLandha annAL * maRai muRaiyAl vAnADar kUDi *** muRai muRaiyin thAdhilagu * pUth theLiththAl ovvAdhE? * thAzh visumbin mIdhilagith thAn kiDakkum mIn",
+      62: "mIn ennum kambin * veRi ennum veLLi vEy * vAn ennum kEDilA vAn kuDaikku *** thAn Or maNik kAmbu pOl nimirndhu * maN aLandhAn * nanggaL piNikkAm peru marundhu pin",
+      63: "pin thurakkum kARRizhindha * sURkoNDal pErndhum pOy * van thiraik kaN vandhaNaintha vAymaiththE *** anRu thiruch cheyya nEmiyAn * thI arakki mUkkum * paruch cheviyum Irndha paran",
+      64: "paranAm avan Adhal * pAvippar Agil * uranAl oru mUnRu pOdhum *** maram Ezh anRu eydhAnaip * puLLin vAy kINDAnaiyE * amarar kai thAn thozhAvE kalandhu?",
+      65: "kalandhu naliyum * kaDunthuyarai nenjchE! * malangga aDiththu maDippAn *** vilanggal pOl thol mAlaik kEsavanai * nAraNanai mAdhavanai * sol mAlai eppozhudhum sUTTu",
+      66: "sUTTAya nEmiyAn * thol arakkan innuyirai * mATTE thuyar izhaiththa mAyavanai *** ITTa veRi koNDa * thaNthuzhAy vEdhiyanai * nenjchE! aRi kaNDAy sonnEn adhu",
+      67: "adhuvO nanRenRu * anggu amar ulagO vENDil * adhuvOr poruL illai anRE *** adhu ozhindhu maN inRu ALvEn enilum * kUDum maDa nenjchE! * kaNNan thAL vAzhththuvadhE kal",
+      68: "kallum kanai kaDalum * vaikuntha vAnADum * pullenRu ozhindhana kol? E pAvam! *** vella neDiyAn niRam kariyAn * uL pugundhu nInggAn * aDiyEnadhu uLLaththu agam",
+      69: "agam sivandha kaNNinarAy * valvinaiyar AvAr * mugam sidhaivarAm anRE mukki *** migum thirumAl sIrk kaDalai uL podhindha * sindhanaiyEn thannai * Arkku aDalAm sevvE aDarththu?",
+      70: "aDar pon muDiyAnai * Ayiram pErAnai * suDar koL suDar AzhiyAnai *** iDar kaDiyum mAthA pithuvAga * vaiththEn enadhuLLE * yAdhu Agil yAdhE ini?",
+      71: "ini ninRu nin perumai * yAn uraippadhu ennE? * thani ninRa sArvilA mUrththi! *** pani nIr agaththulavu * senjchaDaiyAn AgaththAn * nAnku mugaththAn nin undhi mudhal",
+      72: "mudhalAm thiru uruvam * mUnRu enbar * onRE mudhal Agum * mUnRukkum enbar mudhalvA! *** nigar ilagu kAr uruvA! * nin agaththadhanRE? * pugar ilagu thAmaraiyin pU",
+      73: "pUvaiyum kAyAvum * nIlamum pUkkinRa * kAvi malar enRum kAN thORum *** pAviyEn mellAvi * mey migavE pUrikkum * avvavai ellAm pirAn uruvE enRu",
+      74: "enRum oru nAL * ozhiyAmai yAn irandhAl * onRum iranggAr uruk kATTAr *** kunRu kuDai Aga * A kAththa kOvalanAr * nenjchE! puDai thAn peridhE puvi",
+      75: "puviyum iru visumbum nin agaththa * nI en seviyin vazhi pugundhu en uLLAy *** avivinRi yAn periyan nI periyai * enbadhanai yAr aRivAr? * Un parugu nEmiyAy! uLLu",
+      76: "uLLilum uLLam thaDikkum * vinaip paDalam * viLLa vizhiththu unnai mey uRRAl *** uLLa ulagaLavum * yAnum uLan Avan en kolO? * ulagaLandha mUrththi! urai",
+      77: "uraikkil Or suRRaththAr * uRRAr enRArE? * iraikkum kaDal kiDandha endhAy! *** uraippellAm nin anRi * maRRilEn kaNDAy! * enadh uuyirkkOr sol nanRi Agum thuNai",
+      78: "thuNai nAL perum kiLaiyum * thol kulamum * suRRath thiNai nALum * inbuDaiththAm Elum * kaNai nANil OvAth thozhil sArnggan * thol sIrai nannenjchE! * OvAdha UN Aga uN",
+      79: "uNNATTuth thEsanRE! * Uzh vinaiyai anjchumE? * viNNATTai onRAga mechchumE? *** maNNATTil Ar Agi * evvizhivu iRRAnAlum * Azhi angkaip pEr AyaRku ALAm piRappu",
+      80: "piRappu iRappu mUppup * piNi thuRandhu * pinnum iRakkavum * inbuDaiththAm Elum *** maRappellAm EdhamE * enRallAl eNNuvanE? * maN aLandhAn pAdhamE EththAp pagal",
+      81: "pagal irA enbadhuvum * pAviyAdhu * emmai igal seydhu * irupozhudhum ALvar *** thagavAth thozhumbar ivar sIrkkum * thuNai ilar enROrAr * sezhum paravai mEyAr therindhu",
+      82: "therindhu uNarvonRu inmaiyAl * thIvinaiyEn * vALA irundhu ozhindhEn * kIzh nALgaL ellAm *** karandhu uruvin ammAnai * annAnRu pin thoDarndha * Azhi angkai ammAnai EththAdhu ayarththu",
+      83: "ayarppAy ayarAppAy * nenjchamE! sonnEn * uyap pOm neRi idhuvE kaNDAy *** seyaRpAla vallavE seykiRudhi * nenjchamE! anjchinEn * mallar nAL vavvinanai vAzhththu",
+      84: "vAzhththi avan aDiyaip pUp punaindhu * nin thalaiyaith thAzhththu * iru kai kUppu enRAl kUppAdha pAzhththa vidhi! *** engguRRAy enRavanai * EththAdhu en nenjchamE! * thanggaththAn AmElum thanggu",
+      85: "thanggA muyaRRiyavAyth * thAzh visumbin mIdhu pAyndhu * enggE pukku eththavam seydhiTTana kol? *** ponggOdhath thaN ampAl * vElai vAyk kaN vaLarum * ennuDaiya kaNNan pAl nalniRam koL kAr",
+      86: "🙏 kAr kalandha mEniyAn * kai kalandha AzhiyAn * pAr kalandha valvayiRRAn pAmbaNaiyAn *** sIr kalandha sol ninaindhu pOkkArEl * sUzh vinaiyin Azhthuyarai * en ninaindhu pOkkuvar ippOdhu?",
+      87: "🙏 ippOdhum innum * inich chiRidhu ninRAlum * eppOdhum IdhE sol en nenjchE! *** eppOdhum kai kazhalA nEmiyAn * nam mEl vinai kaDivAn * moy kazhalE Eththa muyal",
+    }
+  };
+
+  // Nondestructive runtime merging engine
+  for (const key in text_bundle_en) {
+    window.MARKER_DATABASE[key] = window.MARKER_DATABASE[key] || [];
+    for (const p in text_bundle_en[key]) {
+      const idx = parseInt(p) - 1;
+      window.MARKER_DATABASE[key][idx] = window.MARKER_DATABASE[key][idx] || { p: parseInt(p) };
+      window.MARKER_DATABASE[key][idx]['text'] = window.MARKER_DATABASE[key][idx]['text'] || {};
+      window.MARKER_DATABASE[key][idx]['text']['en'] = text_bundle_en[key][p];
+    }
+  }
+};
+

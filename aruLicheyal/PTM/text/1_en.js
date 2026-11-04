@@ -1,0 +1,147 @@
+window.MARKER_DATABASE = window.MARKER_DATABASE || {};
+
+// Global function to trigger the merge on-demand
+window.mergeLanguageTexts = function () {
+    const text_bundle_en = {
+        'PTM.1.1.steps': {
+            1: "🙏 vADinEn vADi varundhinEn manaththAl * perunthuyar iDumbaiyil piRandhu * kUDinEn kUDi iLaiyavar thammODu * avar tharum kalaviyE karudhi *** ODinEn ODi uyvadhOr poruLAl * uNarvenum perum padham thirindhu * nADinEn nADi nAn kaNDu koNDEn * nArAyaNA ennum nAmam",
+            2: "🙏 AviyE! amudhE! ena ninaindhu urugi * avar avar paNaimulai thuNaiyA * pAviyEn uNarAdhu eththanai pagalum * pazhudhu pOy ozhindhana nALgaL *** thUvi sEr annam thuNaiyoDum puNarum * sUzhpunaR kuDandhaiyE thozhudhu * en nAvinAl uyya nAn kaNDu koNDEn * nArAyaNA ennum nAmam",
+            3: "sEmamE vENDith thIvinai perukkith * therivaimAr uruvamE maruvi * UmanAr kaNDa kanavilum pazhudhAy * ozhindhana kazhindha annALgaL *** kAmanAr thAdhai nammuDai aDigaL * tham aDaindhAr manaththu iruppAr * nAmam nAn uyya nAn kaNDu koNDEn * nArAyaNA ennum nAmam",
+            4: "venRiyE vENDi vIzh poruTku iranggi * vERkaNAr kalaviyE karudhi * ninRavA nillA nenjchinai uDaiyEn * en seygEn? neDu visumbu aNavum *** panRiyAy anRu pAragam kINDa * pAzhiyAn AzhiyAn aruLE * nanRu nAn uyya nAn kaNDu koNDEn * nArAyaNA ennum nAmam",
+            5: "kaLvanEn AnEn paDiRu seydhiruppEn * kaNDavA thirithandhEnElum * theLLiyEn AnEn sel kadhikkamaindhEn * chikkenath thiruvaruL peRREn *** uLLelAm urugik kural thazhuththu ozhindhEn * uDambelAm kaNNa nIr sOra * naLLiruL aLavum pagalum nAn azhaippan * nArAyaNA ennum nAmam",
+            6: "🙏 empirAn endhai ennuDaich chuRRam * enakkarasu ennuDai vANAL * ambinAl arakkar verukkoLa nerukki * avar uyir seguththa em aNNal *** vambulAm sOlai mAmadhiL * thanjchai mAmaNikkOyilE vaNanggi * nambigAL! uyya nAn kaNDu koNDEn * nArAyaNA ennum nAmam",
+            7: "iRpiRappu aRiyIr ivar avar ennIr * innadhOr thanmai enRu uNarIr * kaRpagam pulavar kaLaikaN enRu ulagil * kaNDavA thoNDaraip pADum *** soRporuL ALIr sollugEn vammin * sUzhpunaR kuDandhaiyE thozhumin * naRporuL kANmin pADi nIr uymmin * nArAyaNA ennum nAmam",
+            8: "kaRRilEn kalaigaL aimpulan karudhum * karuththuLE thiruththinEn manaththai * peRRilEn adhanAl pEdhaiyEn nanmai * perunilaththu Aruyirkku ellAm *** seRRamE vENDith thiritharvEn thavirndhEn * sel kadhikku uyyumARu eNNi * nalthuNaiyAgap paRRinEn aDiyEn * nArAyaNA ennum nAmam",
+            9: "🙏 kulam tharum selvam thandhiDum * aDiyAr paDu thuyar Ayina ellAm * nilam tharam cheyyum nIL visumbu aruLum * aruLoDu perunilam aLikkum *** valam tharum maRRum thandhiDum * peRRa thAyinum Ayina seyyum * nalam tharum sollai nAn kaNDu koNDEn * nArAyaNA ennum nAmam",
+            10: "🙏 manjchulAm sOlai vaNDaRai mAnIr * manggaiyAr vAL kali kanRi * senjcholAl eDuththa dheyva nalmAlai * ivai koNDu chikkenath thoNDIr! *** thunjchum pOdhu azhaimin thuyar varil ninaimin * thuyarilIr sollilum nanRAm * nanjchu thAn kaNDIr nammuDai vinaikku * nArAyaNA ennum nAmam",
+            11: "aDivaravu: vADinEn * AviyE sEmam * venRi kaLvanEn * empirAn iRpiRappu * kaRRilEn kulam * manjchu vAli",
+        },
+        'PTM.1.2.steps': {
+            1: "🙏 vAli mAvalaththu oruvanadhu uDal keDa * varisilai vaLaiviththu * anRu ElanARu thaNthaDam pozhil iDam peRa * irundha nal imayaththuL *** Ali mAmugil adhir thara aruvarai * agaDuRa mugaDERi * pIli mAmayil naDam seyum thaDanjchunaip * piridhi senRaDai nenjchE!",
+            2: "kalangga mAkkaDal arikulam paNi seyya * aruvarai aNai kaTTi * ilanggai mAnagar poDi seydha aDigaL thAm * irundha nal imayaththu *** vilanggal pOlvana viRal irunjchinaththana * vEzhanggaL thuyar kUra * pilangkoL vAL eyiRRu ari avai thiri tharu * piridhi senRaDai nenjchE!",
+            3: "thuDikoL nuNNiDaich churikuzhal * thuLanggeyiRRu iLangkoDi thiRaththu * Ayar iDikoL vengkural inaviDai aDarththavan * irundha nal imayaththu *** kaDikoL vEnggaiyin naRumalar amaLiyin * maNi aRai misai vEzham * piDiyinODu vaNDu isai solath thuyil koLum * piridhi senRaDai nenjchE!",
+            4: "maRangkoL ALari uruvena veruvara * thiRandhu * vAnavar maNimuDi paNi thara * irundha nal imayaththuL *** iRanggi EnanggaL vaLai maruppu iDandhiDak * kiDandhu arugeri vIsum * piRanggu mAmaNi aruviyoDu izhitharu * piridhi senRaDai nenjchE!",
+            5: "karaisey mAkkaDal kiDandhavan * kanaikazhal amarargaL thozhudhEththa * araisey mEgalai alarmagaL avaLoDum * amarndha nal imayaththu *** varaisey mAkkaLiRu iLavedhir vaLar muLai * aLaimigu thEn thOyththu * pirasavAri than iLampiDikku aruL seyum * piridhi senRaDai nenjchE!",
+            6: "paLLi koL * paramA! enRu * iNanggi vAnavar maNimuDi paNi thara * irundha nal imayaththu *** maNangkoL mAdhavi neDungkoDi visumbuRa * nimirndhu avai mugil paRRi * piNanggu pUmpozhil nuzhaindhu vaND isai solum * piridhi senRaDai nenjchE!",
+            7: "kAr koL vEnggaigaL kanavarai thazhuviya * kaRivaLar koDi thunni * pOr koL vEnggaigaL punavarai thazhuviya * pUmpozhil imayaththuL *** Er koL pUnjchunaith thaDam paDindhu * inamalar eTTum iTTu imaiyOrgaL * pErgaL Ayiram paravi ninRaDi thozhum * piridhi senRaDai nenjchE!",
+            8: "iravu kUrndhu iruL perugiya varai muzhai * irumpasi adhu kUra * aravam Avikkum agam pozhil thazhuviya * aruvarai imayaththu *** paraman Adhi em pani mugil vaNNan enRu * eNNi ninRu imaiyOrgaL * piramanODu senRu aDi thozhum perunthagai * piridhi senRaDai nenjchE!",
+            9: "Odhi Ayira nAmanggaL uNarndhavarkku * uRuthuyar aDaiyAmal * Edham inRi ninRu aruLum nam perunthagai * irundha nal imayaththu *** thAdhu malgiya piNDi viNDu alarginRa * thazhal purai ezhil nOkki * pEdhai vaNDugaL eri ena veruvaru * piridhi senRaDai nenjchE!",
+            10: "🙏 kariya mAmugil paDalanggaL kiDandhu * avai muzhanggiDa * kaLiRenRu periya mAsuNam varai enap peyar tharu * piridhi emperumAnai *** varikoL vaNDaRai paimpozhil manggaiyar * kaliyanadhu oli mAlai * ariya innisai pADum nal aDiyavarkku * aruvinai aDaiyAvE",
+            11: "aDivaravu: vAli * kalangga thuDi * maRam karaisey * paNanggaL kAr * iravu Odhi * kariya muRRa",
+        },
+        'PTM.1.3.steps': {
+            1: "🙏 muRRa mUththuk kOl thuNaiyA * munnaDi nOkki vaLaindhu * iRRa kAl pOl thaLLi meLLa * irundhu anggu iLaiyA mun *** peRRa thAy pOl vandha pEychchi * peru mulaiyUDu * uyirai vaRRa vAnggi uNDa vAyAn * vadhari vaNanggudhumE",
+            2: "mudhugu paRRik kaiththalaththAl * munnoru kOl UnRi * vidhir vidhirththuk kaN suzhanRu * mERkiLai koNDu irumi *** idhu en appar mUththa ARenRu * iLaiyavar EsA mun * madhu uN vaNDu paNgaL pADum * vadhari vaNanggudhumE",
+            3: "uRigaL pOl mey narambu ezhundhu * Un thaLarndhu uLLam eLgi * neRiyai nOkkik kaN suzhanRu * ninRu naDunggA mun *** aRidhiyAgil nenjcham! anbAy * Ayira nAmam solli * veRikoL vaNDu paNgaL pADum * vadhari vaNanggudhumE",
+            4: "pILai sOrak kaN iDunggip * piththezha mUththu irumi * thALgaL nOvath thammil muTTith * thaLLi naDavA mun *** kALaiyAgik kanRu mEyththuk * kunReDuththu anRu ninRAn * vALai pAyum thaN thaDam sUzh * vadhari vaNanggudhumE",
+            5: "paNDu kAmar AnavARum * pAvaiyar vAy amudham uNDavARum * vAzhndhavARum * okka uraiththu irumi *** thaNDu kAlA UnRi UnRith * thaLLi naDavA mun * vaNDu pADum thaNthuzhAyAn * vadhari vaNanggudhumE",
+            6: "eyththa sollODu ILai Enggi * irumi iLaiththu uDalam * piththar pOlach siththam vERAyp * pEsi ayarA mun *** aththan endhai Adhi mUrththi * AzhkaDalaik kaDaindha * maiththa sOdhi emperumAn * vadhari vaNanggudhumE",
+            7: "pappa appar mUththavARu * pAzhppadhu sIththiraLai oppa * aikkaL pOdha undha * un thamar kANmin enRu *** seppu nEr menkonggai nallAr * thAm siriyAdha munnam * vaippum nanggaL vAzhvum AnAn * vadhari vaNanggudhumE",
+            8: "Isi pOmin Inggu irEnmin * irumi iLaiththIr * uLLam kUsiyiTTIr enRu pEsum * kuvaLai anggaNNiyar pAl *** nAsam Ana pAsam viTTu * nanneRi nOkkal uRil * vAsam malgu thaNthuzhAyAn * vadhari vaNanggudhumE",
+            9: "pulangaL naiya meyyil mUththup * pOndhirundhu uLLam eLgi * kalangga aikkaL pOdha undhik * kaNDa pidhaRRA mun *** alanggalAya thaNthuzhAy koNDu * Ayira nAmam solli * valangkoL thoNDar pADi ADum * vadhari vaNanggudhumE",
+            10: "🙏 vaNDu thaNthEn uNDu vAzhum * vadhari neDumAlai * kaNDal vEli manggai vEndhan * kaliyan oli mAlai *** koNDu thoNDar pADi ADak * kUDiDil nILvisumbil * aNDam allAl maRRu avarkku * Or ATchi aRiyOmE",
+            11: "aDivaravu: muRRa * mudhugu uRigaL * pILai paNDu * eyththa pappa * Isi pulankaL * vaNDu Enam",
+        },
+        'PTM.1.4.steps': {
+            1: "🙏 EnamunAgi irunilam iDandhu * anRu iNaiyaDi imaiyavar vaNangga * dhAnavan Agam tharaNiyil puraLath * thaDanjchilai kuniththa en thalaivan *** thEnamar sOlaik kaRpagam payandha * dheyva nal naRumalar koNarndhu * vAnavar vaNanggum ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnE",
+            2: "kAniDai uruvaich chuDu saram thurandhu * kaNDu mun koDunthozhil uravOn * UnuDai agalaththu aDukaNai kuLippa * uyir kavarndhu ugandha em oruvan *** thEnuDaik kamalaththu ayanoDu dhEvar * senRu senRu iRainjchiDa * perugu vAniDai mudhu nIrk ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnE",
+            3: "ilanggaiyum kaDalum aDal arunthuppin * irunidhikku iRaivanum * arakkar koRRavan * kozhunjchuDar suzhanRa *** vilanggalil urinjchi mEl ninRa visumbil * veNthugil koDi ena virindhu * valantharu maNi nIrk ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnE",
+            4: "thuNivu ini unakkuch solluvan manamE! * thozhudhezhu thoNDargaL thamakku * piNi ozhiththu amarar peruvisumbu aruLum * pEraruLALan emperumAn *** aNimalark kuzhalAr arambaiyar thugilum * Aramum vAri vandhu * aNinIr maNi kozhiththu izhindha ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnE",
+            5: "pEy iDaikkirundhu vandha maRRavaL than * perumulai suvaiththiDa * peRRa thAy iDaikkiruththal anjchuvan enRu thaLarndhiDa * vaLarndha en thalaivan *** sEy mugaTTuchchi aNDamum sumandha * semponsey vilanggalil ilanggu * vAy mugaTTizhindha ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnE",
+            6: "thEraNanggu algul sezhungkayal kaNNi thiRaththu * oru maRath thozhil purindhu * pAraNanggu imil EREzhum mun aDarththa * panimugil vaNNan emperumAn *** kAraNam thannAl kaDumpunal kayaththa * karuvarai piLavezhak kuththi * vAraNam koNarndha ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnE",
+            7: "venthiRal kaLiRum vElai vAy amudhum * viNNoDu viNNavarkku arasum * indhiraRku aruLi emakkum IndharuLum * endhai em aDigaL emperumAn *** andharaththu amarar aDiyiNai vaNangga * Ayira mugaththinAl aruLi * mandharaththu izhindha ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnE",
+            8: "mannavan * ponniRaththu uravOn * Un munindhu avanadhu uDal irupiLavA * ugir nudhi maDuththu *** ayan aranaith thAn munindhiTTa * venthiRal sAbam thavirththavan * mAmuni koNarndha ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnE",
+            9: "koNDal mArudhanggaL kulavarai thogunIrk * kuraikaDal ulaguDan anaiththum * uNDa mAvayiRROn oNsuDar Eyndha * umbarum Uzhiyum AnAn *** aNDam UDaRuththu anRu andharaththu izhindhu * anggu avaniyAL alamara * perugu maNDu mAmaNi nIrk ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnE",
+            10: "🙏 varunthirai maNi nIrk ganggaiyin karai mEl * vadhariyAchchirAmaththuLLAnai * karungkaDal munnIr vaNNanai eNNik * kaliyan vAyoli seydha panuval *** varam seydha aindhum aindhum vallArgaL * vAnavar ulaguDan maruvi * irungkaDal ulagam ANDu veNkuDaik kIzh * imaiyavar Aguvar thAmE",
+            11: "aDivaravu: Enam * kAniDai ilanggai * thuNivu pEy * thEr venthiRal * mAn koNDal * varunthirai kalai",
+        },
+        'PTM.1.5.steps': {
+            1: "🙏 kalaiyum kariyum parimAvum * thiriyum kAnam kaDandhu pOy * silaiyum kaNaiyum thuNai Agach * senRAn venRich cheRukkaLaththu *** malai koNDu alainIr aNai kaTTi * madhiL nIr ilanggai vAL arakkar thalaivan * thalai paththu aRuththu ugandhAn * sALakkirAmam aDai nenjchE!",
+            2: "kaDam sUzh kariyum parimAvum * oli mAnthErum kAlALum * uDan sUzhndhu ezhundha kaDi ilanggai * poDiyA vaDivAych charam thurandhAn *** iDam sUzhndhu enggum iruvisumbil * imaiyOr vaNangga maNam kamazhum * thaDam sUzhndhu enggum azhagAya * sALakkirAmam aDai nenjchE!",
+            3: "ulavu thiraiyum kula varaiyum * Uzhi mudhalA eN thikkum * nilavum suDarum iruLumAy ninRAn * venRi viRal Azhi valavan *** vAnOr tham perumAn * maruvA arakkarkku enjnjAnRum salavan * salam sUzhndhu azhagAya * sALakkirAmam aDai nenjchE!",
+            4: "UrAn kuDandhai uththaman * orukAl irukAl silai vaLaiya * thErA arakkar thEr veLLam seRRAn * vaRRA varupunal sUzh pErAn *** pEr Ayiram uDaiyAn * piRanggu siRai vaNDu aRaiginRa thArAn * thArA vayal sUzhndha * sALakkirAmam aDai nenjchE!",
+            5: "aDuththArththu ezhundhAL pilavAy viTTalaRa * avaL mUkku ayil vALAl viDuththAn * viLanggu suDar Azhi * viNNOr perumAn naNNAr mun *** kaDuththArththu ezhundha perumazhaiyaik * kal onRu Endhi inanirai kAth thaDuththAn * thaDam sUzhndhu azhagAya * sALakkirAmam aDai nenjchE!",
+            6: "thAyAy vandha pEy uyirum * thayirum izhudhum uDan uNDa vAyAn * thUya ari uruvil kuRaLAych senRu * mAvaliyai EyAn irappa *** mUvaDi maN inRE thA enRu * ulagEzhum thAyAn * kAyA malar vaNNan * sALakkirAmam aDai nenjchE!",
+            7: "EnOr anjcha venjchamaththuL * ariyAyp pariya iraNiyanai * UnAr agalam piLaveDuththa * oruvan thAnE irusuDarAy *** vAnAyth thIyAy mArudhamAy * malaiyAy alainIr ulaganaiththum thAnAy * thAnum AnAn than * sALakkirAmam aDai nenjchE!",
+            8: "vendhAr enbum suDu nIRum * meyyil pUsik kaiyagaththu * Or sandhAr thalai koNDu ulagEzhum * thiriyum periyOn thAn senRu *** en endhAy! sAbam thIr enna * ilanggu amudhu nIr thirumArbil thandhAn * sandhAr pozhil sUzhndha * sALakkirAmam aDai nenjchE!",
+            9: "thoNDAm inamum imaiyOrum * thuNai nUl mArbin andhaNarum * aNDA! emakkE aruLAy enRu * aNaiyum kOyil arugellAm *** vaNDAr pozhilin pazhanaththu * vayalin ayalE kayal pAya * thaNthAmaraigaL mugam malarththum * sALakkirAmam aDai nenjchE!",
+            10: "🙏 thArA Arum vayal sUzhndha * sALakkirAmaththu aDigaLai * kArAr puRavin manggai vEndhan * kaliyan oli sey thamizh mAlai *** ArAr ulagaththu aRivuDaiyAr * amarar nalnATTu arasALa * pEr Ayiramum OdhumingaL * anRi ivaiyE pidhaRRuminE",
+            11: "aDivaravu: kalai * kaDam ulavu * UrAn aDuththu * thAy EnOr * venthAr thoNDu * thArA vANilA",
+        },
+        'PTM.1.6.steps': {
+            1: "🙏 vANilA muRuval siRunudhal perunthOL * mAdharAr vanamulaip payanE pENinEn * adhanaip pizhai enak karudhip * pEdhaiyEn piRavi nOy aRuppAn *** ENilEn irundhEn eNNinEn eNNi * iLaiyavar kalaviyin thiRaththai * nANinEn vandhun thiruvaDi aDaindhEn * naimisAraNiyaththuL endhAy!",
+            2: "silambaDi uruviR karuneDungkaNNAr * thiRaththanAy aRaththaiyE maRandhu * pulan paDindhuNNum bOgamE perukkip * pOkkinEn pozhudhinai vALA *** alampuri thaDakkai AyanE! mAyA! * vAnavarkku arasanE! * vAnOr nalam purindhu iRainjchum thiruvaDi aDaindhEn * naimisAraNiyaththuL endhAy!",
+            3: "sUdhinaip perukkik kaLavinaith thuNindhu * surikuzhal maDandhaiyar thiRaththu * kAdhalE miguththuk kaNDavA thirindha thoNDanEn * naman thamar seyyum *** vEdhanaikku oDunggi naDungginEn * vElai veNthirai alamarak kaDaindha * nAdhanE! vandhun thiruvaDi aDaindhEn * naimisAraNiyaththuL endhAy!",
+            4: "vambulAm kUndhal manaiviyaith thuRandhu * piRar poruL thAram enRu ivaRRai * nambinAr iRandhAl naman thamar paRRi * eRRi vaiththu *** eri ezhuginRa sembinAl iyanRa pAvaiyaip * pAvI! thazhuvena mozhivadhaRku anjchi * nambanE! vandhun thiruvaDi aDaindhEn * naimisAraNiyaththuL endhAy!",
+            5: "iDumbaiyAl aDarppuNDu iDuminO thuRRenRu * irandhavarkku illaiyE enRu * neDunjcholAl maRuththa nIsanEn andhO! * ninaikkilEn vinaip payan thannai *** kaDunjcholAr kaDiyAr kAlanAr thamarAl * paDuvadhOr koDumiRaikku anjchi * naDunggi nAn vandhun thiruvaDi aDaindhEn * naimisAraNiyaththuL endhAy!",
+            6: "kODiya manaththAl sinaththozhil purindhu * thirindhu nAy inaththoDum thiLaiththiTTu * ODiyum uzhanRum uyirgaLE konREn * uNarvilEn AdhalAl *** namanAr pADiyaip peridhum parisu azhiththiTTEn * paramanE! pARkaDal kiDandhAy! * nADi nAn vandhun thiruvaDi aDaindhEn * naimisAraNiyaththuL endhAy!",
+            7: "nenjchinAl ninaindhum vAyinAl mozhindhum * nIdhi allAdhana seydhum * thunjchinAr sellum tholneRi kETTE * thuLangginEn viLangkani munindhAy! *** vanjchanEn aDiyEn nenjchinil piriyA * vAnavA! dhAnavarkku enRum nanjchanE! * vandhun thiruvaDi aDaindhEn * naimisAraNiyaththuL endhAy!",
+            8: "EvinAr kaliyAr naliga enRu * en mEl engnganE vAzhumARu? * aivar kOvinAr seyyum koDumaiyai maDiththEn * kuRungkuDi neDungkaDal vaNNA! *** pAvinAr insol panmalar koNDu * un pAdhamE paravi nAn paNindhu * en nAvinAl vandhun thiruvaDi aDaindhEn * naimisAraNiyaththuL endhAy!",
+            9: "UniDaich chuvar vaiththu enbu thUN nATTi * urOmam vEyndhu onbadhu vAsal * thAnuDaik kurambai piriyum pOdhu * undhan charaNamE saraNam enRu irundhEn *** thEnuDaik kamalath thiruvinukku arasE! * thirai koL mA neDunggaDal kiDandhAy! * nAnuDaith thavaththAl thiruvaDi aDaindhEn * naimisAraNiyaththuL endhAy!",
+            10: "🙏 Edham vandhu aNugA vaNNam nAm eNNi * ezhuminO thozhudhum enRu * imaiyOr nAdhan vandhu iRainjchum * naimisAraNiyaththu endhaiyaich sindhaiyuL vaiththu *** kAdhalE miguththa kaliyan vAyoli sey * mAlai thAn kaRRu vallArgaL * OdhanIr vaiyagam ANDu veNkuDaik kIzh * umbarum Aguvar thAmE",
+            11: "aDivaravu: vANilA * silambu sUdhinai * vambu iDumbaiyAl * kODiya nenjchinAl * EvinAr Un * Edham angkaN",
+        },
+        'PTM.1.7.steps': {
+            1: "🙏 angkaN njAlam anjcha * anggOr ALariyAy * avuNan pongga Agam vaLLugirAl * pOzhndha punidhan iDam *** painggaN Anaik kombu koNDu * paththimaiyAl * aDik kIzhch sengkaN ALi iTTiRainjchum * singgavEL kunRamE",
+            2: "alaiththa pEzh vAy * vAL eyiRROr kOL ariyAy * avuNan kolaik kaiyALan nenjchu iDandha * kUr ugirALan iDam *** malaiththa sel sAththeRindha pUsal * vanthuDivAy kaDuppa * silaik kai vEDar thezhippaRAdha * singgavEL kunRamE",
+            3: "Eyndha pEzh vAy * vAL eyiRROr kOL ariyAy * avuNan vAyndha Agam vaLLugirAl * vagirndha ammAnadhiDam *** Oyndha mAvum uDaindha kunRum * anRiyum ninRazhalAl * thEyndha vEyum alladhillAch * singgavEL kunRamE",
+            4: "evvam vevvEl pon peyarOn * Edhalan innuyirai vavvi * Agam vaLLugirAl * vagirndha ammAnadhiDam *** kavvu nAyum kazhugum * uchchip pOdhoDu kAl suzhanRu * dheyvam allAl sella oNNAch * singgavEL kunRamE",
+            5: "menRa pEzh vAy * vAL eyiRROr kOL ariyAy * avuNan ponRa Agam vaLLugirAl * pOzhndha punidhan iDam *** ninRa senthI moNDu sURai * nIL visumbu UDiriya * senRu kANDaRku ariya kOyil * singgavEL kunRamE",
+            6: "erindha painggaN ilanggu pEzh vAy * eyiRRoDu idhu evvuru enRu * irindhu vAnOr kalanggi ODa * irundha ammAnadhiDam *** nerindha vEyin muzhaiyuL ninRu * nIL neRivAy uzhuvai * thirindha Anaich chuvaDu pArkkum * singgavEL kunRamE",
+            7: "munaiththa sIRRam viN suDap pOy * mUvulagum piRavum * anaiththum anjcha ALariyAy * irundha ammAnadhiDam *** kanaiththa thIyum kallum allA * villuDai vEDarumAy * thinaiththanaiyum sella oNNAch * singgavEL kunRamE",
+            8: "nAth thazhumba nAnmuganum * IsanumAy muRaiyAl Eththa * anggOr ALariyAy * irundha ammAnadhiDam *** kAyththa vAgai neRRolippak * kal adhar vEyngkazhai pOy * thEyththa thIyAl viN sivakkum * singgavEL kunRamE",
+            9: "nallai nenjchE! nAm thozhudhum * nammuDai namperumAn * alli mAdhar pulga ninRa * Ayiram thOLan iDam *** nelli malgik kal uDaippap * pul ilai Arththu * adharvAych sillu sil enRu ollaRAdha * singgavEL kunRamE",
+            10: "🙏 sengkaN ALi iTTiRainjchum * singgavEL kunRuDaiya * enggaL Isan empirAnai * irunthamizh nURpulavan *** manggaiyALan mannu thol sIr * vaNDaRai thArk kaliyan * sengkaiyALan senjchol mAlai * vallavar thIdhilarE",
+            11: "aDivaravu: angkaN * alaiththa Eyndha * evvam menRa * erindha munaiththa * nA nallai * sengkaN konggu",
+        },
+        'PTM.1.8.steps': {
+            1: "🙏 konggalarndha malark kurundham osiththa * kOvalan empirAn * sanggu thanggu thaDangkaDal * thuyil koNDa thAmaraik kaNNinan *** ponggu puLLinai vAy piLandha * purANar tham iDam * ponggu nIrch sengkayal thiLaikkum sunaith * thiruvEngkaDam aDai nenjchamE!",
+            2: "🙏 paLLi Avadhu pARkaDal aranggam * irangga vanpEy mulai * piLLaiyAy uyir uNDa endhai * pirAn avan perugum iDam *** veLLiyAn kariyAn * maNiniRa vaNNan enReNNi * nAL thoRum theLLiyAr vaNanggum malaith * thiruvEngkaDam aDai nenjchamE!",
+            3: "ninRa mAmarudhu iRRu vIzha * naDandha ninmalan nEmiyAn * enRum vAnavar kai thozhum * iNaith thAmarai aDi empirAn *** kanRi mAri pozhindhiDak * kaDidhu Aniraikku iDar nIkkuvAn * senRu kunRam eDuththavan * thiruvEngkaDam aDai nenjchamE!",
+            4: "🙏 pArththaRkAy anRu pAradham kai seydhiTTu * venRa paranjchuDar * kOththanggu Ayar tham pADiyil * kuravai piNaindha em kOvalan *** EththuvAr tham manaththuLLAn * iDavendhai mEviya empirAn * thIrththa nIrth thaDanjchOlai sUzh * thiruvEngkaDam aDai nenjchamE!",
+            5: "vaNkaiyAn avuNarkku nAyagan * vELviyil senRu mANiyAy * maN kaiyAl irandhAn * marAmaram Ezhum eydha valaththinAn *** eNkaiyAn imayaththuLLAn * irunjchOlai mEviya empirAn * thiNkaimmA thuyar thIrththavan * thiruvEngkaDam aDai nenjchamE!",
+            6: "eNthisaigaLum Ezhulagamum vAnggip * pon vayiRRil peydhu * paNDOr Alilaip paLLi koNDavan * pAlmadhikku iDar thIrththavan *** oNthiRal avuNan uraththu ugir vaiththavan * oL eyiRRoDu * thiNthiRal ari Ayavan * thiruvEngkaDam aDai nenjchamE!",
+            7: "pArunIr eri kARRinODu * AgAsamum ivai AyinAn * pErum Ayiram pEsa ninRa * piRappili perugum iDam *** kArum vArpani nILvisumbiDaich * sOru mAmugil thOy thara * sErum vArpozhil sUzh * ezhil thiruvEngkaDam aDai nenjchamE!",
+            8: "ambaram anal kAl nilam * salam Agi ninRa amarar kOn * vambulAm malar mEl * malimaDa manggai than kozhunan avan *** kombin anna iDai maDak kuRamAdhar * nIL idhaNam thoRum * sempunam avai kAval koL * thiruvEngkaDam aDai nenjchamE!",
+            9: "🙏 pEsumin thirunAmam eTTezhuththum * solli ninRu pinnarum * pEsuvAr thamai uyya vAnggip * piRappaRukkum pirAn iDam *** vAsa mAmalar nARuvAr * pozhil sUzh tharum ulagukkellAm * thEsamAyth thigazhum malaith * thiruvEngkaDam aDai nenjchamE!",
+            10: "🙏 sengkayal thiLaikkum sunaith * thiruvEngkaDaththuRai selvanai * manggaiyar thalaivan kalikanRi * vaNthamizhch senjchol mAlaigaL *** sanggai inRith thariththu uraikka vallArgaL * thanjchamadhAgavE * vangga mAkaDal vaiyam kAvalar Agi * vAnulagu ALvarE",
+            11: "aDivaravu: konggu * paLLi ninRa * pArththaRku vaNkaiyAn * eNthisaigaL pAr * ambaram pEsumin * sengkayal",
+        },
+        'PTM.1.9.steps': {
+            1: "🙏 thAyE thandhai enRum * thAramE kiLai makkaL enRum * nOyE paTTozhindhEn * unnaik kANbadhOr AsaiyinAl *** vEyEy pUmpozhil sUzh * viraiyAr thiruvEngkaDavA! * nAyEn vandhaDaindhEn * nalgi AL ennaik koNDaruLE",
+            2: "mAnEy kaN maDavAr * mayakkil paTTu mAnilaththu * nAnE nAnAvidha * naragam pugum pAvam seydhEn *** thEnEy pUmpozhil sUzh * thiruvEngkaDa mAmalai * en AnAy! vandhaDaindhEn * aDiyEnai ATkoNDaruLE",
+            3: "konREn palluyiraik * kuRikkOL onRu ilAmaiyinAl * enREnum irandhArkku * inidhAga uraiththu aRiyEn *** kunREy mEgam adhir * kuLir mAmalai vEngkaDavA! * anRE vandhaDaindhEn * aDiyEnai ATkoNDaruLE",
+            4: "kulam thAn eththanaiyum * piRandhE iRandhu eyththozhindhEn * nalam thAn onRumilEn * nalladhOr aRam seydhumilEn *** nilam thOy nILmugil sEr * neRiyAr thiruvEngkaDavA! * alandhEn vandhaDaindhEn * aDiyEnai ATkoNDaruLE",
+            5: "eppAvam palavum * ivaiyE seydhu iLaiththu ozhindhEn * thuppA! ninnaDiyE * thoDarndhu Eththavum kiRkinRilEn *** seppAr thiNvarai sUzh * thiruvEngkaDa mAmalai * en appA! vandhaDaindhEn * aDiyEnai ATkoNDaruLE",
+            6: "maNNAy nIr eri kAl * manjchulAvum AgAsamumAm * puNNAr Akkai thannuL * pulambith thaLarndhu eyththozhindhEn *** viNNAr nILsigara * viraiyAr thiruvEngkaDavA! * aNNA! vandhaDaindhEn * aDiyEnai ATkoNDaruLE",
+            7: "theriyEn pAlaganAyp * pala thImaigaL seydhumiTTEn * periyEn Ayina pin * piRarkkE uzhaiththu Ezhai AnEn *** kari sEr pUmpozhil sUzh * kanamAmalai vEngkaDavA! * ariyE! vandhaDaindhEn * aDiyEnai ATkoNDaruLE",
+            8: "nORREn palpiRavi * nunnaik kANbadhOr AsaiyinAl * ERREn ippiRappE * iDar uRRanan emperumAn! *** kOlthEn pAyndhu ozhugum * kuLir sOlai sUzh vEngkaDavA! * ARREn vandhaDaindhEn * aDiyEnai ATkoNDaruLE",
+            9: "paRREl onRumilEn * pAvamE seydhu pAvi AnEn * maRREl onRaRiyEn * mAyanE! enggaL mAdhavanE! *** kalthEn pAyndhu ozhugum * kamalach chunai vEngkaDavA! * aRREn vandhaDaindhEn * aDiyEnai ATkoNDaruLE",
+            10: "🙏 kaNNAy Ezhulagukku * uyirAya engkAr vaNNanai * viNNOr thAm paravum * pozhil vEngkaDa vEdhiyanai *** thiNNAr mADanggaL sUzh * thirumanggaiyar kOn kaliyan * paNNAr pADal paththum * payilvArkku illai pAvanggaLE",
+            11: "aDivaravu: thAy * mAn konREn * kulam eppAvam * maN theriyEn * nORREn paRREl * kaNNAy kaN",
+        },
+        'PTM.1.10.steps': {
+            1: "🙏 kaNNAr kaDal sUzh * ilanggaikku iRaivan than * thiNNAgam piLakkach * saram sela uyththAy! *** viNNOr thozhum * vEngkaDa mAmalai mEya * aNNA! aDiyEn * iDaraik kaLaiyAyE",
+            2: "ilanggaip padhikku * anRu iRaiyAya * arakkar kulam keTTu avar mALak * koDip puL thiriththAy! *** vilanggal kuDumith * thiruvEngkaDam mEya * alanggal thuLaba muDiyAy! * aruLAyE",
+            3: "nIrAr kaDalum * nilanum muzhudhu uNDu * Er Alam iLanthaLir mEl * thuyil endhAy! *** sIrAr * thiruvEngkaDa mAmalai mEya * ArAvamudhE! * aDiyERku aruLAyE",
+            4: "uNDAy uRi mEl * naRuney amudhAga * koNDAy kuRaLAy * nilam IraDiyAlE *** viNthOy sigarath * thiruvEngkaDam mEya * aNDA! aDiyEnukku * aruL puriyAyE",
+            5: "thUNAy adhanUDu * ariyAy vandhu thOnRi * pENA avuNan uDalam * piLandhiTTAy! *** sENAr * thiruvEngkaDa mAmalai mEya * kONAgaNaiyAy! * kuRikkoL enai nIyE",
+            6: "mannA * immanisap piRaviyai nIkki * than Akkith * than innaruL seyyum thalaivan *** minnAr mugil sEr * thiruvEngkaDam mEya * en Anai en appan * en nenjchil uLAnE",
+            7: "mAnEy maDanOkki thiRaththu * edhir vandha * AnEzh viDai seRRa * aNivaraith thOLA! *** thEnE! * thiruvEngkaDa mAmalai mEya * kOnE! en manam * kuDi koNDu irundhAyE",
+            8: "sEyan aNiyan * ena sindhaiyuL ninRa mAyan * maNi vAL oLi * veNtharaLanggaL *** vEy viNDu udhir * vEngkaDa mAmalai mEya * Ayan aDi alladhu * maRRu aRiyEnE",
+            9: "vandhAy en manam pugundhAy * manni ninRAy! * nandhAdha kozhunjchuDarE! * enggaL nambI! *** chinthAmaNiyE! * thiruvEngkaDam mEya endhAy! * ini yAn unnai * enRum viDEnE",
+            10: "🙏 villAr mali * vEngkaDa mAmalai mEya * mallAr thiraL thOL * maNivaNNan ammAnai *** kallAr thiraL thOL * kaliyan sonna mAlai * vallAr avar * vAnavar Aguvar thAmE",
+            11: "aDivaravu: kaN * ilanggai nIr * uNDAy thUNAy * mannA mAnEy * sEyan vandhAy * vil vAnavar",
+        }
+    };
+    // Non-destructive runtime merging engine
+    for (const key in text_bundle_en) {
+        window.MARKER_DATABASE[key] = window.MARKER_DATABASE[key] || [];
+        for (const p in text_bundle_en[key]) {
+            const idx = parseInt(p) - 1;
+            window.MARKER_DATABASE[key][idx] = window.MARKER_DATABASE[key][idx] || { p: parseInt(p) };
+            window.MARKER_DATABASE[key][idx]['text'] = window.MARKER_DATABASE[key][idx]['text'] || {};
+            window.MARKER_DATABASE[key][idx]['text']['en'] = text_bundle_en[key][p];
+        }
+    }
+};

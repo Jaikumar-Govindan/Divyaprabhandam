@@ -8,6 +8,8 @@
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; background-color: #f4f6f9; }
         header { background-color: #2c3e50; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .lang-select { padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; background: white; color: #333; cursor: pointer; }
         .container { display: flex; flex: 1; overflow: hidden; }
         .sidebar { width: 300px; background: #ffffff; border-right: 1px solid #ccc; display: flex; flex-direction: column; }
         .sidebar-header { padding: 10px; background: #e9ecef; font-weight: bold; border-bottom: 1px solid #ccc; }
@@ -29,7 +31,7 @@
         
         .editor-header { display: flex; justify-content: space-between; align-items: center; }
         
-        /* Tamil Keyboard Styling */
+        /* Dynamic Virtual Keyboard Styling */
         .keyboard-container { background: #e9ecef; border: 1px solid #ccc; border-radius: 4px; padding: 10px; margin-top: 10px; }
         .keyboard-title { font-size: 12px; font-weight: bold; margin-bottom: 8px; color: #495057; text-transform: uppercase; }
         .keyboard-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 5px; }
@@ -42,7 +44,10 @@
 
 <header>
     <h2>Pasuram Browser & Editor</h2>
-    <div>
+    <div class="header-actions">
+        <select id="langSelect" class="lang-select" onchange="switchLanguage()" style="display:none;">
+            <option value="ta">Tamil (ta)</option>
+        </select>
         <button class="btn btn-secondary" onclick="openFile()">Open Pasuram File</button>
         <button class="btn btn-primary" id="saveBtn" onclick="saveFile()" disabled>Save File Back to Folder</button>
     </div>
@@ -67,9 +72,9 @@
             </div>
             <textarea id="pasuramEditor" placeholder="Loaded text will appear here..."></textarea>
             
-            <!-- Tamil On-Screen Keyboard -->
+            <!-- Dynamic Virtual Keyboard -->
             <div class="keyboard-container">
-                <div class="keyboard-title">Tamil Virtual Keyboard (click to insert text)</div>
+                <div class="keyboard-title" id="keyboardTitle">Tamil Virtual Keyboard (click to insert text)</div>
                 <div class="keyboard-row" id="vowelsRow"></div>
                 <div class="keyboard-row" id="consonantsRow"></div>
                 <div class="keyboard-row" id="modifiersRow"></div>
@@ -87,25 +92,47 @@
 <script>
     let fileHandle = null;
     let originalFileContent = '';
+    let allBundles = {};
     let parsedData = {};
+    let currentLang = 'ta';
     let selectedKey = null;
     let selectedStep = null;
     let pasuramItemsList = [];
     let currentIndex = -1;
 
-    // Tamil Keyboard Characters
-    const vowels = ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ', 'ஓ', 'ஔ', 'ஃ'];
-    const consonants = ['க', 'ங', 'ச', 'ஞ', 'ட', 'ண', 'த', 'ந', 'ப', 'ம', 'ய', 'ர', 'ல', 'வ', 'ழ', 'ள', 'ற', 'ன', 'ஶ', 'ஜ', 'ஷ', 'ஸ', 'ஹ'];
-    const modifiers = ['்', 'ா', 'ி', 'ீ', 'ு', 'ூ', 'ெ', 'ே', 'ை', 'ொ', 'ோ', 'ௌ'];
+    // Keyboard layouts for different languages
+    const keyboardLayouts = {
+        ta: {
+            title: "Tamil Virtual Keyboard (click to insert text)",
+            vowels: ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ', 'ஓ', 'ஔ', 'ஃ'],
+            consonants: ['க', 'ங', 'ச', 'ஞ', 'ட', 'ண', 'த', 'ந', 'ப', 'ம', 'ய', 'ர', 'ல', 'வ', 'ழ', 'ள', 'ற', 'ன', 'ஶ', 'ஜ', 'ஷ', 'ஸ', 'ஹ'],
+            modifiers: ['்', 'ா', 'ி', 'ீ', 'ு', 'ூ', 'ெ', 'ே', 'ை', 'ொ', 'ோ', 'ௌ']
+        },
+        en: {
+            title: "English Virtual Keyboard (click to insert text)",
+            vowels: ['A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'],
+            consonants: ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z', 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'],
+            modifiers: ['.', ',', '?', '!', '-', '_', "'", '"', ';', ':']
+        }
+    };
 
-    function initKeyboard() {
+    function initKeyboard(lang = 'ta') {
+        currentLang = lang;
+        const layout = keyboardLayouts[lang] || keyboardLayouts['ta'];
+
+        document.getElementById('keyboardTitle').innerText = layout.title;
+
         const vRow = document.getElementById('vowelsRow');
         const cRow = document.getElementById('consonantsRow');
         const mRow = document.getElementById('modifiersRow');
 
-        vowels.forEach(char => vRow.appendChild(createKeyBtn(char)));
-        consonants.forEach(char => cRow.appendChild(createKeyBtn(char)));
-        modifiers.forEach(char => mRow.appendChild(createKeyBtn(char)));
+        vRow.innerHTML = '';
+        cRow.innerHTML = '';
+        mRow.innerHTML = '';
+
+        layout.vowels.forEach(char => vRow.appendChild(createKeyBtn(char)));
+        layout.consonants.forEach(char => cRow.appendChild(createKeyBtn(char)));
+        layout.modifiers.forEach(char => mRow.appendChild(createKeyBtn(char)));
     }
 
     function createKeyBtn(char) {
@@ -151,20 +178,60 @@
     }
 
     function parsePasuramContent(content) {
-        // Extract JSON-like object from text_bundle_ta
-        const match = content.match(/const\s+text_bundle_ta\s*=\s*(\{[\s\S]*?\});/);
-        if (!match) {
-            alert('Could not find "text_bundle_ta" dictionary inside the selected JavaScript file.');
-            return;
+        allBundles = {};
+        const matches = [...content.matchAll(/const\s+text_bundle_([a-z]{2})\s*=\s*(\{[\s\S]*?\});/g)];
+        
+        if (matches.length === 0) {
+            const singleMatch = content.match(/const\s+text_bundle_ta\s*=\s*(\{[\s\S]*?\});/);
+            if (!singleMatch) {
+                alert('Could not find any "text_bundle_xx" dictionary inside the selected JavaScript file.');
+                return;
+            }
+            matches.push(['', 'ta', singleMatch[1]]);
         }
 
-        try {
-            // Function evaluation safely inside scoped context
-            const evalObj = new Function(`return ${match[1]};`)();
-            parsedData = evalObj;
-            renderSidebar();
-        } catch (e) {
-            alert('Failed to parse text_bundle_ta: ' + e.message);
+        matches.forEach(match => {
+            const langCode = match[1];
+            try {
+                allBundles[langCode] = new Function(`return ${match[2]};`)();
+            } catch (e) {
+                console.error(`Failed to parse text_bundle_${langCode}:`, e.message);
+            }
+        });
+
+        const langSelect = document.getElementById('langSelect');
+        langSelect.innerHTML = '';
+        const langs = Object.keys(allBundles);
+        
+        langs.forEach(lang => {
+            const opt = document.createElement('option');
+            opt.value = lang;
+            opt.innerText = lang.toUpperCase() === 'TA' ? 'Tamil (ta)' : (lang.toUpperCase() === 'EN' ? 'English (en)' : `Language (${lang})`);
+            langSelect.appendChild(opt);
+        });
+
+        langSelect.style.display = langs.length > 1 ? 'inline-block' : 'none';
+        currentLang = allBundles['ta'] ? 'ta' : langs[0];
+        langSelect.value = currentLang;
+
+        parsedData = allBundles[currentLang] || {};
+        initKeyboard(currentLang);
+        renderSidebar();
+    }
+
+    function switchLanguage() {
+        const select = document.getElementById('langSelect');
+        currentLang = select.value;
+        
+        initKeyboard(currentLang);
+
+        if (allBundles[currentLang]) {
+            parsedData = allBundles[currentLang];
+            if (selectedKey && selectedStep && parsedData[selectedKey]) {
+                document.getElementById('pasuramEditor').value = parsedData[selectedKey][selectedStep] || '';
+            } else {
+                document.getElementById('pasuramEditor').value = '';
+            }
         }
     }
 
@@ -185,6 +252,10 @@
                 list.appendChild(li);
             }
         }
+
+        if (pasuramItemsList.length > 0) {
+            selectPasuramByIndex(0);
+        }
     }
 
     function selectPasuramByIndex(index) {
@@ -204,7 +275,7 @@
         selectedStep = step;
         
         document.getElementById('currentEditingLabel').innerText = `Editing: ${key} (Step ${step})`;
-        document.getElementById('pasuramEditor').value = parsedData[key][step];
+        document.getElementById('pasuramEditor').value = parsedData[key][step] || '';
 
         updateNavButtons();
     }
@@ -224,21 +295,48 @@
     document.getElementById('pasuramEditor').addEventListener('input', updateMemory);
 
     function updateMemory() {
-        if (selectedKey && selectedStep) {
+        if (selectedKey && selectedStep && parsedData[selectedKey]) {
             parsedData[selectedKey][selectedStep] = document.getElementById('pasuramEditor').value;
         }
+    }
+
+  // Custom serializer to format objects like JS literals (single quotes for strings, unquoted numbers)
+    function toJSLiteral(obj, indent = 0) {
+        const spaces = ' '.repeat(indent);
+        const innerSpaces = ' '.repeat(indent + 12);
+
+        if (typeof obj !== 'object' || obj === null) {
+            return JSON.stringify(obj);
+        }
+
+        let entries = [];
+        for (const key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                const val = toJSLiteral(obj[key], indent + 12);
+                // If key is purely numeric, output without quotes (e.g. 1: ), otherwise use single quotes ('key': )
+                const formattedKey = /^\d+$/.test(key) ? key : `'${key}'`;
+                entries.push(`${innerSpaces}${formattedKey}: ${val}`);
+            }
+        }
+
+        if (entries.length === 0) return '{}';
+        return `{\n${entries.join(',\n')}\n${spaces}}`;
     }
 
     async function saveFile() {
         if (!fileHandle) return;
 
         try {
-            // Reconstruct JavaScript contents
-            const newFormattedJson = JSON.stringify(parsedData, null, 12);
-            const updatedContent = originalFileContent.replace(
-                /const\s+text_bundle_ta\s*=\s*\{[\s\S]*?\};/,
-                `const text_bundle_ta = ${newFormattedJson};`
-            );
+            let updatedContent = originalFileContent;
+
+            for (const [lang, data] of Object.entries(allBundles)) {
+                // Serialize using JS literal formatting (single quotes for string keys, no quotes for numbers)
+                const newFormattedJs = toJSLiteral(data, 0);
+                const regex = new RegExp(`const\\s+text_bundle_${lang}\\s*=\\s*\\{[\\s\\S]*?\\};`);
+                if (regex.test(updatedContent)) {
+                    updatedContent = updatedContent.replace(regex, `const text_bundle_${lang} = ${newFormattedJs};`);
+                }
+            }
 
             const writable = await fileHandle.createWritable();
             await writable.write(updatedContent);
@@ -250,8 +348,7 @@
         }
     }
 
-    // Initialize keyboard on page load
-    window.onload = initKeyboard;
+    window.onload = () => initKeyboard('ta');
 </script>
 
 </body>

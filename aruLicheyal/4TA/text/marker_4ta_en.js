@@ -6,7 +6,7 @@ window.mergeLanguageTexts = function () {
         },
         '4TA.1.steps':
         {
-            1: " *nAnmuganai * nArAyaNan padaiththAn * nAnmuganumthAnmugamAy *  sankaranaiththAn padaiththAn *** yAnmugamAyandhAdhi mElittu *  aRiviththEn AzhporuLai * sindhAmal koNminIr thErndhu",
+            1: "🙏 nAnmuganai * nArAyaNan padaiththAn * nAnmuganumthAnmugamAy *  sankaranaiththAn padaiththAn *** yAnmugamAyandhAdhi mElittu *  aRiviththEn AzhporuLai * sindhAmal koNminIr thErndhu",
             2: "thErungAl dhEvan *  oruvanE enRuraippar * Arum aRiyAr avan perumai *** OrumporuL mudivum iththanaiyE *  eththavam seydhArkkum * aruL mudivadhu AzhiyAn pAl",
             3: "pAlil kidandhadhuvum *  paNdarangam mEyadhuvum * Alil thuyinRadhuvum AraRivAr? *** gyAlaththoruporuLai * vAnavar tham meypporuLai * appilaruporuLai yAn aRindhavARu",
             4: "ARu sadaik karandhAn *  aNdarkOn thannOdum * kURudaiyan enbadhuvum koLgaiththE *** vERoruvanillAmai * ninRAnai emmAnai * epporutkumsollAnaich chonnEn thoguththu",
@@ -100,8 +100,8 @@ window.mergeLanguageTexts = function () {
             92: "enRum maRandhaRiyEn * en nenjaththE vaiththu * ninRum irundhum nedumAlai *** enRumthiruvirundha mArban * sirIdharanakku ALAy * karu irundha nAL mudhalAk kAppu",
             93: "kAppu maRandhaRiyEn * kaNNanE enRiruppan * Appangazhiyavum palluyirkkum ***AkkaikoduththaLiththa * kOnE! guNaparanE! *  unnaividhath thuNiyAr mey theLindhAr thAm",
             94: "mey theLindhAr enseyyAr? * vERAnAr nIRAga * kai theLindhu kAttik kaLappaduththu ***paitheLindhapAmbin aNaiyAy! *  aruLAy adiyERku * vEmbum kaRiyAgum EnRu    ",
-            95: "*EnREn adimai * izhindhEn piRappidumbai * AnREn amararkku amarAmai *** AnREnkada nAdum maNNAdum *  kaivittu *  mElaiida nAdu kANa ini    ",
-            96: "*iniyaRindhEn * IsaRkum nAnmugaRkum dheyvam * iniyaRindhEn emperumAn! unnai *** iniyaRindhEnkAraNan nI kaRRavai nI * kaRpavai nI * naRkirisainAraNan nI nangaRindhEn nAn",
+            95: "🙏 EnREn adimai * izhindhEn piRappidumbai * AnREn amararkku amarAmai *** AnREnkada nAdum maNNAdum *  kaivittu *  mElaiida nAdu kANa ini    ",
+            96: "🙏 iniyaRindhEn * IsaRkum nAnmugaRkum dheyvam * iniyaRindhEn emperumAn! unnai *** iniyaRindhEnkAraNan nI kaRRavai nI * kaRpavai nI * naRkirisainAraNan nI nangaRindhEn nAn",
 
 
         },
