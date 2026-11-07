@@ -6,7 +6,7 @@ window.mergeLanguageTexts = function () {
             2: "vERonRum nAn aRiyEn vEdham thamizh cheytha * mARan satakOpan vaNkurukUr ERu *** engaL vAzhvAm enREththum madhurakaviyAr * emmai ALwAr avarE araN *"
         },
         'KCT.1.steps': {
-            1: "* kaNNinuN siRuththAmbinAl * kattuNNap paNNiya peru mAyan * en appanil *** naNNith thenkurugUr * nambi enRakkAl * aNNikkum amudhURum * en nAvukkE *",
+            1: "🙏 kaNNinuN siRuththAmbinAl * kattuNNap paNNiya peru mAyan * en appanil *** naNNith thenkurugUr * nambi enRakkAl * aNNikkum amudhURum * en nAvukkE *",
             2: "nAvinAl naviRRu * inbam eydhinEn * mEvinEn * avan ponnadi meymmaiyE *** dhEvu maRRaRiyEn * kurugUr nambi * pAvin innisai * pAdith thirivanE *",
             3: "thiridhandhAgilum * dhEva pirAnudai * kariya kOlath * thiru uruk kANban nAn *** periya vaNkurugUr * nagar nambikku AL uriyanAy * adiyEn peRRa nanmaiyE *",
             4: "nanmaiyAl mikka * nAnmaRaiyALargaL * punmaiyAgak * karudhuvar Adhalin *** annaiyAy aththanAy * ennai ANdidum thanmaiyAn * sadagOpan en nambiyE *",
@@ -15,8 +15,8 @@ window.mergeLanguageTexts = function () {
             7: "kaNdu koNdennaik * kAri mARap pirAn * paNdai valvinai * pARRi aruLinAn *** eN thisaiyum * aRiya iyambu oN thamizh * sadagOpan aruLaiyE *",
             8: "aruL koNdAdum * adiyavar inbuRa * aruLinAn * avvarumaRaiyin poruL *** aruL koNdu * Ayiram inthamizh pAdinAn * aruL kaNdIr * ivvulaginil mikkadhE *",
             9: "mikka vEdhiyar * vEdhaththin utporuL * niRkap pAdi * en nenjchuL niRuththinAn *** thakka sIrch * sadagOpan en nambikku * AL pukka kAdhal * adimaip payan anRE *",
-            10: "* payan anRAgilum * pAngkallar Agilum * seyal nanRAgath * thiruththip paNi koLvAn *** kuyil ninRAr pozhil sUzh * kurugUr nambi! * muyalginREn * undhan moykazhaRku anbaiyE *",
-            11: "* anban thannai * adaindhavargatkellAm anban * thenkurugUr nagar nambikku *** anbanAy * madhurakavi sonna sol nambuvAr padhi * vaikundham kANminE *"
+            10: "🙏 payan anRAgilum * pAngkallar Agilum * seyal nanRAgath * thiruththip paNi koLvAn *** kuyil ninRAr pozhil sUzh * kurugUr nambi! * muyalginREn * undhan moykazhaRku anbaiyE *",
+            11: "🙏 anban thannai * adaindhavargatkellAm anban * thenkurugUr nagar nambikku *** anbanAy * madhurakavi sonna sol nambuvAr padhi * vaikundham kANminE *"
         },
     };
 

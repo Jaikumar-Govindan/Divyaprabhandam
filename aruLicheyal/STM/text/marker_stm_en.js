@@ -9,7 +9,7 @@ window.mergeLanguageTexts = function () {
         },
         'STM.1.steps':
         {
-            1: "** kArAr varaik konggai kaNNAr kaDal uDukkai * sIrAr suDar chuTTi sengkaluzhip pEr ARRu * pEr Ara mArbin peru mA mazhaik kUndhal * nIr Ara vEli nila manggai ennum * ip pArOr solap paTTa mUnRanRE",
+            1: "🙏 kArAr varaik konggai kaNNAr kaDal uDukkai * sIrAr suDar chuTTi sengkaluzhip pEr ARRu * pEr Ara mArbin peru mA mazhaik kUndhal * nIr Ara vEli nila manggai ennum * ip pArOr solap paTTa mUnRanRE",
             2: "ammUnRum ArAyil thAnE aRam poruL inbam enRu * ArAr ivaRRin iDai adhanai eydhuvAr * sIrAr iru kalaiyum eydhuvar * sikkena maRRu ArAnum uNDenbAr enbadhu thAn adhuvum * orAmai anRE? ulagaththAr sollum sol * orAmai AmARu adhu uraikkEn kEL AmE * kArAr puravi Ezh pUNDa thani Azhi * thErAr niRai kadhirOn maNDalaththaik kINDu pukku * ArA amudham anggu eydhi",
             3: "adhil ninRum vArAdhu ozhivadhu onRuNDE? * adhu niRka ErAr muyal viTTuk kAkkaip pin pOvadhE? * ErAr iLa mulaiyIr en thanakku uRRadhu thAn * kArAr kuzhal eDuththuk kaTTi",
             4: "kadhir mulaiyai vArAra vIkki maNi mEgalai thiruththi * ArAr ayil vERkaN anjchanaththin nIRaNindhu * sIrAr sezhum pandhu koNDaDiyA ninREn nAn * nIrAr kamalam pOl sengkaN mAl enRoruvan * pArOrgaL ellAm magizhap paRai kaRangga * sIrAr kuDam iraNDEndhi",
