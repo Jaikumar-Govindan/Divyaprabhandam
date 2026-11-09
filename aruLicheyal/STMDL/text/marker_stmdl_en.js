@@ -3,11 +3,11 @@ window.MARKER_DATABASE = window.MARKER_DATABASE || {};
 // Global function to trigger the merge on-demand
 window.mergeLanguageTexts = function () {
     const text_bundle_en = {
-        'STM.0.steps':
+        'STMDL.0.steps':
         {
             1: "piLLai thirunaRaiyUr araiyar aruLich cheydhadhu: muLLich sezhumalarOr thArAn muLai madhiyam * koLLikku en uLLam kodhiyAmE * vaLLal thiruvALan sIrkkaliyan kArk kaliyai veTTi * maru vALan thandhAn maDal"
         },
-        'STM.1.steps':
+        'STMDL.1.steps':
         {
             1: "🙏 kArAr varaik konggai kaNNAr kaDal uDukkai * sIrAr suDar chuTTi sengkaluzhip pEr ARRu * pEr Ara mArbin peru mA mazhaik kUndhal * nIr Ara vEli nila manggai ennum * ip pArOr solap paTTa mUnRanRE",
             2: "ammUnRum ArAyil thAnE aRam poruL inbam enRu * ArAr ivaRRin iDai adhanai eydhuvAr * sIrAr iru kalaiyum eydhuvar * sikkena maRRu ArAnum uNDenbAr enbadhu thAn adhuvum * orAmai anRE? ulagaththAr sollum sol * orAmai AmARu adhu uraikkEn kEL AmE * kArAr puravi Ezh pUNDa thani Azhi * thErAr niRai kadhirOn maNDalaththaik kINDu pukku * ArA amudham anggu eydhi",
