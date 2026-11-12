@@ -170,6 +170,7 @@ const CONFIG = {
     'URM': makeGroupedBook({ key: 'URM', defPas: 74, ex: { '0': 1 } }),
     'TVMNA': makeGroupedBook({ key: 'TVMNA', defPas: 100, ex: { '0': 2 } }),
     'VTN': makeSimpleBook({ key: 'VTN', defPas: 13, ex: { '0': 2, '2': 28 }, maxCh: 2 }),
+    'IYLS': makeGroupedBook({ key: 'IYLS', defPas: 1, ex: { '0': 8 } }),
 };
 
 // ---------------------------------------------------------------------------
