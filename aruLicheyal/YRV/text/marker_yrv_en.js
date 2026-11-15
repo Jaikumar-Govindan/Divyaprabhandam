@@ -10,7 +10,7 @@ window.mergeLanguageTexts = function () {
             1: "shrImAdhavAngghri jalajadvaya nityasEvA * prEmAvilAshaya parAngkusha pAdabhaktam *** kAmAdi dOSha haram Atma padAshritAnAm * rAmAnujam yatipatim praNamAmi mUrdhnA",
             2: "shrIranggarAja charaNAmbuja rAjahamsam * shrImat parAngkusha padAmbuja bhrunggarAjam *** shrIbhaTTanAtha parakAla mukAbja mitram * shrIvatsachihna sharaNam yatirAjam IDE",
             3: "vAchA yatIndra manasA vapuShA cha yuShmat * pAdAravinda yugaLam bhajatAm gurUNAm *** kUrAdhinAtha kurukEsha mukhAdya pumsAm * pAdAnuchintana para: satatam bhavEyam",
-            4: "nityam yatIndra tava divyavapu: smrutau mE * shaktam manO bhavatu vAk guNa kIrtanE-sau *** krutyanjcha dAsya karaNam tu kara dvayasya * vruttyantarE-stu vimukham karaNa trayanjcha",
+            4: "nityam yatIndra tava divyavapu: smrutau mE * saktam manO bhavatu vAk guNa kIrtanE-sau *** krutyanjcha dAsya karaNam tu kara dvayasya * vruttyantarE-stu vimukham karaNa trayanjcha",
             5: "aShTAkSharAkhyamanurAja pada trayArtha * niShThAm mamAtra vitarAdya yatIndra nAtha *** shiShTAgragaNya jana sEvya bhavat padAbjE * hruShTAstu nityam anubhUya mamAsya buddhi:",
             6: "alpApi mE na bhavdIya padAbja bhakti: * shabdAdi bhOga ruchir anvaham EdhatE hA *** mat pApam Eva hi nidAnam amuShya nAnyat * tad vArayArya yatirAja dayaika sindhO",
             7: "vruttyA pashur naravapustvaham IdrushO-pi * shrutyAdi siddha nikhilAtma guNAshrayO-yam *** ityAdarENa krutinO-pi mitha: pravaktum * adyApi vanjchana parO-tra yatIndra! vartE",
