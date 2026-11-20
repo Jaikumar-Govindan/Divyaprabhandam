@@ -146,7 +146,7 @@ const CONFIG = {
     '1TA': makeGroupedBook({ key: '1TA', defPas: 100, ex: { '0': 1 } }),
     '2TA': makeGroupedBook({ key: '2TA', defPas: 100, ex: { '0': 1 } }),
     '3TA': makeGroupedBook({ key: '3TA', defPas: 100, ex: { '0': 1 } }),
-    '4TA': makeGroupedBook({ key: '4TA', defPas: 97, ex: { '0': 1 } }),
+    '4TA': makeGroupedBook({ key: '4TA', defPas: 96, ex: { '0': 1 } }),
     'PTA': makeGroupedBook({ key: 'PTA', defPas: 87, ex: { '0': 1 } }),
     'TVT': makeGroupedBook({ key: 'TVT', defPas: 100, ex: { '0': 1 } }),
     'TVS': makeSimpleBook({ key: 'TVS', defPas: 7, ex: { '0': 1 } }),

@@ -106,7 +106,6 @@ window.mergeLanguageTexts = function () {
       98: "koNDu vaLarkkak * kuzhaviyAyth thAn vaLarndhadhu * uNDadhu ulagEzhum uL oDungga *** koNDu kuDam ADik * kOvalanAy mEvi * en nenjcham iDam Agak koNDa iRai",
       99: "🙏 iRai emperumAn! aruL enRu * imaiyOr muRai ninRu * moymmalargaL thUva *** aRai kazhala sEvaDiyAn * sengkaNeDiyAn * kuRaL uruvAy mA vaDivil maN koNDAn mAl",
       100: "🙏 mAlE! neDiyOnE! kaNNanE! * viNNavarkku mElA! * viyan thuzhAyk kaNNiyanE! *** mElAl viLavin kAy * kanRinAl vIzhththavanE! * endhan aLavanRAl yAn uDaiya anbu",
-      101: "dasaka aDivaravu: anbu kaDai thAm pirAn poruL madhi ninRadhu iDangkai pagal pinnAl thiru",
     }
   };
 
