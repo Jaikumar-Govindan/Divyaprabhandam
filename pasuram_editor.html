@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pasuram Browser & Tamil Editor</title>
+    <title>Pasuram Browser & Editor</title>
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; background-color: #f4f6f9; }
@@ -19,7 +19,7 @@
         .list-group-item.active { background-color: #007bff; color: white; }
         .main-content { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
         .editor-container { display: flex; flex-direction: column; gap: 10px; flex: 1; }
-        textarea { width: 100%; height: 180px; font-size: 18px; padding: 12px; font-family: 'Latha', 'Tamil Sangam MN', 'Segoe UI', sans-serif; border: 1px solid #ccc; border-radius: 4px; resize: vertical; line-height: 1.5; }
+        textarea { width: 100%; height: 180px; font-size: 18px; padding: 12px; font-family: 'Latha', 'Tamil Sangam MN', 'Noto Sans Kannada', 'Segoe UI', sans-serif; border: 1px solid #ccc; border-radius: 4px; resize: vertical; line-height: 1.5; }
         .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: bold; }
         .btn-primary { background-color: #28a745; color: white; }
         .btn-primary:hover { background-color: #218838; }
@@ -28,10 +28,7 @@
         .btn-nav { background-color: #6c757d; color: white; }
         .btn-nav:hover { background-color: #5a6268; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        
         .editor-header { display: flex; justify-content: space-between; align-items: center; }
-        
-        /* Dynamic Virtual Keyboard Styling */
         .keyboard-container { background: #e9ecef; border: 1px solid #ccc; border-radius: 4px; padding: 10px; margin-top: 10px; }
         .keyboard-title { font-size: 12px; font-weight: bold; margin-bottom: 8px; color: #495057; text-transform: uppercase; }
         .keyboard-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 5px; }
@@ -45,10 +42,7 @@
 <header>
     <h2>Pasuram Browser & Editor</h2>
     <div class="header-actions">
-        <select id="langSelect" class="lang-select" onchange="switchLanguage()" style="display:none;">
-            <option value="ta">Tamil (ta)</option>
-        </select>
-        <button class="btn btn-secondary" onclick="openFile()">Open Pasuram File</button>
+        <button class="btn btn-secondary" onclick="openFile()">Open Book (.js)</button>
         <button class="btn btn-primary" id="saveBtn" onclick="saveFile()" disabled>Save File Back to Folder</button>
     </div>
 </header>
@@ -57,13 +51,21 @@
     <div class="sidebar">
         <div class="sidebar-header">Pasuram Sections</div>
         <ul class="list-group" id="pasuramList">
-            <li class="list-group-item">Please open a .js file...</li>
+            <li class="list-group-item">Please open a book .js file...</li>
         </ul>
     </div>
-    
+
     <div class="main-content">
         <div class="editor-container">
             <div class="editor-header">
+                <div>
+                    <label for="langSelect"><strong>Language Bundle:</strong></label>
+                    <select id="langSelect" class="lang-select" onchange="switchLanguage()">
+                        <option value="ta">Tamil (ta)</option>
+                        <option value="ka">Kannada (ka)</option>
+                        <option value="en">English (en)</option>
+                    </select>
+                </div>
                 <label for="pasuramEditor"><strong id="currentEditingLabel">Select a Pasuram step to edit:</strong></label>
                 <div>
                     <button class="btn btn-nav" id="prevBtn" onclick="navigate(-1)" disabled>Previous</button>
@@ -71,10 +73,9 @@
                 </div>
             </div>
             <textarea id="pasuramEditor" placeholder="Loaded text will appear here..."></textarea>
-            
-            <!-- Dynamic Virtual Keyboard -->
+
             <div class="keyboard-container">
-                <div class="keyboard-title" id="keyboardTitle">Tamil Virtual Keyboard (click to insert text)</div>
+                <div class="keyboard-title" id="keyboardTitle">Virtual Keyboard (click to insert text)</div>
                 <div class="keyboard-row" id="vowelsRow"></div>
                 <div class="keyboard-row" id="consonantsRow"></div>
                 <div class="keyboard-row" id="modifiersRow"></div>
@@ -100,31 +101,56 @@
     let pasuramItemsList = [];
     let currentIndex = -1;
 
-    // Keyboard layouts for different languages
-    const keyboardLayouts = {
+    const KEYBOARD_LAYOUTS = {
         ta: {
-            title: "Tamil Virtual Keyboard (click to insert text)",
+            title: 'Tamil Virtual Keyboard (click to insert text)',
             vowels: ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ', 'ஓ', 'ஔ', 'ஃ'],
             consonants: ['க', 'ங', 'ச', 'ஞ', 'ட', 'ண', 'த', 'ந', 'ப', 'ம', 'ய', 'ர', 'ல', 'வ', 'ழ', 'ள', 'ற', 'ன', 'ஶ', 'ஜ', 'ஷ', 'ஸ', 'ஹ'],
             modifiers: ['்', 'ா', 'ி', 'ீ', 'ு', 'ூ', 'ெ', 'ே', 'ை', 'ொ', 'ோ', 'ௌ']
         },
+        ka: {
+            title: 'Kannada Virtual Keyboard (click to insert text)',
+            vowels: ['ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಋ', 'ೠ', 'ಎ', 'ಏ', 'ಐ', 'ಒ', 'ಓ', 'ಔ', 'ಅಂ', 'ಅಃ'],
+            consonants: [
+                'ಕ', 'ಖ', 'ಗ', 'ಘ', 'ಙ',
+                'ಚ', 'ಛ', 'ಜ', 'ಝ', 'ಞ',
+                'ಟ', 'ಠ', 'ಡ', 'ಢ', 'ಣ',
+                'ತ', 'ಥ', 'ದ', 'ಧ', 'ನ',
+                'ಪ', 'ಫ', 'ಬ', 'ಭ', 'ಮ',
+                'ಯ', 'ರ', 'ಱ', 'ಲ', 'ವ', 'ಶ', 'ಷ', 'ಸ', 'ಹ', 'ಳ', 'ೞ'
+            ],
+            modifiers: ['್', 'ಾ', 'ಿ', 'ೀ', 'ು', 'ೂ', 'ೃ', 'ೄ', 'ೆ', 'ೇ', 'ೈ', 'ೊ', 'ೋ', 'ೌ', 'ಂ', 'ಃ']
+        },
         en: {
-            title: "English Virtual Keyboard (click to insert text)",
+            title: 'English Virtual Keyboard (click to insert text)',
             vowels: ['A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'],
             consonants: ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z', 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'],
-            modifiers: ['.', ',', '?', '!', '-', '_', "'", '"', ';', ':']
+            modifiers: ['.', ',', '?', '!', '-', "'", '"']
         }
     };
 
-    function initKeyboard(lang = 'ta') {
-        currentLang = lang;
-        const layout = keyboardLayouts[lang] || keyboardLayouts['ta'];
+    function normalizeKannadaText(text) {
+        if (!text) return '';
 
-        document.getElementById('keyboardTitle').innerText = layout.title;
+        return text
+            .normalize('NFC')
+            .replace(/\u0CCA\u0CC6/g, '\u0CCB')
+            .replace(/\u0CC6\u0CC6/g, '\u0CC7')
+            .replace(/([\u0C85-\u0CB9\u0CB1\u0CB3])([\u0CBE-\u0CCC])\u0CCD/g, '$1\u0CCD$2');
+    }
 
+    function initKeyboard(lang = currentLang) {
         const vRow = document.getElementById('vowelsRow');
         const cRow = document.getElementById('consonantsRow');
         const mRow = document.getElementById('modifiersRow');
+        const titleEl = document.getElementById('keyboardTitle');
+
+        if (!vRow || !cRow || !mRow) return;
+
+        const layout = KEYBOARD_LAYOUTS[lang] || KEYBOARD_LAYOUTS.ta;
+        if (titleEl && layout.title) {
+            titleEl.innerText = layout.title;
+        }
 
         vRow.innerHTML = '';
         cRow.innerHTML = '';
@@ -145,14 +171,15 @@
 
     function insertAtCursor(text) {
         const textarea = document.getElementById('pasuramEditor');
+        if (!textarea) return;
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
         const val = textarea.value;
-        
+
         textarea.value = val.substring(0, start) + text + val.substring(end);
         textarea.selectionStart = textarea.selectionEnd = start + text.length;
         textarea.focus();
-        
+
         updateMemory();
     }
 
@@ -164,10 +191,10 @@
                     accept: { 'text/javascript': ['.js'] }
                 }]
             });
-            
+
             const file = await fileHandle.getFile();
             originalFileContent = await file.text();
-            
+
             parsePasuramContent(originalFileContent);
             document.getElementById('saveBtn').disabled = false;
         } catch (err) {
@@ -180,14 +207,10 @@
     function parsePasuramContent(content) {
         allBundles = {};
         const matches = [...content.matchAll(/const\s+text_bundle_([a-z]{2})\s*=\s*(\{[\s\S]*?\});/g)];
-        
+
         if (matches.length === 0) {
-            const singleMatch = content.match(/const\s+text_bundle_ta\s*=\s*(\{[\s\S]*?\});/);
-            if (!singleMatch) {
-                alert('Could not find any "text_bundle_xx" dictionary inside the selected JavaScript file.');
-                return;
-            }
-            matches.push(['', 'ta', singleMatch[1]]);
+            alert('Could not find any "text_bundle_xx" dictionaries inside the selected JavaScript file.');
+            return;
         }
 
         matches.forEach(match => {
@@ -199,20 +222,13 @@
             }
         });
 
-        const langSelect = document.getElementById('langSelect');
-        langSelect.innerHTML = '';
-        const langs = Object.keys(allBundles);
-        
-        langs.forEach(lang => {
-            const opt = document.createElement('option');
-            opt.value = lang;
-            opt.innerText = lang.toUpperCase() === 'TA' ? 'Tamil (ta)' : (lang.toUpperCase() === 'EN' ? 'English (en)' : `Language (${lang})`);
-            langSelect.appendChild(opt);
-        });
+        const select = document.getElementById('langSelect');
+        const desiredLang = (select && select.value && allBundles[select.value])
+            ? select.value
+            : (allBundles['ta'] ? 'ta' : Object.keys(allBundles)[0]);
 
-        langSelect.style.display = langs.length > 1 ? 'inline-block' : 'none';
-        currentLang = allBundles['ta'] ? 'ta' : langs[0];
-        langSelect.value = currentLang;
+        currentLang = desiredLang;
+        if (select) select.value = currentLang;
 
         parsedData = allBundles[currentLang] || {};
         initKeyboard(currentLang);
@@ -221,40 +237,50 @@
 
     function switchLanguage() {
         const select = document.getElementById('langSelect');
+        if (!select) return;
+
         currentLang = select.value;
-        
         initKeyboard(currentLang);
 
-        if (allBundles[currentLang]) {
-            parsedData = allBundles[currentLang];
-            if (selectedKey && selectedStep && parsedData[selectedKey]) {
-                document.getElementById('pasuramEditor').value = parsedData[selectedKey][selectedStep] || '';
-            } else {
-                document.getElementById('pasuramEditor').value = '';
-            }
+        if (!allBundles[currentLang]) {
+            allBundles[currentLang] = {};
         }
+        parsedData = allBundles[currentLang];
+
+        if (selectedKey && selectedStep) {
+            if (!parsedData[selectedKey]) {
+                parsedData[selectedKey] = {};
+            }
+            if (typeof parsedData[selectedKey][selectedStep] !== 'string') {
+                parsedData[selectedKey][selectedStep] = '';
+            }
+            document.getElementById('pasuramEditor').value = parsedData[selectedKey][selectedStep];
+            document.getElementById('currentEditingLabel').innerText = `Editing (${currentLang}): ${selectedKey} (Step ${selectedStep})`;
+        }
+
+        renderSidebar();
     }
 
     function renderSidebar() {
         const list = document.getElementById('pasuramList');
+        if (!list) return;
         list.innerHTML = '';
         pasuramItemsList = [];
 
-        for (const key in parsedData) {
-            for (const step in parsedData[key]) {
+        const sourceObj = Object.keys(parsedData).length > 0 ? parsedData : (allBundles['ta'] || {});
+
+        for (const key in sourceObj) {
+            for (const step in sourceObj[key]) {
                 const itemIndex = pasuramItemsList.length;
                 pasuramItemsList.push({ key, step });
 
                 const li = document.createElement('li');
                 li.className = 'list-group-item';
+                if (currentIndex === itemIndex) li.classList.add('active');
                 li.innerText = `${key} - Step ${step}`;
                 li.onclick = () => selectPasuramByIndex(itemIndex);
                 list.appendChild(li);
             }
-        }
-
-        if (pasuramItemsList.length > 0) {
-            selectPasuramByIndex(0);
         }
     }
 
@@ -273,11 +299,32 @@
 
         selectedKey = key;
         selectedStep = step;
-        
-        document.getElementById('currentEditingLabel').innerText = `Editing: ${key} (Step ${step})`;
-        document.getElementById('pasuramEditor').value = parsedData[key][step] || '';
+
+        if (!parsedData[key]) parsedData[key] = {};
+        if (typeof parsedData[key][step] !== 'string') parsedData[key][step] = '';
+
+        document.getElementById('currentEditingLabel').innerText = `Editing (${currentLang}): ${key} (Step ${step})`;
+        document.getElementById('pasuramEditor').value = parsedData[key][step];
 
         updateNavButtons();
+        updatePasuramBackground(key, step);
+    }
+
+    function updatePasuramBackground(key, step) {
+        const frameElement = document.getElementById('pasuramFrame');
+        if (!frameElement) return;
+
+        const pasuramRef = `${step}`;
+        const imageSrc = `pic/${pasuramRef}.jpeg`;
+
+        const imgTester = new Image();
+        imgTester.onload = () => {
+            frameElement.style.backgroundImage = `url('${imageSrc}')`;
+        };
+        imgTester.onerror = () => {
+            frameElement.style.backgroundImage = 'none';
+        };
+        imgTester.src = imageSrc;
     }
 
     function navigate(direction) {
@@ -288,39 +335,39 @@
     }
 
     function updateNavButtons() {
-        document.getElementById('prevBtn').disabled = currentIndex <= 0;
-        document.getElementById('nextBtn').disabled = currentIndex >= pasuramItemsList.length - 1;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        if (prevBtn) prevBtn.disabled = currentIndex <= 0;
+        if (nextBtn) nextBtn.disabled = currentIndex >= pasuramItemsList.length - 1;
     }
 
-    document.getElementById('pasuramEditor').addEventListener('input', updateMemory);
+    document.addEventListener('DOMContentLoaded', () => {
+        const editor = document.getElementById('pasuramEditor');
+        if (editor) {
+            editor.addEventListener('input', updateMemory);
+        }
+        initKeyboard(currentLang);
+    });
 
     function updateMemory() {
-        if (selectedKey && selectedStep && parsedData[selectedKey]) {
-            parsedData[selectedKey][selectedStep] = document.getElementById('pasuramEditor').value;
-        }
-    }
+        const textarea = document.getElementById('pasuramEditor');
+        if (!textarea || !selectedKey || !selectedStep) return;
 
-  // Custom serializer to format objects like JS literals (single quotes for strings, unquoted numbers)
-    function toJSLiteral(obj, indent = 0) {
-        const spaces = ' '.repeat(indent);
-        const innerSpaces = ' '.repeat(indent + 12);
-
-        if (typeof obj !== 'object' || obj === null) {
-            return JSON.stringify(obj);
-        }
-
-        let entries = [];
-        for (const key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                const val = toJSLiteral(obj[key], indent + 12);
-                // If key is purely numeric, output without quotes (e.g. 1: ), otherwise use single quotes ('key': )
-                const formattedKey = /^\d+$/.test(key) ? key : `'${key}'`;
-                entries.push(`${innerSpaces}${formattedKey}: ${val}`);
+        let val = textarea.value;
+        if (currentLang === 'ka') {
+            const cleaned = normalizeKannadaText(val);
+            if (cleaned !== val) {
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                val = cleaned;
+                textarea.value = val;
+                textarea.setSelectionRange(start, end);
             }
         }
 
-        if (entries.length === 0) return '{}';
-        return `{\n${entries.join(',\n')}\n${spaces}}`;
+        if (!parsedData[selectedKey]) parsedData[selectedKey] = {};
+        parsedData[selectedKey][selectedStep] = val;
+        allBundles[currentLang] = parsedData;
     }
 
     async function saveFile() {
@@ -330,11 +377,32 @@
             let updatedContent = originalFileContent;
 
             for (const [lang, data] of Object.entries(allBundles)) {
-                // Serialize using JS literal formatting (single quotes for string keys, no quotes for numbers)
-                const newFormattedJs = toJSLiteral(data, 0);
+                const bundleData = lang === 'ka'
+                    ? Object.fromEntries(
+                        Object.entries(data).map(([k, steps]) => [
+                            k,
+                            typeof steps === 'object' && steps !== null
+                                ? Object.fromEntries(
+                                    Object.entries(steps).map(([s, txt]) => [
+                                        s,
+                                        typeof txt === 'string' ? normalizeKannadaText(txt) : txt
+                                    ])
+                                )
+                                : steps
+                        ])
+                    )
+                    : data;
+
+                const newFormattedJson = JSON.stringify(bundleData, null, 12);
                 const regex = new RegExp(`const\\s+text_bundle_${lang}\\s*=\\s*\\{[\\s\\S]*?\\};`);
+
                 if (regex.test(updatedContent)) {
-                    updatedContent = updatedContent.replace(regex, `const text_bundle_${lang} = ${newFormattedJs};`);
+                    updatedContent = updatedContent.replace(
+                        regex,
+                        `const text_bundle_${lang} = ${newFormattedJson};`
+                    );
+                } else if (Object.keys(bundleData).length > 0) {
+                    updatedContent += `\n\nconst text_bundle_${lang} = ${newFormattedJson};\n`;
                 }
             }
 
@@ -342,13 +410,12 @@
             await writable.write(updatedContent);
             await writable.close();
 
+            originalFileContent = updatedContent;
             alert('File saved successfully back to its original location!');
         } catch (err) {
             alert('Failed to save file: ' + err.message);
         }
     }
-
-    window.onload = () => initKeyboard('ta');
 </script>
 
 </body>
