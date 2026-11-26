@@ -1,6 +1,6 @@
 {
-  "server_version": "flat_root_tree_b1348be8",
-  "last_compiled_at": "2026-11-20T18:58:35.695Z",
+  "server_version": "flat_root_tree_2f4ac0c7",
+  "last_compiled_at": "2026-11-23T17:58:01.749Z",
   "assets": {
     "audioWaveform.js": "d09e1a418e118975334c7608ea902618",
     "config.js": "01994a4e162bc3b8469dbb5f82561144",
@@ -10,7 +10,7 @@
     "navigation.js": "c4be82577fc621ca3b0b7c947e82404a",
     "playerEngine.js": "7f4c466f1ca82d9bd00c8c88c6c191ff",
     "sync_engine.js": "20d165f6f10c1c21f25ff41bc98a5a66",
-    "thiruvadi_sambadamcheck.js": "19759053b295b0aafdba515c62d6010c"
+    "thiruvadi_sambadamcheck.js": "9078ce39c77b743edda4ef5317590e3d"
   },
   "actions": {
     "must_clear_local_storage": []

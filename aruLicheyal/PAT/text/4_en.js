@@ -108,7 +108,7 @@ window.mergeLanguageTexts = function () {
         },
         'PAT.4.9.steps': {
             1:"🙏 maravaDiyai tambikku vAn paNaiyam vaittuppOy * vAnOr vAzha * seruvuDaiya tisaik karumam tirutti vandu ulagANDa * tirumAl kOyiltiru vaDitan tiru uruvum * tirumangai malar kaNNum kATTi ninRu * uruvuDaiya malar neelam kARRATTa * O! salikkum oLiyarangamE.",
-            2:"tannaDiyAr tiRattagattu * tAmaraiyAL agilum sidakuraikkumEl * ennaDiyAr adu seyyAr * seydArEl nanRu seydAr enbar pOlum * mannuDaiya vibeeshaNaRkA * madiL ilangai tisai nOkki malar kaN vaitta * ennuDaiya tiru varangaRku anRiyum * maRRoruvarkku ALAvarE?",
+            2:"🙏 tannaDiyAr tiRattagattu * tAmaraiyAL agilum sidakuraikkumEl * ennaDiyAr adu seyyAr * seydArEl nanRu seydAr enbar pOlum * mannuDaiya vibeeshaNaRkA * madiL ilangai tisai nOkki malar kaN vaitta * ennuDaiya tiru varangaRku anRiyum * maRRoruvarkku ALAvarE?",
             3:" karuLuDaiya pozhil marudum * kadak kaLiRum pilambanaiyum kaDiyamAvum * uruLuDaiya sakaDaraiyum mallaraiyum * uDaiya viTTu Osai kETTAn * iruLakaRRum eRikatirOn * maNDalattooDu ERRi vaittu ENi vAngi * aruL koDuttiTTu aDiyavarai * ATkoLvAn amarum oor aNiyarangamE.",
             4:" padinARAm Ayiravar * dEvimAr paNi seyya tuvarai ennum * adil nAyagaragi veeRRirunda * maNavALar mannu kOyil * pudu nAN malark kamalam * emberumAn ponvayiRRil poovE pOlvAn * podu nAyagam pAvittu * irumAndu pon sAykkum punal arangamE.",
             5:" AmaiyAy gangaiyAy * Azh kaDalAy avaniyAy aruvaraihaLAy * nAnmuganAy nAnmaRaiyAy * vELviyAy takkaNaiyAy tAnumAnAn * sEmamuDai nAradanAr * senRu senRu tudittiRaincha kiDandAn kOyil * poomaruvi puLLinangaL * puLLaraiyan pugazh kuzhaRum punal arangamE.",

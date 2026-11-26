@@ -30,7 +30,7 @@
     // Helper Function 2: Validate Acharya Name Title
     function isValidAcharyaName(input) {
         const text = input.trim().toLowerCase();
-        
+
         // Minimum length check
         if (text.length < 5) return false;
 
@@ -132,10 +132,11 @@
     modalOverlay.innerHTML = `
         <div class="thiruvadi-modal" role="dialog" aria-modal="true" aria-labelledby="thiruvadiTitle">
             <h3 id="thiruvadiTitle">Thiruvadi Sambandam Verification</h3>
-            <p>Please enter your Thiruvadi Sambandam details to unlock recitation for Thiruvaaimozhi.</p>
+            <p>Thiruvaaimozhi is supposed to be learnt only after receiving Pancha Samskaaram from your Aachaaryan.</p>
+            <p>Please enter your Pancha Samskaara Aachaaryan Thirunaamam (name) for Thiruvaaimozhi.</p>
             <form id="thiruvadiForm" onsubmit="return false;">
                 <label for="thiruvadiInput">Thiruvadi Sambandam Details</label>
-                <input type="text" id="thiruvadiInput" placeholder="Enter Acharyan Thirunamam (e.g. Sri Ramanujar Swami)" required autocomplete="off" />
+                <input type="text" id="thiruvadiInput" placeholder="Enter Aachaaryan Thirunaamam (e.g. Sri Raamaanujar Swami)" required autocomplete="off" />
                 <div class="thiruvadi-actions">
                     <button type="button" class="thiruvadi-btn thiruvadi-btn-cancel" id="thiruvadiCancelBtn">Cancel</button>
                     <button type="submit" class="thiruvadi-btn thiruvadi-btn-submit" id="thiruvadiSubmitBtn">Submit & Play</button>
@@ -186,7 +187,7 @@
             sessionStorage.setItem('thiruvadi_info_' + selectedPrabandhamForPlay, value);
         }
         hideModal();
-        
+
         // Trigger playback on verification
         if (typeof window.handlePlaybackToggle === 'function') {
             window.handlePlaybackToggle();

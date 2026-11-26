@@ -1115,9 +1115,17 @@
 
         function toggleSegmentBlockBoundary(index, isChecked) {
             if (window.rawMarkers[index]) {
+
                 window.rawMarkers[index].forceEndBlock = isChecked;
+                realignPasuramBlocks();
+
+                renderTimelineGridCanvas(false);
                 serializeWorkspaceStateToJsCodeblock();
+                refreshWaveformViews();
             }
+
+
+
         }
 
         function pauseSegmentPlayback() {
@@ -1563,6 +1571,26 @@
                 clearWaveformOverview();
             }
         }
+
+
+        function realignPasuramBlocks() {
+            if (!Array.isArray(window.rawMarkers) || window.rawMarkers.length === 0) return;
+
+            // Preserve the starting pasuram number (e.g., if editing a subset starting at P.5)
+            let currentP = window.rawMarkers[0].pIndex || 1;
+
+            for (let i = 0; i < window.rawMarkers.length; i++) {
+                const marker = window.rawMarkers[i];
+                marker.pIndex = currentP;
+
+                // If this segment ends a pasuram block, the next segment starts the next pasuram
+                if (marker.forceEndBlock) {
+                    currentP += 1;
+                }
+            }
+        }
+
+
     </script>
 </body>
 
